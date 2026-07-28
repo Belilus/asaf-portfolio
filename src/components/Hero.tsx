@@ -39,7 +39,7 @@ export function Hero({
       <div className="section-shell relative">
         {/* ---- role lens switcher ---- */}
         <div className="mb-10 animate-fade-in-up">
-          <p className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Viewing as
           </p>
           <div
@@ -55,7 +55,7 @@ export function Hero({
                   role="tab"
                   aria-selected={active}
                   onClick={() => onLensChange(l.id)}
-                  className={`focus-ring rounded-md px-4 py-2 text-sm font-medium transition-all duration-base ease-out-expo ${
+                  className={`focus-ring rounded-md px-4 py-2.5 text-base font-medium transition-all duration-base ease-out-expo ${
                     active
                       ? 'bg-primary text-primary-foreground shadow-sm'
                       : 'text-muted-foreground hover:bg-accent hover:text-foreground'
@@ -66,7 +66,7 @@ export function Hero({
               )
             })}
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">{lens.blurb}</p>
+          <p className="mt-3 text-sm text-muted-foreground">{lens.blurb}</p>
         </div>
 
         {/* ---- identity ---- */}
@@ -78,7 +78,7 @@ export function Hero({
 
           <div className="mt-7 max-w-2xl space-y-4">
             {lens.bio.map((p) => (
-              <p key={p.slice(0, 32)} className="text-base leading-relaxed text-muted-foreground">
+              <p key={p.slice(0, 32)} className="text-lg leading-relaxed text-muted-foreground">
                 {p}
               </p>
             ))}
@@ -113,21 +113,21 @@ export function Hero({
             {lens.stats.map((s) => (
               <div key={s.label} className="bg-card p-5">
                 <dt className="font-data text-2xl font-semibold text-foreground">{s.value}</dt>
-                <dd className="mt-1.5 text-sm font-medium text-foreground/80">{s.label}</dd>
-                <dd className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.note}</dd>
+                <dd className="mt-1.5 text-base font-medium text-foreground/90">{s.label}</dd>
+                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.note}</dd>
               </div>
             ))}
           </dl>
 
           {/* ---- education ---- */}
-          <div className="mt-8 flex flex-col gap-3 text-sm sm:flex-row sm:flex-wrap sm:gap-8">
+          <div className="mt-8 flex flex-col gap-3 text-base sm:flex-row sm:flex-wrap sm:gap-8">
             {education.map((e) => (
               <div key={e.degree} className="flex gap-3">
                 <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 <div>
                   <p className="font-medium">{e.degree}</p>
                   <p className="text-muted-foreground">{e.detail}</p>
-                  <p className="font-data text-xs text-muted-foreground/70">{e.period}</p>
+                  <p className="font-data text-sm text-muted-foreground/80">{e.period}</p>
                 </div>
               </div>
             ))}

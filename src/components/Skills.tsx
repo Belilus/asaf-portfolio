@@ -25,8 +25,8 @@ export function Skills({ lensId }: { lensId: LensId }) {
         <div className="mb-16 grid gap-4 sm:grid-cols-2">
           {howBlocks.map((b) => (
             <div key={b.title} className="portal-card p-5 sm:p-6">
-              <h3 className="text-sm font-semibold text-primary">{b.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+              <h3 className="text-base font-semibold text-primary">{b.title}</h3>
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">{b.body}</p>
             </div>
           ))}
         </div>
@@ -37,7 +37,7 @@ export function Skills({ lensId }: { lensId: LensId }) {
           lead="Every entry is drawn from the projects above — nothing listed for coverage."
         />
 
-        <div className="mb-10 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+        <div className="mb-10 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           {(['core', 'working', 'familiar'] as const).map((l) => (
             <span key={l} className="flex items-center gap-2">
               <span className={`h-3 w-3 rounded-sm border ${levelStyles[l]}`} />
@@ -49,16 +49,16 @@ export function Skills({ lensId }: { lensId: LensId }) {
         <div className="grid gap-6 md:grid-cols-2">
           {skillGroups.map((g) => (
             <div key={g.title} className="portal-card p-5 sm:p-6">
-              <h3 className="text-sm font-semibold">{g.title}</h3>
+              <h3 className="text-base font-semibold">{g.title}</h3>
               {g.note && (
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{g.note}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.note}</p>
               )}
               <ul className="mt-4 flex flex-wrap gap-2">
                 {g.skills.map((s) => (
                   <li
                     key={s.name}
                     title={s.from ? `Used in: ${s.from}` : undefined}
-                    className={`rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors duration-fast ${
+                    className={`rounded-md border px-2.5 py-1.5 text-sm font-medium transition-colors duration-fast ${
                       levelStyles[s.level]
                     }`}
                   >
@@ -78,8 +78,8 @@ export function Skills({ lensId }: { lensId: LensId }) {
                 key={p.title}
                 className="border-l-2 border-border pl-5 transition-colors duration-base hover:border-primary"
               >
-                <h3 className="text-sm font-semibold">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                <h3 className="text-base font-semibold">{p.title}</h3>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.body}</p>
               </div>
             ))}
           </div>

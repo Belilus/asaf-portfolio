@@ -9,7 +9,8 @@
 export const profile = {
   name: 'Asaf Belilus',
   title: 'M.Sc. Student · Software & Computer Vision Developer',
-  location: 'Be’er Sheva, Israel',
+  location: 'Tel Aviv, Israel',
+  researchLocation: 'Ben-Gurion University, Be’er Sheva',
   email: 'asafb1998@gmail.com',
   phone: '+972-54-436-6866',
   github: 'https://github.com/Belilus',

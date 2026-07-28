@@ -153,7 +153,7 @@ export function SectionHeading({
         {eyebrow}
       </p>
       <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
-      {lead && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{lead}</p>}
+      {lead && <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{lead}</p>}
     </header>
   )
 }

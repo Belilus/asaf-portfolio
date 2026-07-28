@@ -206,16 +206,10 @@ export const projects: Project[] = [
     ],
     media: [
       {
-        file: 'research-waterfall.png',
-        caption: 'Staged error waterfall',
-        hint: 'Per-stage mm reduction across frames 60, 62, 116, 129, 146',
-        aspect: 'square',
-      },
-      {
-        file: 'research-skeleton.png',
-        caption: 'Reconstructed vs. observed skeleton',
-        hint: 'Stick-figure overlay at best frame (frame 60)',
-        aspect: 'square',
+        file: 'research-body-multiview.png',
+        caption: 'Reconstructed body — four views',
+        hint: 'Purple = motion capture, orange = fitted stick model, red = residual error vectors',
+        aspect: 'wide',
       },
     ],
     status:

@@ -10,7 +10,7 @@ import { lenses } from './content/profile'
 import { visibleProjectsForLens } from './content/projects'
 
 const LENS_KEY = 'ab-portfolio-lens'
-const THEME_KEY = 'ab-portfolio-theme'
+const THEME_KEY = 'ab-portfolio-theme-v2'
 
 const featuredCopy: Record<LensId, { title: string; lead: string }> = {
   research: {
@@ -43,8 +43,8 @@ export default function App() {
 
   const [deepWater, setDeepWater] = useState(() => {
     const stored = localStorage.getItem(THEME_KEY)
-    if (stored) return stored !== 'light'
-    return true
+    if (stored) return stored === 'deep'
+    return false
   })
 
   useEffect(() => {

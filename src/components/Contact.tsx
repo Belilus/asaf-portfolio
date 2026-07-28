@@ -33,38 +33,42 @@ export function Contact({ lens }: { lens: Lens }) {
               </Button>
             </div>
 
-            <dl className="mt-8 space-y-2 text-sm">
+            <dl className="mt-8 space-y-3 text-base">
               <div className="flex gap-3">
-                <dt className="w-20 shrink-0 text-muted-foreground">Phone</dt>
+                <dt className="w-24 shrink-0 text-muted-foreground">Phone</dt>
                 <dd className="font-data">{profile.phone}</dd>
               </div>
               <div className="flex gap-3">
-                <dt className="w-20 shrink-0 text-muted-foreground">Based in</dt>
+                <dt className="w-24 shrink-0 text-muted-foreground">Based in</dt>
                 <dd>{profile.location}</dd>
               </div>
               <div className="flex gap-3">
-                <dt className="w-20 shrink-0 text-muted-foreground">Languages</dt>
+                <dt className="w-24 shrink-0 text-muted-foreground">Research</dt>
+                <dd>{profile.researchLocation}</dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-24 shrink-0 text-muted-foreground">Languages</dt>
                 <dd>Hebrew (native) · English (fluent)</dd>
               </div>
             </dl>
           </div>
 
           <div>
-            <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="mb-4 font-mono text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
               Also
             </p>
-            <ul className="space-y-4">
+            <ul className="space-y-5">
               {alsoDoing.map((a) => (
                 <li key={a.role} className="flex gap-3">
                   <span
                     aria-hidden="true"
-                    className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40"
+                    className="mt-[0.5rem] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/50"
                   />
                   <div>
-                    <p className="text-sm font-medium">
+                    <p className="text-base font-medium">
                       {a.role} <span className="text-muted-foreground">· {a.org}</span>
                     </p>
-                    <p className="text-xs leading-relaxed text-muted-foreground">{a.detail}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{a.detail}</p>
                   </div>
                 </li>
               ))}
@@ -79,10 +83,9 @@ export function Contact({ lens }: { lens: Lens }) {
 export function Footer() {
   return (
     <footer className="border-t border-border py-8">
-      <div className="section-shell flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-        <p>© {new Date().getFullYear()} {profile.name}</p>
-        <p>
-          Built with React, Vite &amp; Tailwind — on the SwimEdge design system.
+      <div className="section-shell">
+        <p className="text-sm text-muted-foreground">
+          © {new Date().getFullYear()} {profile.name}
         </p>
       </div>
     </footer>
