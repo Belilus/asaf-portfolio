@@ -1,108 +1,94 @@
-# Portfolio handoff — remaining work for Claude
+# Portfolio handoff — Claude Cowork polish pass
 
-**Repo:** `asaf-portfolio` (React 18 + Vite + TypeScript + Tailwind)  
-**Status:** Copy, structure, lens model, and counted metrics are done. Media slots are empty.
+**Live:** https://asaf-portfolio-ten.vercel.app/  
+**Repo:** https://github.com/Belilus/asaf-portfolio  
+**Dev:** `npm run dev` → http://localhost:5174 (SwimEdge uses 5173)
 
----
-
-## Already confirmed / fixed (do not redo)
-
-### Q1 — Professor names ✅
-Asaf approved the correct spellings. Portfolio already uses them:
-- **Gera Weiss** (not Wiess)
-- **Raziel Riemer** (not Reimer)
-
-Locations: `src/content/projects.ts` (research role line), `src/content/profile.ts` (education).
-
-**Still needed:** Fix the same spellings in the Word CVs under `CV'S/` before regenerating PDFs into `public/resume/`.
-
-### Q2 — SwimEdge numbers ✅
-Portfolio already uses counted values (23 migrations, 30 controllers, 40 services).  
-Cursor fixed the stale **SwimEdge README** (`newSwimEdge/README.md`) and demo script comments (V43 → V23, dropped "14 service domains").
-
-Do **not** change portfolio migration counts — they are correct.
+**Status (July 2026):** Lens redesign Phases 1–2 are implemented — per-lens project visibility, emphasis tiers, How I Build section, Deep Water visual sync, and research media wired. SwimEdge screenshots intentionally deferred until archive/claims UI is committed.
 
 ---
 
-## Q3 — Media slots (your main task)
+## Non-negotiables
 
-`public/media/` is empty except `README.md`. Seven placeholders render in `ProjectCase.tsx` until each slot gets a `file` property in `src/content/projects.ts`.
-
-### How to wire (one line per image)
-
-1. Save image → `public/media/<filename>`
-2. Add `file: '<filename>'` to the matching entry in `projects.ts` `media` array
-
-No component changes needed — `MediaPlaceholder` in `src/components/primitives.tsx` handles it.
-
-### SwimEdge — 4 screenshots (capture from demo DB)
-
-**Critical:** Reseed demo data first — never screenshot prod.
-
-```bash
-cd newSwimEdge
-bash scripts/demo/reset-all-demo.sh
-bash scripts/demo/preflight-demo-b.sh
-# backend :8080, frontend :5173
-```
-
-Demo logins: `scripts/demo/README.md` (e.g. `demo-manager@swimedge.test` / `Manager2026!`, `demo-yael@swimedge.test` / `Yael2026!`).
-
-| Filename | Caption in projects.ts | What to capture |
-|---|---|---|
-| `swimedge-dashboard.png` | Competition dashboard | Admin Competition Detail — tab bar visible (Start List, Results, Progression, Scoring). Winter Sprint meet. |
-| `swimedge-career-hub.png` | Swimmer career hub | Yael login → `/me/results` — personal bests + progression |
-| `swimedge-ingestion.png` | Ingestion & attribution flow | Federation admin — unattributed-result resolution queue |
-| `swimedge-demo.gif` (or `.png`) | Demo walkthrough | Short GIF of manager entering Yael → seed → publish, OR still + caption |
-
-**Scrub before publish:** real swimmer names, national IDs, emails, prod club rosters. Demo seed uses fictional names (Yael Cohen, ACT2-F-01…) — safe.
-
-**Capture settings:** dark mode, ~2560×1440, downscale, compress to <400 KB (`pngquant` / squoosh).
-
-### Research — 3 visuals (generate from asaf-reaserch)
-
-| Filename | Caption | Source |
-|---|---|---|
-| `research-pipeline.png` | Pipeline architecture diagram | Draw/export from the 7-stage flow in `projects.ts` architecture section |
-| `research-waterfall.png` | Staged error waterfall | `misha_underwater_lab/docs/ERROR_BUDGET.md` table; generate via `m2a/viz/render_charts.py` → `write_staged_waterfall()` (frame 60: 84.7 → 2.1 mm is the hero) |
-| `research-skeleton.png` | Reconstructed vs. observed skeleton | `python tools/build_underwater_reels.py` or `tools/build_presentation.py` — frames 60 (best) and 146 (worst) stick overlay |
-
-Research visuals have no PII risk.
-
-### Suggested `file` lines to add in `projects.ts`
-
-**Research** (~line 189):
-```ts
-file: 'research-pipeline.png'
-file: 'research-waterfall.png'
-file: 'research-skeleton.png'
-```
-
-**SwimEdge** (~line 351):
-```ts
-file: 'swimedge-dashboard.png'
-file: 'swimedge-career-hub.png'
-file: 'swimedge-ingestion.png'
-file: 'swimedge-demo.gif'
-```
+1. Do **NOT** give both projects equal weight on every lens.
+2. **Research lens:** show ONLY the research project (SwimEdge hidden).
+3. **Full-Stack lens:** SwimEdge full + research compact.
+4. **Data lens:** SwimEdge full + research compact (error-budget parallel only).
+5. **How I build** section — AI as orchestration (agents + shared skills + verification), NOT "AI wrote my code".
+6. **Visual source:** `newSwimEdge/frontend` track-deep + `portal.css` — NOT `.impeccable/` contracts.
+7. Do **not** over-claim SwimEdge: archive + ingestion are real; claim-flow UI is NOT shipped yet (backend only, tsk_116 Task 7 pending).
 
 ---
 
-## Optional polish after media
+## SwimEdge current state (for accurate copy)
 
-1. **CV PDFs** — Regenerate from `CV'S/*/Full-Time.docx` with corrected professor names → `public/resume/`
-2. **Visual QA** — `npm run dev`, check both projects in all three lenses (Research / Full-Stack / Data)
-3. **Deploy** — Vercel (`base: '/'`) or GitHub Pages (`base: '/asaf-portfolio/'` per README)
-4. **Portfolio self-screenshots** — `shot.mjs` exists (Playwright); targets `http://localhost:5174`
+- R2 catalog Waves 0–3 done; season sweep held
+- Public competition archive (tsk_115) implemented, may be uncommitted
+- Claim/promotion backend done 2026-07-28 (V23, 579 tests); frontend pending
+- 8 dispatchable agent personas + shared-skills catalog in `docs/agents-skills` + `docs/shared-skills`
 
 ---
 
-## Key file map
+## Files to change (polish pass)
 
 | File | Purpose |
 |---|---|
-| `src/content/projects.ts` | Both case studies + media slots |
-| `src/content/profile.ts` | Lenses, bio, resume PDF paths |
-| `public/media/` | Screenshot/diagram drop folder |
-| `public/resume/` | Three lens-specific CV PDFs |
-| `public/media/README.md` | Slot guide (duplicate of above) |
+| `src/content/profile.ts` | Lenses, bio, `projectVisibility` per lens |
+| `src/content/projects.ts` | Emphasis tiers + SwimEdge status |
+| `src/content/how-i-build.ts` | How I build blocks per lens depth |
+| `src/App.tsx` | Filter projects by lens, featured copy |
+| `src/components/ProjectCase.tsx` | Tiered layout (full / compact / hidden) |
+| `src/components/Skills.tsx` | Renders how-i-build above skill chips |
+| `src/index.css` + `tailwind.config.js` + `src/styles/portal.css` | Deep Water sync |
+
+---
+
+## Out of scope
+
+- SwimEdge screenshots (wait for stable UI)
+- Inflating metrics or adding a third project
+- Rewriting research technical content (already strong)
+
+---
+
+## Media wiring (when images exist)
+
+Drop files in `public/media/` and add `file: '<filename>'` to the matching slot in `projects.ts` `media` array. No component changes needed.
+
+### Research — wired ✅
+
+| Filename | Status |
+|---|---|
+| `research-waterfall.png` | Wired — Research + compact lenses |
+| `research-skeleton.png` | Wired — Research + compact lenses |
+| `research-pipeline.png` | Optional — architecture diagram (not yet created) |
+
+### SwimEdge — deferred ⏳
+
+Wait until tsk_115/116 frontend is committed and stable:
+
+| Filename | What to capture |
+|---|---|
+| `swimedge-dashboard.png` | Admin competition detail |
+| `swimedge-career-hub.png` | Swimmer career hub |
+| `swimedge-ingestion.png` | Attribution / held-result queue |
+| `swimedge-demo.gif` | Short lifecycle walkthrough |
+
+**Before capture:** reseed demo DB (`newSwimEdge/scripts/demo/reset-all-demo.sh`). Dark mode, compress to <400 KB.
+
+---
+
+## Optional polish tasks
+
+1. **Copy-edit** — tone: confident, not inflated; present tense with scope for in-flight work ("backend-ready", "in hardening")
+2. **Research pipeline diagram** — optional `research-pipeline.png` from 7-stage architecture in `projects.ts`
+3. **CV PDFs** — regenerate from `CV'S/` with corrected professor names (Gera Weiss, Raziel Riemer) → `public/resume/`
+4. **Visual QA** — all three lenses in browser; verify Research hides SwimEdge nav link
+
+---
+
+## Already confirmed (do not redo)
+
+- Professor names: **Gera Weiss**, **Raziel Riemer**
+- SwimEdge counts: 23 migrations, 30 controllers, 40 services (portfolio is correct)
+- Portfolio dev port: **5174**

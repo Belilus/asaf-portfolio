@@ -1,16 +1,34 @@
 import { useEffect, useState } from 'react'
+import type { LensId } from '../content/profile'
 import { IconMoon, IconSun } from './primitives'
 import { profile } from '../content/profile'
+import { getProjectEmphasis, projects } from '../content/projects'
 
-const links = [
-  { href: '#research', label: 'Research' },
-  { href: '#swimedge', label: 'SwimEdge' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
-]
+function navLinksForLens(lensId: LensId) {
+  const base = [
+    { href: '#skills', label: 'Skills' },
+    { href: '#contact', label: 'Contact' },
+  ]
+  const projectLinks = projects
+    .filter((p) => getProjectEmphasis(p, lensId) !== 'hidden')
+    .map((p) => ({
+      href: `#${p.id}`,
+      label: p.id === 'research' ? 'Research' : 'SwimEdge',
+    }))
+  return [...projectLinks, ...base]
+}
 
-export function Nav({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+export function Nav({
+  deepWater,
+  lensId,
+  onToggle,
+}: {
+  deepWater: boolean
+  lensId: LensId
+  onToggle: () => void
+}) {
   const [scrolled, setScrolled] = useState(false)
+  const links = navLinksForLens(lensId)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -22,7 +40,7 @@ export function Nav({ dark, onToggle }: { dark: boolean; onToggle: () => void })
   return (
     <nav
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-base ease-out-expo ${
-        scrolled ? 'border-b border-border bg-background/85 backdrop-blur-md' : 'border-b border-transparent'
+        scrolled ? 'portal-glass border-b border-border' : 'border-b border-transparent'
       }`}
     >
       <div className="section-shell flex h-16 items-center justify-between">
@@ -51,10 +69,10 @@ export function Nav({ dark, onToggle }: { dark: boolean; onToggle: () => void })
           <button
             type="button"
             onClick={onToggle}
-            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label={deepWater ? 'Switch to light mode' : 'Switch to Deep Water theme'}
             className="focus-ring rounded-md p-2.5 text-muted-foreground transition-colors duration-fast hover:bg-accent hover:text-foreground"
           >
-            {dark ? <IconSun /> : <IconMoon />}
+            {deepWater ? <IconSun /> : <IconMoon />}
           </button>
         </div>
       </div>

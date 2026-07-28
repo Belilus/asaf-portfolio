@@ -7,7 +7,9 @@
  * still judge the engineering.
  */
 
-import type { LensId } from './profile'
+import { lenses, type LensId } from './profile'
+
+export type ProjectEmphasis = 'full' | 'compact' | 'hidden'
 
 export interface MetricRow {
   label: string
@@ -42,6 +44,12 @@ export interface Project {
   premise: string
   /** Lens-specific opening framing. */
   angle: Record<LensId, string>
+  /** Lens-specific depth — full case study, compact card, or hidden. */
+  emphasis: Record<LensId, ProjectEmphasis>
+  /** Optional override for compact mode (defaults to first two highlights). */
+  compactHighlights?: string[]
+  /** Section headings shown inline in compact mode (no accordion). */
+  compactSections?: string[]
   sections: { heading: string; body: string[] }[]
   architecture: { title: string; note: string; stages: ArchStage[] }
   metrics: { title: string; note: string; rows: MetricRow[] }
@@ -74,6 +82,16 @@ export const projects: Project[] = [
       data:
         'A measurement pipeline whose real output is an attribution table: nine distinct error causes, each classified as code, data, or irreducible, with live millimetre figures regenerated from the run artifacts.',
     },
+    emphasis: {
+      research: 'full',
+      fullstack: 'compact',
+      data: 'compact',
+    },
+    compactHighlights: [
+      'Reduced full-body reconstruction error from 84.7 mm to 2.1 mm with a staged error budget that separates code from data limits.',
+      '65-test golden-file harness — every refactor must byte-diff engine output against a frozen baseline.',
+    ],
+    compactSections: ['Key results', 'Engineering rigor'],
     sections: [
       {
         heading: 'Research problem',
@@ -188,18 +206,15 @@ export const projects: Project[] = [
     ],
     media: [
       {
-        caption: 'Pipeline architecture diagram',
-        hint: 'Layered flow: pose → cycle → geometry → FK inversion → closure → engine project → QA',
-        aspect: 'wide',
-      },
-      {
+        file: 'research-waterfall.png',
         caption: 'Staged error waterfall',
         hint: 'Per-stage mm reduction across frames 60, 62, 116, 129, 146',
         aspect: 'square',
       },
       {
+        file: 'research-skeleton.png',
         caption: 'Reconstructed vs. observed skeleton',
-        hint: 'Stick-figure overlay at best and worst frames',
+        hint: 'Stick-figure overlay at best frame (frame 60)',
         aspect: 'square',
       },
     ],
@@ -226,6 +241,11 @@ export const projects: Project[] = [
         'A complete client–server system designed and built alone — 30 REST controllers over 40 service classes and a 23-migration Postgres schema, fronted by a bilingual RTL React application with six distinct role-based workflows.',
       data:
         'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
+    },
+    emphasis: {
+      research: 'hidden',
+      fullstack: 'full',
+      data: 'full',
     },
     sections: [
       {
@@ -341,12 +361,10 @@ export const projects: Project[] = [
       { group: 'Platform', items: ['Docker', 'OpenAPI / Swagger', 'Render', 'Git'] },
     ],
     highlights: [
-      'Architected and built a full production platform solo — schema, services, API, frontend, design system, and deployment.',
+      'Imported 20k+ archived federation results with expectations-gated regulation matching and a held-result queue — nothing unattributed becomes a fact.',
       'Designed a three-tier result attribution strategy that quarantines ambiguous records instead of silently corrupting swimmer histories.',
-      'Built a parser turning official federation XLSX and PDF-derived documents into structured, lineage-tracked relational data.',
-      'Modeled six role-based workflows with an enforced hierarchy spanning federation, club, coaching, officiating, and swimmer access.',
-      'Shipped a bilingual Hebrew/English RTL interface and a token-driven design system, reused as the foundation of this portfolio.',
-      'Opened direct engagement with the Israel Swimming Association and the Ministry of Culture and Sport on federation modernisation.',
+      'Built parsers for official federation XLSX and PDF-derived documents into structured, lineage-tracked relational data.',
+      'Architected a solo full-stack platform — 30 REST controllers, 40 domain services, 23 Flyway migrations, bilingual RTL React UI.',
     ],
     media: [
       {
@@ -371,6 +389,19 @@ export const projects: Project[] = [
       },
     ],
     status:
-      'In active development. Federation ingestion epic complete; rules engine shipped and hardening. Demo materials prepared for federation review.',
+      'In active development. Federation ingestion and public competition archive shipped; identity claim flow backend-complete (V23); rules engine and entry validation hardening ongoing.',
   },
 ]
+
+export function getProjectEmphasis(project: Project, lens: LensId): ProjectEmphasis {
+  return project.emphasis[lens]
+}
+
+export function visibleProjectsForLens(lensId: LensId) {
+  const lens = lenses.find((l) => l.id === lensId)
+  if (!lens) return []
+  return lens.projectVisibility
+    .map((id) => projects.find((p) => p.id === id))
+    .filter((p): p is Project => Boolean(p))
+    .filter((p) => getProjectEmphasis(p, lensId) !== 'hidden')
+}

@@ -29,8 +29,8 @@ export interface Lens {
   bio: string[]
   /** Three proof points rendered as the hero stat strip. */
   stats: { value: string; label: string; note: string }[]
-  /** Which project leads the Featured section. */
-  projectOrder: ('research' | 'swimedge')[]
+  /** Which projects appear on this lens, in display order. */
+  projectVisibility: ('research' | 'swimedge')[]
   /** Resume served by the download button for this lens. */
   resume: { label: string; file: string }
 }
@@ -50,7 +50,7 @@ export const lenses: Lens[] = [
       { value: '65', label: 'regression tests', note: 'golden-file byte-diff, ~1 s to run' },
       { value: '95', label: 'current M.Sc. GPA', note: 'Ben-Gurion University of the Negev' },
     ],
-    projectOrder: ['research', 'swimedge'],
+    projectVisibility: ['research'],
     resume: { label: 'Researcher CV', file: 'Asaf-Belilus-Researcher.pdf' },
   },
   {
@@ -67,7 +67,7 @@ export const lenses: Lens[] = [
       { value: '6', label: 'role-based workflows', note: 'admin, federation, club, coach, official, swimmer' },
       { value: '23', label: 'versioned migrations', note: 'Flyway, zero destructive edits' },
     ],
-    projectOrder: ['swimedge', 'research'],
+    projectVisibility: ['swimedge', 'research'],
     resume: { label: 'Full-Stack CV', file: 'Asaf-Belilus-Fullstack.pdf' },
   },
   {
@@ -84,7 +84,7 @@ export const lenses: Lens[] = [
       { value: '9-cause', label: 'error attribution table', note: 'each split into code vs. data vs. irreducible' },
       { value: '0', label: 'silent drops', note: 'unmatched rows are quarantined, never discarded' },
     ],
-    projectOrder: ['swimedge', 'research'],
+    projectVisibility: ['swimedge', 'research'],
     resume: { label: 'Data CV', file: 'Asaf-Belilus-Data.pdf' },
   },
 ]

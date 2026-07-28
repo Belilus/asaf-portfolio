@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { LensId } from '../content/profile'
 import type { Project } from '../content/projects'
+import { getProjectEmphasis } from '../content/projects'
 import { IconChevron, MediaPlaceholder } from './primitives'
 
 function toneClass(tone?: string) {
@@ -9,11 +10,9 @@ function toneClass(tone?: string) {
   return 'text-foreground'
 }
 
-/* ------------------------------------------------------------- metrics */
-
 function MetricTable({ metrics }: { metrics: Project['metrics'] }) {
   return (
-    <div className="card-surface overflow-hidden">
+    <div className="portal-card overflow-hidden">
       <div className="border-b border-border px-5 py-4">
         <h4 className="text-sm font-semibold">{metrics.title}</h4>
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{metrics.note}</p>
@@ -35,19 +34,24 @@ function MetricTable({ metrics }: { metrics: Project['metrics'] }) {
   )
 }
 
-/* -------------------------------------------------------- architecture */
+function ArchitectureFlow({
+  architecture,
+  maxStages,
+}: {
+  architecture: Project['architecture']
+  maxStages?: number
+}) {
+  const stages = maxStages ? architecture.stages.slice(0, maxStages) : architecture.stages
 
-function ArchitectureFlow({ architecture }: { architecture: Project['architecture'] }) {
   return (
-    <div className="card-surface p-5 sm:p-6">
+    <div className="portal-card p-5 sm:p-6">
       <h4 className="text-sm font-semibold">{architecture.title}</h4>
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{architecture.note}</p>
 
       <ol className="mt-6 space-y-0">
-        {architecture.stages.map((s, i) => (
+        {stages.map((s, i) => (
           <li key={s.step} className="relative flex gap-4 pb-6 last:pb-0">
-            {/* connector rail */}
-            {i < architecture.stages.length - 1 && (
+            {i < stages.length - 1 && (
               <span
                 aria-hidden="true"
                 className="absolute left-[13px] top-8 bottom-0 w-px bg-border"
@@ -76,7 +80,33 @@ function ArchitectureFlow({ architecture }: { architecture: Project['architectur
   )
 }
 
-/* ------------------------------------------------------------- section */
+function InlineSections({
+  project,
+  headings,
+}: {
+  project: Project
+  headings: string[]
+}) {
+  const sections = project.sections.filter((s) => headings.includes(s.heading))
+  if (sections.length === 0) return null
+
+  return (
+    <div className="portal-card space-y-8 p-5 sm:p-6">
+      {sections.map((s) => (
+        <section key={s.heading}>
+          <h4 className="mb-3 text-base font-semibold text-primary">{s.heading}</h4>
+          <div className="space-y-3">
+            {s.body.map((p) => (
+              <p key={p.slice(0, 32)} className="text-sm leading-[1.75] text-muted-foreground">
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  )
+}
 
 export function ProjectCase({
   project,
@@ -87,20 +117,39 @@ export function ProjectCase({
   lens: LensId
   index: number
 }) {
-  const [open, setOpen] = useState(false)
+  const emphasis = getProjectEmphasis(project, lens)
+  const isFull = emphasis === 'full'
+  const isCompact = emphasis === 'compact'
+
+  const [open, setOpen] = useState(isFull)
+
+  const highlights =
+    isCompact && project.compactHighlights
+      ? project.compactHighlights
+      : isCompact
+        ? project.highlights.slice(0, 2)
+        : project.highlights
+
+  const mediaSlots = project.media.filter((m) => m.file)
+  const visibleMedia = isFull ? mediaSlots : mediaSlots.slice(0, 1)
+
+  const compactHeadings =
+    project.compactSections ?? [project.sections[0]?.heading, project.sections[2]?.heading].filter(
+      Boolean,
+    ) as string[]
 
   return (
     <article id={project.id} className="scroll-mt-20 py-16 sm:py-24">
       <div className="section-shell">
-        {/* ---------------- header ---------------- */}
         <div className="mb-10 max-w-3xl">
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <span className="font-data text-xs font-semibold text-primary">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <span className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
-              {project.eyebrow}
-            </span>
+            <span className="portal-eyebrow !text-[0.65rem]">{project.eyebrow}</span>
+            {isCompact && (
+              <span className="chip border-primary/30 text-primary">Supporting project</span>
+            )}
           </div>
 
           <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">{project.name}</h3>
@@ -115,7 +164,6 @@ export function ProjectCase({
             <span>{project.role}</span>
           </div>
 
-          {/* lens-specific framing */}
           <div
             key={lens}
             className="mt-6 animate-fade-in-up rounded-lg border border-primary/25 bg-primary/[0.06] p-4"
@@ -127,10 +175,9 @@ export function ProjectCase({
           </div>
         </div>
 
-        {/* ---------------- highlights ---------------- */}
-        <ul className="mb-12 grid gap-3 sm:grid-cols-2">
-          {project.highlights.map((h) => (
-            <li key={h} className="flex gap-3 rounded-lg border border-border bg-card p-4">
+        <ul className={`mb-12 grid gap-3 ${isFull ? 'sm:grid-cols-2' : ''}`}>
+          {highlights.map((h) => (
+            <li key={h} className="portal-card flex gap-3 p-4">
               <span
                 aria-hidden="true"
                 className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
@@ -140,103 +187,126 @@ export function ProjectCase({
           ))}
         </ul>
 
-        {/* ---------------- architecture + metrics ---------------- */}
-        <div className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-start">
-          <ArchitectureFlow architecture={project.architecture} />
-          <MetricTable metrics={project.metrics} />
-        </div>
-
-        {/* ---------------- media ---------------- */}
-        <div className="mb-12">
-          <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
-            {project.id === 'research' ? 'Diagrams & result graphs' : 'Screenshots & demo'}
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {project.media.map((m, i) => (
-              <div key={m.caption} className={m.aspect === 'wide' && i === 0 ? 'sm:col-span-2' : ''}>
-                <MediaPlaceholder {...m} />
-              </div>
-            ))}
+        {isFull && (
+          <div className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-start">
+            <ArchitectureFlow architecture={project.architecture} />
+            <MetricTable metrics={project.metrics} />
           </div>
-        </div>
+        )}
 
-        {/* ---------------- deep dive ---------------- */}
-        <div className="card-surface overflow-hidden">
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            className="focus-ring flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-fast hover:bg-accent sm:px-6"
-          >
-            <span>
-              <span className="block text-sm font-semibold">
-                {open ? 'Hide' : 'Read'} the full case study
-              </span>
-              <span className="mt-0.5 block text-xs text-muted-foreground">
-                {project.sections.map((s) => s.heading).join(' · ')}
-              </span>
-            </span>
-            <IconChevron
-              className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-base ease-out-expo ${
-                open ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
+        {isCompact && (
+          <div className="mb-12 grid gap-6 lg:grid-cols-2 lg:items-start">
+            <MetricTable metrics={project.metrics} />
+            <InlineSections project={project} headings={compactHeadings} />
+          </div>
+        )}
 
-          {open && (
-            <div className="animate-fade-in-up border-t border-border px-5 py-8 sm:px-6">
-              <div className="max-w-3xl space-y-10">
-                {project.sections.map((s) => (
-                  <section key={s.heading}>
-                    <h4 className="mb-3 text-base font-semibold text-primary">{s.heading}</h4>
-                    <div className="space-y-4">
-                      {s.body.map((p) => (
-                        <p
-                          key={p.slice(0, 32)}
-                          className="text-sm leading-[1.75] text-muted-foreground"
-                        >
-                          {p}
-                        </p>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ---------------- stack + status ---------------- */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr]">
-          <div>
+        {visibleMedia.length > 0 && (
+          <div className="mb-12">
             <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
-              Frameworks & tools
+              {project.id === 'research' ? 'Diagrams & result graphs' : 'Screenshots & demo'}
             </p>
-            <div className="space-y-4">
-              {project.stack.map((g) => (
-                <div key={g.group} className="flex flex-col gap-2 sm:flex-row sm:gap-4">
-                  <p className="w-32 shrink-0 pt-1 text-xs font-medium text-foreground/70">
-                    {g.group}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {g.items.map((t) => (
-                      <span key={t} className="chip">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+            <div className={`grid gap-4 ${isFull && visibleMedia.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+              {visibleMedia.map((m, i) => (
+                <div
+                  key={m.caption}
+                  className={m.aspect === 'wide' && i === 0 ? 'sm:col-span-2' : ''}
+                >
+                  <MediaPlaceholder {...m} />
                 </div>
               ))}
             </div>
           </div>
+        )}
 
-          <aside className="rounded-lg border border-border bg-muted/40 p-5">
+        {isFull && (
+          <div className="portal-card overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              className="focus-ring flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-fast hover:bg-accent sm:px-6"
+            >
+              <span>
+                <span className="block text-sm font-semibold">
+                  {open ? 'Hide' : 'Read'} the full case study
+                </span>
+                <span className="mt-0.5 block text-xs text-muted-foreground">
+                  {project.sections.map((s) => s.heading).join(' · ')}
+                </span>
+              </span>
+              <IconChevron
+                className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-base ease-out-expo ${
+                  open ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            {open && (
+              <div className="animate-fade-in-up border-t border-border px-5 py-8 sm:px-6">
+                <div className="max-w-3xl space-y-10">
+                  {project.sections.map((s) => (
+                    <section key={s.heading}>
+                      <h4 className="mb-3 text-base font-semibold text-primary">{s.heading}</h4>
+                      <div className="space-y-4">
+                        {s.body.map((p) => (
+                          <p
+                            key={p.slice(0, 32)}
+                            className="text-sm leading-[1.75] text-muted-foreground"
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {isFull && (
+          <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr]">
+            <div>
+              <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+                Frameworks & tools
+              </p>
+              <div className="space-y-4">
+                {project.stack.map((g) => (
+                  <div key={g.group} className="flex flex-col gap-2 sm:flex-row sm:gap-4">
+                    <p className="w-32 shrink-0 pt-1 text-xs font-medium text-foreground/70">
+                      {g.group}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {g.items.map((t) => (
+                        <span key={t} className="chip">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <aside className="portal-card p-5">
+              <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+                Current status
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{project.status}</p>
+            </aside>
+          </div>
+        )}
+
+        {isCompact && (
+          <aside className="portal-card p-5">
             <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
               Current status
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">{project.status}</p>
           </aside>
-        </div>
+        )}
       </div>
     </article>
   )

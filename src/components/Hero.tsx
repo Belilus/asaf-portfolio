@@ -45,7 +45,7 @@ export function Hero({
           <div
             role="tablist"
             aria-label="Choose the role framing for this portfolio"
-            className="inline-flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1 shadow-xs"
+            className="inline-flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1 shadow-xs portal-card"
           >
             {lenses.map((l) => {
               const active = l.id === lens.id
@@ -109,7 +109,7 @@ export function Hero({
           </div>
 
           {/* ---- proof strip ---- */}
-          <dl className="mt-14 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
+          <dl className="portal-card mt-14 grid gap-px overflow-hidden sm:grid-cols-3">
             {lens.stats.map((s) => (
               <div key={s.label} className="bg-card p-5">
                 <dt className="font-data text-2xl font-semibold text-foreground">{s.value}</dt>
