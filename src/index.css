@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   Design tokens — ported from the SwimEdge design system (Deep Water identity).
+   Source of truth: newSwimEdge/frontend/src/index.css
+   Keep these in sync so the portfolio and the product read as one brand.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    /* Geometry */
+    --radius: 0.625rem;
+
+    /* Surfaces — light track */
+    --background: oklch(0.99 0.003 247);
+    --foreground: oklch(0.2 0.02 250);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.2 0.02 250);
+
+    /* Brand — Deep Water cyan */
+    --primary: oklch(0.56 0.11 205);
+    --primary-foreground: oklch(0.99 0 0);
+
+    /* Neutrals */
+    --secondary: oklch(0.968 0.007 248);
+    --secondary-foreground: oklch(0.21 0.04 266);
+    --muted: oklch(0.968 0.007 248);
+    --muted-foreground: oklch(0.45 0.02 250);
+    --accent: oklch(0.95 0.02 205);
+    --accent-foreground: oklch(0.21 0.04 266);
+
+    /* Status */
+    --success: oklch(0.58 0.13 150);
+    --success-foreground: oklch(0.99 0 0);
+    --warning: oklch(0.62 0.14 65);
+    --warning-foreground: oklch(0.99 0 0);
+    --border: oklch(0.92 0.013 256);
+    --ring: oklch(0.56 0.11 205);
+
+    /* Performance feedback */
+    --perf-improve: oklch(0.7 0.17 160);
+    --perf-regress: oklch(0.68 0.18 25);
+    --perf-neutral: oklch(0.7 0.02 250);
+
+    /* Elevations */
+    --shadow-xs: 0 1px 2px oklch(0.2 0 0 / 0.04);
+    --shadow-sm: 0 2px 8px oklch(0.2 0 0 / 0.06);
+    --shadow-md: 0 8px 24px oklch(0.2 0 0 / 0.08);
+    --shadow-lg: 0 24px 48px oklch(0.2 0 0 / 0.1);
+
+    /* Motion scale */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 150ms;
+    --dur-base: 250ms;
+    --dur-slow: 400ms;
+
+    /* ISA federation palette — matched to the official logo navy */
+    --isa-navy: #081e45;
+    --isa-navy-2: #0a2349;
+    --isa-navy-3: #0d2b56;
+    --isa-teal: #1c7293;
+    --isa-gold: #f2b134;
+
+    /* Deep Water identity */
+    --cyan: oklch(0.85 0.13 190);
+    --cyan-deep: oklch(0.58 0.1 205);
+    --ink-water: #081e45;
+    --water-card: #0d2b56;
+    --foam: oklch(0.96 0.006 220);
+    --rope: oklch(0.33 0.03 235);
+  }
+
+  .dark {
+    --background: oklch(0.17 0.015 260);
+    --foreground: oklch(0.96 0.005 255);
+    --card: oklch(0.21 0.018 260);
+    --card-foreground: oklch(0.96 0.005 255);
+
+    --primary: oklch(0.82 0.12 195);
+    --primary-foreground: oklch(0.15 0.02 260);
+
+    --secondary: oklch(0.26 0.02 260);
+    --secondary-foreground: oklch(0.96 0.005 255);
+    --muted: oklch(0.24 0.018 260);
+    --muted-foreground: oklch(0.72 0.02 258);
+    --accent: oklch(0.26 0.02 260);
+    --accent-foreground: oklch(0.96 0.005 255);
+
+    --success: oklch(0.72 0.15 150);
+    --success-foreground: oklch(0.15 0.02 150);
+    --warning: oklch(0.8 0.13 75);
+    --warning-foreground: oklch(0.18 0.03 70);
+
+    --border: oklch(1 0 0 / 0.08);
+    --ring: oklch(0.82 0.12 195);
+
+    --perf-improve: oklch(0.76 0.17 160);
+    --perf-regress: oklch(0.73 0.18 25);
+    --perf-neutral: oklch(0.58 0.02 258);
+
+    --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-sm: 0 2px 8px oklch(0 0 0 / 0.4);
+    --shadow-md: 0 8px 24px oklch(0 0 0 / 0.5);
+    --shadow-lg: 0 24px 48px oklch(0 0 0 / 0.6);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Tabular figures for every number that should line up in a column. */
+  .font-data {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Lane-rope hairline used as a section divider. */
+  .lane-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border) 12%,
+      var(--border) 88%,
+      transparent
+    );
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .card-surface {
+    @apply rounded-lg border border-border bg-card shadow-sm;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-md border border-border bg-muted px-2.5 py-1 font-mono text-[0.7rem] font-medium tracking-tight text-muted-foreground;
+  }
+}
