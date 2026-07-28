@@ -39,7 +39,7 @@ export function Hero({
       <div className="section-shell relative">
         {/* ---- role lens switcher ---- */}
         <div className="mb-10 animate-fade-in-up">
-          <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Viewing as
           </p>
           <div

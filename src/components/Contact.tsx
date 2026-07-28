@@ -54,7 +54,7 @@ export function Contact({ lens }: { lens: Lens }) {
           </div>
 
           <div>
-            <p className="mb-4 font-mono text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Also
             </p>
             <ul className="space-y-5">

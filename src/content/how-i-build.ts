@@ -30,7 +30,7 @@ const shared: HowIBuildBlock[] = [
 const researchBrief: HowIBuildBlock[] = [
   {
     title: 'Research pipeline discipline',
-    body: 'The numerical core is I/O-free and covered by 65 pytest cases with golden-file byte-diff. Any refactor that cannot prove zero output drift does not land — the same verification instinct I apply at federation scale on SwimEdge.',
+    body: 'The numerical core is I/O-free and covered by 46 pytest cases with golden-file byte-diff. Any refactor that cannot prove zero output drift does not land — the same verification instinct I apply at federation scale on SwimEdge.',
   },
 ]
 

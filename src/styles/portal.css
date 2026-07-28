@@ -1,10 +1,11 @@
 /* SwimEdge public portal utilities — Deep Water / track-deep semantic tokens */
 
 .portal-eyebrow {
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   color: var(--primary);
 }
 

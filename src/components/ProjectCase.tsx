@@ -15,14 +15,14 @@ function MetricTable({ metrics }: { metrics: Project['metrics'] }) {
     <div className="portal-card overflow-hidden">
       <div className="border-b border-border px-5 py-4">
         <h4 className="text-sm font-semibold">{metrics.title}</h4>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{metrics.note}</p>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{metrics.note}</p>
       </div>
       <dl className="divide-y divide-border">
         {metrics.rows.map((r) => (
           <div key={r.label} className="flex items-baseline justify-between gap-4 px-5 py-3">
             <div className="min-w-0">
               <dt className="truncate text-sm text-foreground/90">{r.label}</dt>
-              {r.hint && <p className="mt-0.5 text-xs text-muted-foreground">{r.hint}</p>}
+              {r.hint && <p className="mt-0.5 text-sm text-muted-foreground">{r.hint}</p>}
             </div>
             <dd className={`font-data shrink-0 text-sm font-semibold ${toneClass(r.tone)}`}>
               {r.value}
@@ -46,7 +46,7 @@ function ArchitectureFlow({
   return (
     <div className="portal-card p-5 sm:p-6">
       <h4 className="text-sm font-semibold">{architecture.title}</h4>
-      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{architecture.note}</p>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{architecture.note}</p>
 
       <ol className="mt-6 space-y-0">
         {stages.map((s, i) => (
@@ -57,7 +57,7 @@ function ArchitectureFlow({
                 className="absolute left-[13px] top-8 bottom-0 w-px bg-border"
               />
             )}
-            <span className="font-data relative z-10 mt-0.5 flex h-[27px] w-[27px] shrink-0 items-center justify-center rounded-full border border-border bg-muted text-[0.65rem] font-semibold text-primary">
+            <span className="font-data relative z-10 mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-xs font-semibold text-primary">
               {s.step}
             </span>
             <div className="min-w-0 flex-1">
@@ -143,10 +143,10 @@ export function ProjectCase({
       <div className="section-shell">
         <div className="mb-10 max-w-3xl">
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className="font-data text-xs font-semibold text-primary">
+            <span className="font-data text-sm font-semibold text-primary">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <span className="portal-eyebrow !text-[0.65rem]">{project.eyebrow}</span>
+            <span className="portal-eyebrow">{project.eyebrow}</span>
             {isCompact && (
               <span className="chip border-primary/30 text-primary">Supporting project</span>
             )}
@@ -159,7 +159,7 @@ export function ProjectCase({
             {project.premise}
           </p>
 
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
             <span className="font-data">{project.period}</span>
             <span>{project.role}</span>
           </div>
@@ -168,10 +168,10 @@ export function ProjectCase({
             key={lens}
             className="mt-6 animate-fade-in-up rounded-lg border border-primary/25 bg-primary/[0.06] p-4"
           >
-            <p className="mb-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-primary">
+            <p className="mb-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-primary">
               Why this matters for this role
             </p>
-            <p className="text-sm leading-relaxed text-foreground/85">{project.angle[lens]}</p>
+            <p className="text-base leading-relaxed text-foreground/85">{project.angle[lens]}</p>
           </div>
         </div>
 
@@ -182,7 +182,7 @@ export function ProjectCase({
                 aria-hidden="true"
                 className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
               />
-              <span className="text-sm leading-relaxed text-foreground/85">{h}</span>
+              <span className="text-base leading-relaxed text-foreground/85">{h}</span>
             </li>
           ))}
         </ul>
@@ -203,7 +203,7 @@ export function ProjectCase({
 
         {visibleMedia.length > 0 && (
           <div className="mb-12">
-            <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               {project.id === 'research' ? 'Diagrams & result graphs' : 'Screenshots & demo'}
             </p>
             <div className={`grid gap-4 ${isFull && visibleMedia.length > 1 ? 'sm:grid-cols-2' : ''}`}>
@@ -231,7 +231,7 @@ export function ProjectCase({
                 <span className="block text-sm font-semibold">
                   {open ? 'Hide' : 'Read'} the full case study
                 </span>
-                <span className="mt-0.5 block text-xs text-muted-foreground">
+                <span className="mt-0.5 block text-sm text-muted-foreground">
                   {project.sections.map((s) => s.heading).join(' · ')}
                 </span>
               </span>
@@ -269,13 +269,13 @@ export function ProjectCase({
         {isFull && (
           <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr]">
             <div>
-              <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                 Frameworks & tools
               </p>
               <div className="space-y-4">
                 {project.stack.map((g) => (
                   <div key={g.group} className="flex flex-col gap-2 sm:flex-row sm:gap-4">
-                    <p className="w-32 shrink-0 pt-1 text-xs font-medium text-foreground/70">
+                    <p className="w-32 shrink-0 pt-1 text-sm font-medium text-foreground/70">
                       {g.group}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -291,20 +291,20 @@ export function ProjectCase({
             </div>
 
             <aside className="portal-card p-5">
-              <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                 Current status
               </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{project.status}</p>
+              <p className="text-base leading-relaxed text-muted-foreground">{project.status}</p>
             </aside>
           </div>
         )}
 
         {isCompact && (
           <aside className="portal-card p-5">
-            <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Current status
             </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">{project.status}</p>
+            <p className="text-base leading-relaxed text-muted-foreground">{project.status}</p>
           </aside>
         )}
       </div>

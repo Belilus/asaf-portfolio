@@ -47,8 +47,8 @@ export const lenses: Lens[] = [
       'The work sits between two faculties and two disciplines — computer vision on the input side, rigid-body kinematics and nonlinear optimization on the modeling side. What I care about most is knowing which part of an error is my code and which part is the data, and being able to prove the difference.',
     ],
     stats: [
-      { value: '2.1 mm', label: 'best-frame reconstruction', note: 'down from an 84.7 mm open-loop baseline' },
-      { value: '65', label: 'regression tests', note: 'golden-file byte-diff, ~1 s to run' },
+      { value: '2.1 mm', label: 'best-frame REALITY', note: 'lower-bound recipe; honest frame 60 ~6.6 mm' },
+      { value: '46', label: 'regression tests', note: 'golden-file byte-diff, ~1 s to run' },
       { value: '95', label: 'current M.Sc. GPA', note: 'Ben-Gurion University of the Negev' },
     ],
     projectVisibility: ['research'],

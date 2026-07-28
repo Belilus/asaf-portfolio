@@ -78,7 +78,7 @@ export const projects: Project[] = [
       research:
         'A cross-faculty project bridging computer vision and control theory. The contribution is not only the reconstruction pipeline but the error budget that separates modeling error from the definitional limits of the marker set.',
       fullstack:
-        'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a 65-test golden-file harness that byte-diffs every refactor against a frozen baseline.',
+        'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a 46-test golden-file harness that byte-diffs every refactor against a frozen baseline.',
       data:
         'A measurement pipeline whose real output is an attribution table: nine distinct error causes, each classified as code, data, or irreducible, with live millimetre figures regenerated from the run artifacts.',
     },
@@ -88,8 +88,8 @@ export const projects: Project[] = [
       data: 'compact',
     },
     compactHighlights: [
-      'Reduced full-body reconstruction error from 84.7 mm to 2.1 mm with a staged error budget that separates code from data limits.',
-      '65-test golden-file harness — every refactor must byte-diff engine output against a frozen baseline.',
+      'Packed 43 underwater frames into SWUM Euler REALITY with a staged error budget — best full-body fit 2.1 mm (honest frame 60: ~6.6 mm).',
+      '46-test golden-file harness — every refactor must byte-diff engine output against a frozen baseline.',
     ],
     compactSections: ['Key results', 'Engineering rigor'],
     sections: [
@@ -104,18 +104,17 @@ export const projects: Project[] = [
       {
         heading: 'Methodological approach',
         body: [
-          'The pipeline reconstructs the skeleton in stages, each one constrained by the previous. Cycle detection segments the recording into stroke cycles. Body geometry is fitted from the pose rather than taken from the engine’s default template, which removes an entire class of systematic error before any angle is solved.',
-          'Joint angles are then recovered by nonlinear least-squares fitting. Rather than inverting the kinematic chain analytically — which is degenerate for the shoulder — the solver poses forward kinematics as an optimization: choose the four Euler angles the engine expects such that the resulting bone directions best match the observed pose. A Tikhonov regularisation term (λ = 1e-4) keeps the solution stable where the pose under-determines the joint, and each frame warm-starts from the previous one so the solution stays temporally continuous.',
-          'Everything then has to close: a stroke cycle that does not return to its starting configuration produces discontinuities the engine reads as impulses. Per-axis cycle closure enforces that periodicity before the project is written out.',
-          'The diagnostic strategy is the part I would defend most. Rather than reporting a single reconstruction error, the pipeline reruns the fit stage by stage and records what each stage buys — a waterfall from open-loop through pelvis, hips, legs, trunk, shoulders, and arms. When a stage makes the error worse, that is visible immediately and attributable to a specific modeling assumption.',
+          'The core question is SWUM Euler REALITY packing: how closely can a 21-segment stick model match Misha’s underwater markers on joints 1–20, measured in millimetres per frame. The pipeline reconstructs the skeleton in stages, each one constrained by the previous. Body geometry is fitted from the pose rather than taken from the engine’s default template, which removes an entire class of systematic error before any angle is solved.',
+          'Joint angles are recovered by nonlinear least-squares fitting. Rather than inverting the kinematic chain analytically — which is degenerate for the shoulder — the solver poses forward kinematics as an optimization: choose the four Euler angles the engine expects such that the resulting bone directions best match the observed pose. A Tikhonov regularisation term (λ = 1e-4) keeps the solution stable where the pose under-determines the joint.',
+          'The diagnostic strategy is the part I would defend most. Rather than reporting a single number, the pipeline reruns the fit stage by stage and records what each lever buys — pelvis, hips, legs, trunk, shoulders, arms — with a live cause table that classifies each residual as code, data, or irreducible.',
         ],
       },
       {
         heading: 'Key results',
         body: [
-          'Staged fitting brings full-body reconstruction error from an 84.7 mm open-loop baseline down to 2.1 mm on the best frame, with trunk error driven to exactly zero once trunk segment lengths were fitted from the pose instead of inherited from the engine template.',
-          'Five distinct modeling defects were found by probing rather than guessing. Four are now fixed: unfitted trunk lengths (a 7-bone anatomy forced into the engine’s 4-bone spine, worth roughly 120 mm), a template hip half-width, and single-frame optimisation bounds of ±15° that silently clamped the legs and shoulders at high torso roll — worth 40–200 mm before the span factor was widened. A fifth, a pelvis chain made too tall by the absence of a sacrum marker, is mitigated rather than solved, because the missing marker is a property of the data.',
-          'The result I consider most valuable is negative. Zero-millimetre reconstruction is not achievable with this marker set, and the error budget proves why: skin markers sit 2–6 mm from the joint centres they represent, and the above-water portion of the arm stroke is simply not in the data. Worst-case frames sit at 9.5 mm, dominated by hip and left-shoulder asymmetry at high roll. Knowing that floor is what makes the remaining error interpretable rather than merely disappointing.',
+          'Across 43 fully-underwater frames, staged fitting drives trunk error to exactly 0.0 mm on every frame once segment lengths are measured from the pose. Full-body REALITY ranges from 2.1 mm on the best frame (60, lower-bound recipe) to 9.5 mm at high torso roll (146); frame 62 reaches 2.4 mm as the documented lower bound.',
+          'Honest vs lower-bound framing matters: frame 60 at ~6.6 mm uses only measured rotations with no extra fitted shoulder depth; the 2.1 mm figure requires the full recipe (pelvis short, hip geometry, trunk geometry, shoulder clavicle fit). Both numbers are published — neither over-claims the other.',
+          'Five systematic modeling defects were found by probing rather than guessing; four are fixed (template trunk lengths, hip width, degenerate ±15° bounds at roll). The result I consider most valuable is negative: 0 mm on every joint is not achievable with this marker set, and the error budget proves why — skin markers sit 2–6 mm from joint centres, and above-water arms are absent from the capture.',
         ],
       },
       {
@@ -176,17 +175,17 @@ export const projects: Project[] = [
       ],
     },
     metrics: {
-      title: 'Error budget — staged reconstruction (mm)',
-      note: 'Live figures regenerated from run artifacts. Lower is better; “full” is whole-body reconstruction error.',
+      title: 'Error budget — SWUM Euler REALITY (mm)',
+      note: 'Live figures from build_error_budget.py. “full” = mean REALITY over joints 1–20.',
       rows: [
-        { label: 'Open-loop baseline (frame 60)', value: '84.7 mm', hint: 'before staged fitting', tone: 'warn' },
-        { label: 'Best frame, full body (frame 60)', value: '2.1 mm', hint: 'near the definitional floor', tone: 'improve' },
-        { label: 'Trunk error after geometry fit', value: '0.0 mm', hint: 'was ≈120 mm on template lengths', tone: 'improve' },
-        { label: 'Arms, best frame', value: '0.9 mm', hint: 'regularised FK inversion', tone: 'improve' },
-        { label: 'Worst frame, high torso roll (146)', value: '9.5 mm', hint: 'hip + left-shoulder asymmetry', tone: 'warn' },
-        { label: 'Skin-marker vs. joint-centre offset', value: '2–6 mm', hint: 'irreducible — data, not code', tone: 'neutral' },
-        { label: 'Regression suite', value: '65 tests', hint: 'unit + golden-file byte-diff, ~1 s', tone: 'improve' },
-        { label: 'Refactor output drift', value: '0 bytes', hint: '4,832-line restructure vs. baseline', tone: 'improve' },
+        { label: 'Best frame, lower bound (62)', value: '2.4 mm', hint: 'full recipe with clavicle fit', tone: 'improve' },
+        { label: 'Best frame, recipe (60)', value: '2.1 mm', hint: 'showcase stroke window', tone: 'improve' },
+        { label: 'Honest frame (60, no extra fit)', value: '~6.6 mm', hint: 'measured rotations only', tone: 'neutral' },
+        { label: 'Trunk after geometry fit', value: '0.0 mm', hint: 'all 43 underwater frames', tone: 'improve' },
+        { label: 'Worst frame, high roll (146)', value: '9.5 mm', hint: 'hips + shoulder asymmetry', tone: 'warn' },
+        { label: 'Underwater frame bank', value: '43 frames', hint: 'fully submerged captures', tone: 'neutral' },
+        { label: 'Skin-marker vs. joint-centre', value: '2–6 mm', hint: 'irreducible — data, not code', tone: 'neutral' },
+        { label: 'Regression suite', value: '46 tests', hint: 'unit + golden-file byte-diff', tone: 'improve' },
       ],
     },
     stack: [
@@ -198,22 +197,21 @@ export const projects: Project[] = [
       { group: 'Workflow', items: ['Git', 'Cross-platform Mac / Windows split', 'Matplotlib'] },
     ],
     highlights: [
-      'Reduced full-body reconstruction error from 84.7 mm to 2.1 mm through staged, individually validated fitting.',
-      'Proved a hard lower bound: 0 mm is unachievable with this marker set, and attributed the residual to specific data limitations.',
-      'Diagnosed five systematic modeling defects — including degenerate ±15° optimisation bounds — by quantitative probing rather than inspection.',
-      'Enforced correctness with a 65-test suite that byte-diffs engine inputs against a frozen baseline on every refactor.',
-      'Designed a stroke-dispatch architecture so three additional competitive strokes can be added without touching the numerical core.',
+      'Packed 43 underwater frames into SWUM Euler REALITY with trunk at 0.0 mm everywhere — best full-body fit 2.1 mm, honest floor documented at ~6.6 mm.',
+      'Proved 0 mm is not achievable with Misha_7: nine-cause error budget separates code fixes from irreducible data limits.',
+      'Diagnosed and fixed four systematic modeling defects — including degenerate ±15° bounds that silently clamped legs and shoulders at roll.',
+      'Enforced correctness with a 46-test suite that byte-diffs engine inputs against a frozen baseline on every refactor.',
     ],
     media: [
       {
-        file: 'research-body-multiview.png',
-        caption: 'Reconstructed body — four views',
-        hint: 'Purple = motion capture, orange = fitted stick model, red = residual error vectors',
+        file: 'research-body-frame62.png',
+        caption: 'Fitted stick model vs. motion capture',
+        hint: 'Frame 62 — profile and lean views, 2.4 mm full-body REALITY (lower bound)',
         aspect: 'wide',
       },
     ],
     status:
-      'Active research. Crawl stroke fully implemented; a heading-stability issue at 43.3° swing is the current open item, with a stabilisation plan in review.',
+      'Active research. Underwater Euler floor documented (~2–10 mm); open work is hip residual at roll extremes (frames 116/146) and spine/clavicle depth at high torso roll.',
   },
 
   /* ======================================================================
@@ -271,9 +269,10 @@ export const projects: Project[] = [
       {
         heading: 'Product surface',
         body: [
-          'Six roles see six different systems. Federation administrators run ingestion and competition import. Club managers handle membership, rosters, and approvals. Coaches work with their assigned swimmers. Officials enter results for the days they are assigned. Swimmers see their own career hub — personal bests, progression, and history that follows them across club changes.',
+          'Six roles see six different systems. Federation administrators run ingestion, competition import, swimmer-claim review, and held-result resolution. Club managers handle membership, rosters, and claim queues for their clubs. Coaches work with their assigned swimmers. Officials enter results for the days they are assigned. Swimmers see their own career hub — personal bests, progression, and history that follows them across club changes.',
+          'A public competition archive lets anyone browse historical meet results without logging in. Identity claim flows let swimmers and managers reconcile placeholder records against archived federation data — with federation admins resolving held results that cannot auto-match.',
           'On top of that sits the competition machinery: heat seeding, format progression, a versioned scoring engine, and analytics that render performance deltas with semantic meaning — improvement, regression, personal best — rather than as undifferentiated numbers.',
-          'Testing is split by cost. Sixty Vitest tests across fourteen files cover components and hooks with no server. Service-layer unit tests run pure, while repository and end-to-end ingestion tests run against real PostgreSQL through Testcontainers — because the ingestion logic is exactly where an in-memory database would lie to me.',
+          'Testing is split by cost. 232 Vitest tests cover components and hooks with no server. The backend runs 579 JUnit tests; repository and ingestion E2E tests use real PostgreSQL through Testcontainers.',
         ],
       },
       {
@@ -343,8 +342,8 @@ export const projects: Project[] = [
         { label: 'JPA entities', value: '31', hint: 'competition + identity model', tone: 'neutral' },
         { label: 'Flyway migrations', value: '23', hint: 'V1 → V23, append-forward', tone: 'neutral' },
         { label: 'React pages / components', value: '64 / 102', hint: 'bilingual, RTL-ready', tone: 'neutral' },
-        { label: 'Frontend test suite', value: '60 tests', hint: '14 files, Vitest + Testing Library', tone: 'improve' },
-        { label: 'Integration testing', value: 'Testcontainers', hint: 'real PostgreSQL for ingestion E2E', tone: 'improve' },
+        { label: 'Backend test suite', value: '579 tests', hint: 'JUnit + Testcontainers', tone: 'improve' },
+        { label: 'Frontend test suite', value: '232 tests', hint: 'Vitest + Testing Library', tone: 'improve' },
       ],
     },
     stack: [
@@ -356,34 +355,32 @@ export const projects: Project[] = [
     ],
     highlights: [
       'Imported 20k+ archived federation results with expectations-gated regulation matching and a held-result queue — nothing unattributed becomes a fact.',
+      'Shipped public competition archive and identity claim / held-result resolution UI (V22–V23).',
       'Designed a three-tier result attribution strategy that quarantines ambiguous records instead of silently corrupting swimmer histories.',
-      'Built parsers for official federation XLSX and PDF-derived documents into structured, lineage-tracked relational data.',
       'Architected a solo full-stack platform — 30 REST controllers, 40 domain services, 23 Flyway migrations, bilingual RTL React UI.',
     ],
     media: [
       {
+        file: 'swimedge-archive.png',
+        caption: 'Public competition archive',
+        hint: 'Browse historical meet results without logging in',
+        aspect: 'wide',
+      },
+      {
+        file: 'swimedge-dashboard.png',
         caption: 'Competition dashboard',
-        hint: 'Admin competition detail — start lists, results, progression, scoring tabs',
+        hint: 'Manager competition detail — start lists, results, progression',
         aspect: 'wide',
       },
       {
-        caption: 'Swimmer career hub',
-        hint: 'Personal bests, progression charts, cross-club history',
+        file: 'swimedge-claims.png',
+        caption: 'Held-result resolution',
+        hint: 'Federation queue for unattributed archived results',
         aspect: 'square',
-      },
-      {
-        caption: 'Ingestion & attribution flow',
-        hint: 'Batch import with unattributed-result resolution queue',
-        aspect: 'square',
-      },
-      {
-        caption: 'Demo walkthrough',
-        hint: 'Short screen recording of a full competition lifecycle',
-        aspect: 'wide',
       },
     ],
     status:
-      'In active development. Federation ingestion and public competition archive shipped; identity claim flow backend-complete (V23); rules engine and entry validation hardening ongoing.',
+      'In active development. Public competition archive and identity claim / held-result resolution shipped (V22–V23); federation ingestion and rules-engine hardening ongoing.',
   },
 ]
 

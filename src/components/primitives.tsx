@@ -149,7 +149,7 @@ export function SectionHeading({
 }) {
   return (
     <header id={id} className="mb-10 max-w-3xl scroll-mt-24">
-      <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-primary">
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary">
         {eyebrow}
       </p>
       <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
@@ -183,7 +183,7 @@ export function MediaPlaceholder({
           loading="lazy"
           className={`${ratio} w-full object-cover transition-transform duration-slow ease-out-expo group-hover:scale-[1.02]`}
         />
-        <figcaption className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
+        <figcaption className="border-t border-border px-4 py-3 text-sm text-muted-foreground">
           {caption}
         </figcaption>
       </figure>
@@ -196,7 +196,7 @@ export function MediaPlaceholder({
     >
       <IconImage className="h-5 w-5 text-muted-foreground/60" />
       <figcaption className="text-sm font-medium text-muted-foreground">{caption}</figcaption>
-      <p className="max-w-[26ch] text-xs leading-relaxed text-muted-foreground/70">{hint}</p>
+      <p className="max-w-[26ch] text-sm leading-relaxed text-muted-foreground/80">{hint}</p>
     </figure>
   )
 }
