@@ -22,6 +22,29 @@ VITE_PORTFOLIO_LENS=research   # or fullstack | pm | data
 The build scripts set it automatically; the Vercel env var is a belt-and-suspenders
 backup if you ever change the build command to plain `npm run build`.
 
+## Live URLs (belilus1 team)
+
+| Lens | URL |
+|------|-----|
+| Research | https://asaf-portfolio-ten.vercel.app |
+| Full-Stack | https://asaf-portfolio-fullstack.vercel.app |
+| PM / Founder | https://asaf-portfolio-pm.vercel.app |
+| Data | https://asaf-portfolio-data.vercel.app |
+
+Re-run provisioning after cloning:
+
+```bash
+bash scripts/vercel-setup-four-sites.sh
+```
+
+Or deploy all four from your machine (CLI must be logged in):
+
+```bash
+for p in asaf-portfolio asaf-portfolio-fullstack asaf-portfolio-pm asaf-portfolio-data; do
+  npx vercel deploy --prod --project "$p" --yes
+done
+```
+
 ## One-time Vercel setup (dashboard)
 
 For **each** of the four projects:
