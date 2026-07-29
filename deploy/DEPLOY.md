@@ -1,0 +1,76 @@
+# Four separate portfolio sites
+
+Each profile is a **standalone Vercel project** from this repo. The build env var
+`VITE_PORTFOLIO_LENS` locks the deploy to one lens: no tab switcher, no path to other
+profiles, root URL only.
+
+## Sites
+
+| Lens | Build command | Suggested Vercel project name |
+|------|---------------|-------------------------------|
+| Research | `npm run build:research` | `asaf-portfolio-research` |
+| Full-Stack | `npm run build:fullstack` | `asaf-portfolio-fullstack` |
+| PM / Founder | `npm run build:pm` | `asaf-portfolio-pm` |
+| Data | `npm run build:data` | `asaf-portfolio-data` |
+
+Each site also needs this **environment variable** (Production + Preview):
+
+```
+VITE_PORTFOLIO_LENS=research   # or fullstack | pm | data
+```
+
+The build scripts set it automatically; the Vercel env var is a belt-and-suspenders
+backup if you ever change the build command to plain `npm run build`.
+
+## One-time Vercel setup (dashboard)
+
+For **each** of the four projects:
+
+1. [vercel.com/new](https://vercel.com/new) → Import `Belilus/asaf-portfolio`
+2. **Project name** — use the name from the table above
+3. **Framework** — Vite
+4. **Build command** — e.g. `npm run build:research` (match the lens)
+5. **Environment variables** — `VITE_PORTFOLIO_LENS` = that lens id
+6. Deploy
+
+Repeat four times. You get four URLs, e.g.:
+
+```
+https://asaf-portfolio-research.vercel.app
+https://asaf-portfolio-fullstack.vercel.app
+https://asaf-portfolio-pm.vercel.app
+https://asaf-portfolio-data.vercel.app
+```
+
+Optional: add custom domains per role (`research.asaf.dev`, etc.) in each project’s
+**Settings → Domains**.
+
+## Migrate the existing combined site
+
+If `asaf-portfolio-ten.vercel.app` still shows all four tabs:
+
+1. Open that project in Vercel
+2. Set **Build command** → `npm run build:research` (or pick one lens and use the other
+   three as new projects)
+3. Add **VITE_PORTFOLIO_LENS** = `research`
+4. Redeploy
+
+Or delete/rename that project and use four fresh ones as above.
+
+## Local dev
+
+```bash
+npm run dev              # all four lenses + switcher (hub mode)
+npm run dev:pm           # PM-only site preview
+npm run dev:fullstack    # full-stack-only preview
+```
+
+## CLI deploy (optional)
+
+```bash
+npx vercel link          # once per project directory / .vercel project
+npm run build:research
+npx vercel --prod
+```
+
+Use a separate `.vercel` link (or `--cwd` + project) for each of the four Vercel projects.

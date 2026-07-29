@@ -28,10 +28,12 @@ function LaneBackdrop() {
 export function Hero({
   lens,
   showEducation = true,
+  showLensSwitcher = true,
   onLensChange,
 }: {
   lens: Lens
   showEducation?: boolean
+  showLensSwitcher?: boolean
   onLensChange: (id: Lens['id']) => void
 }) {
   return (
@@ -39,37 +41,41 @@ export function Hero({
       <LaneBackdrop />
 
       <div className="section-shell relative">
-        {/* ---- role lens switcher ---- */}
-        <div className="mb-10 animate-fade-in-up">
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.14em] text-muted-foreground">
-            Viewing as
-          </p>
-          <div
-            role="tablist"
-            aria-label="Choose the role framing for this portfolio"
-            className="inline-flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1 shadow-xs portal-card"
-          >
-            {lenses.map((l) => {
-              const active = l.id === lens.id
-              return (
-                <button
-                  key={l.id}
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => onLensChange(l.id)}
-                  className={`focus-ring rounded-md px-4 py-2.5 text-base font-medium transition-all duration-base ease-out-expo ${
-                    active
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'text-muted-foreground hover:bg-accent hover:text-foreground'
-                  }`}
-                >
-                  {l.label}
-                </button>
-              )
-            })}
+        {/* ---- role lens switcher (multi-lens dev/hub only) ---- */}
+        {showLensSwitcher ? (
+          <div className="mb-10 animate-fade-in-up">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Viewing as
+            </p>
+            <div
+              role="tablist"
+              aria-label="Choose the role framing for this portfolio"
+              className="inline-flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1 shadow-xs portal-card"
+            >
+              {lenses.map((l) => {
+                const active = l.id === lens.id
+                return (
+                  <button
+                    key={l.id}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => onLensChange(l.id)}
+                    className={`focus-ring rounded-md px-4 py-2.5 text-base font-medium transition-all duration-base ease-out-expo ${
+                      active
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                )
+              })}
+            </div>
+            <p className="mt-3 text-sm text-muted-foreground">{lens.blurb}</p>
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">{lens.blurb}</p>
-        </div>
+        ) : (
+          <p className="portal-eyebrow mb-10 animate-fade-in-up">{lens.label} portfolio</p>
+        )}
 
         {/* ---- identity ---- */}
         <div key={lens.id} className="animate-fade-in-up">

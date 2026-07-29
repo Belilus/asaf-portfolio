@@ -7,39 +7,60 @@ import { Nav } from './components/Nav'
 import { ProjectCase } from './components/ProjectCase'
 import { Skills } from './components/Skills'
 import { SectionHeading } from './components/primitives'
+import { applyLensPageMeta } from './content/lensMeta'
 import { layoutForLens } from './content/lensLayout'
 import type { LensId } from './content/profile'
 import { lenses } from './content/profile'
 import { projects } from './content/projects'
-import { lensFromUrl, pathForLens } from './lib/lensFromUrl'
+import { isSingleLensSite, pathForLens, resolveLensId } from './lib/lensFromUrl'
 
 const LENS_KEY = 'ab-portfolio-lens'
 const THEME_KEY = 'ab-portfolio-theme-v2'
 
 export default function App() {
+  const singleLens = isSingleLensSite()
+
   const [lensId, setLensId] = useState<LensId>(() =>
-    lensFromUrl(window.location.pathname, window.location.search),
+    resolveLensId(window.location.pathname, window.location.search),
   )
 
   const lens = useMemo(() => lenses.find((l) => l.id === lensId) ?? lenses[0], [lensId])
   const layout = useMemo(() => layoutForLens(lensId), [lensId])
 
   const handleLensChange = (id: LensId) => {
+    if (singleLens) return
     setLensId(id)
-    const path = pathForLens(id)
-    window.history.pushState(null, '', path)
+    window.history.pushState(null, '', pathForLens(id))
   }
 
   useEffect(() => {
+    if (singleLens) return
     const onPopState = () => {
-      setLensId(lensFromUrl(window.location.pathname, window.location.search))
+      setLensId(resolveLensId(window.location.pathname, window.location.search))
     }
     window.addEventListener('popstate', onPopState)
     return () => window.removeEventListener('popstate', onPopState)
-  }, [])
+  }, [singleLens])
 
   useEffect(() => {
+    if (singleLens) return
     localStorage.setItem(LENS_KEY, lensId)
+  }, [lensId, singleLens])
+
+  /** Single-lens deploys always live at `/` — strip legacy path/query lens URLs. */
+  useEffect(() => {
+    if (!singleLens) return
+    const { pathname, search } = window.location
+    const onRoot = pathname === '/' || pathname === ''
+    const hasLensQuery = new URLSearchParams(search).has('lens')
+    const onLegacyPath = /^\/(research|fullstack|pm|data)\/?$/.test(pathname)
+    if (!onRoot || hasLensQuery || onLegacyPath) {
+      window.history.replaceState(null, '', '/')
+    }
+  }, [singleLens])
+
+  useEffect(() => {
+    applyLensPageMeta(lensId)
   }, [lensId])
 
   const [deepWater, setDeepWater] = useState(() => {
@@ -78,6 +99,7 @@ export default function App() {
                   key="hero"
                   lens={lens}
                   showEducation={layout.hero.showEducation}
+                  showLensSwitcher={!singleLens}
                   onLensChange={handleLensChange}
                 />
               )
