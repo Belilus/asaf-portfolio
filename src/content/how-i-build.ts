@@ -1,12 +1,10 @@
-import type { LensId } from './profile'
+/** Lens-specific depth for the "How I build" section. */
+export type HowIBuildDepth = 'brief' | 'medium' | 'full'
 
 export interface HowIBuildBlock {
   title: string
   body: string
 }
-
-/** Lens-specific depth for the "How I build" section. */
-export type HowIBuildDepth = 'brief' | 'medium' | 'full'
 
 const shared: HowIBuildBlock[] = [
   {
@@ -34,29 +32,22 @@ const researchBrief: HowIBuildBlock[] = [
   },
 ]
 
-export const howIBuildMeta: Record<
-  LensId,
-  { depth: HowIBuildDepth; title: string; lead: string }
-> = {
-  research: {
-    depth: 'brief',
+export const howIBuildMeta = {
+  brief: {
     title: 'How I build',
     lead: 'Research is solo engineering with the same verification bar I use on production systems.',
   },
-  fullstack: {
-    depth: 'full',
-    title: 'How I build with AI',
-    lead: 'I designed the agent hierarchy and shared skills that let me ship a federation platform solo — AI as orchestrated tooling, not autopilot.',
-  },
-  data: {
-    depth: 'medium',
+  medium: {
     title: 'How I build data systems',
     lead: 'Ingestion pipelines, reconciliation queues, and error attribution — with agents and skills keeping multi-session work honest.',
   },
+  full: {
+    title: 'How I build with AI',
+    lead: 'I designed the agent hierarchy and shared skills that let me ship a federation platform solo — AI as orchestrated tooling, not autopilot.',
+  },
 }
 
-export function blocksForLens(lensId: LensId): HowIBuildBlock[] {
-  const depth = howIBuildMeta[lensId].depth
+export function blocksForDepth(depth: HowIBuildDepth): HowIBuildBlock[] {
   if (depth === 'brief') return researchBrief
   if (depth === 'medium') return shared.slice(0, 3)
   return shared

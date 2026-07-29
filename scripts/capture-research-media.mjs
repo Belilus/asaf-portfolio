@@ -24,6 +24,7 @@ const OUT_DIR = join(PORTFOLIO_ROOT, 'public', 'media')
 const LAB_ROOT = resolve(PORTFOLIO_ROOT, '../asaf-reaserch/misha_underwater_lab')
 const LAB_DOCS = join(LAB_ROOT, 'docs')
 const FRAME62_PNG = join(LAB_DOCS, 'presentation', 'frames', 'frame_62.png')
+const SPINE_PNG = join(LAB_DOCS, 'visuals', 'single_frame', 'lowerback_dekink_frame62.png')
 const INTERACTIVE_HTML = join(LAB_DOCS, 'visuals', 'single_frame', 'frame_62_interactive.html')
 
 function mime(path) {
@@ -61,6 +62,15 @@ async function copyLabThumbnail() {
   const dest = join(OUT_DIR, 'research-body-frame62.png')
   await copyFile(FRAME62_PNG, dest)
   console.log('copied lab thumbnail →', dest)
+
+  try {
+    const spineDest = join(OUT_DIR, 'research-spine-frame62.png')
+    await copyFile(SPINE_PNG, spineDest)
+    console.log('copied spine diagnostic →', spineDest)
+  } catch {
+    console.warn('spine image missing — run tools/lowerback_before_after.py in the lab')
+  }
+
   return dest
 }
 

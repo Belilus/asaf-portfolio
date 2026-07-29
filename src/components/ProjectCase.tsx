@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { LensId } from '../content/profile'
 import type { Project } from '../content/projects'
-import { getProjectEmphasis } from '../content/projects'
+import { getProjectEmphasis, mediaForLens } from '../content/projects'
 import { IconChevron, MediaPlaceholder } from './primitives'
 
 function toneClass(tone?: string) {
@@ -120,23 +120,38 @@ export function ProjectCase({
   const emphasis = getProjectEmphasis(project, lens)
   const isFull = emphasis === 'full'
   const isCompact = emphasis === 'compact'
+  const isProduct = emphasis === 'product'
 
-  const [open, setOpen] = useState(isFull)
+  const [open, setOpen] = useState(false)
 
   const highlights =
-    isCompact && project.compactHighlights
-      ? project.compactHighlights
-      : isCompact
-        ? project.highlights.slice(0, 2)
-        : project.highlights
+    isProduct && project.productHighlights
+      ? project.productHighlights
+      : isCompact && project.compactHighlights
+        ? project.compactHighlights
+        : isCompact
+          ? project.highlights.slice(0, 2)
+          : project.highlights
 
-  const mediaSlots = project.media.filter((m) => m.file)
-  const visibleMedia = isFull ? mediaSlots : mediaSlots.slice(0, 1)
+  const mediaSlots = mediaForLens(project, lens)
+  const visibleMedia = isProduct
+    ? mediaSlots.slice(0, 3)
+    : isFull
+      ? mediaSlots
+      : mediaSlots.slice(0, 1)
 
   const compactHeadings =
     project.compactSections ?? [project.sections[0]?.heading, project.sections[2]?.heading].filter(
       Boolean,
     ) as string[]
+
+  const productHeadings =
+    project.productSections ?? ['Product surface', 'Beyond the code']
+
+  const productMetrics =
+    project.productMetricsMax != null
+      ? { ...project.metrics, rows: project.metrics.rows.slice(0, project.productMetricsMax) }
+      : project.metrics
 
   return (
     <article id={project.id} className="scroll-mt-20 py-16 sm:py-24">
@@ -149,6 +164,9 @@ export function ProjectCase({
             <span className="portal-eyebrow">{project.eyebrow}</span>
             {isCompact && (
               <span className="chip border-primary/30 text-primary">Supporting project</span>
+            )}
+            {isProduct && (
+              <span className="chip border-primary/30 text-primary">Product case study</span>
             )}
           </div>
 
@@ -175,7 +193,7 @@ export function ProjectCase({
           </div>
         </div>
 
-        <ul className={`mb-12 grid gap-3 ${isFull ? 'sm:grid-cols-2' : ''}`}>
+        <ul className={`mb-12 grid gap-3 ${isFull || isProduct ? 'sm:grid-cols-2' : ''}`}>
           {highlights.map((h) => (
             <li key={h} className="portal-card flex gap-3 p-4">
               <span
@@ -186,6 +204,13 @@ export function ProjectCase({
             </li>
           ))}
         </ul>
+
+        {isProduct && (
+          <div className="mb-12 grid gap-6 lg:grid-cols-2 lg:items-start">
+            <MetricTable metrics={productMetrics} />
+            <InlineSections project={project} headings={productHeadings} />
+          </div>
+        )}
 
         {isFull && (
           <div className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-start">
@@ -206,7 +231,7 @@ export function ProjectCase({
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               {project.id === 'research' ? 'Diagrams & result graphs' : 'Screenshots & demo'}
             </p>
-            <div className={`grid gap-4 ${isFull && visibleMedia.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+            <div className={`grid gap-4 ${(isFull || isProduct) && visibleMedia.length > 1 ? 'sm:grid-cols-2' : ''}`}>
               {visibleMedia.map((m, i) => (
                 <div
                   key={m.caption}
@@ -297,6 +322,15 @@ export function ProjectCase({
               <p className="text-base leading-relaxed text-muted-foreground">{project.status}</p>
             </aside>
           </div>
+        )}
+
+        {isProduct && (
+          <aside className="portal-card p-5">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+              Current status
+            </p>
+            <p className="text-base leading-relaxed text-muted-foreground">{project.status}</p>
+          </aside>
         )}
 
         {isCompact && (

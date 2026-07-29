@@ -1,34 +1,57 @@
 import { useEffect, useState } from 'react'
+import type { LensLayout } from '../content/lensLayout'
 import type { LensId } from '../content/profile'
 import { IconMoon, IconSun } from './primitives'
 import { profile } from '../content/profile'
 import { getProjectEmphasis, projects } from '../content/projects'
 
-function navLinksForLens(lensId: LensId) {
-  const base = [
-    { href: '#skills', label: 'Skills' },
-    { href: '#contact', label: 'Contact' },
-  ]
-  const projectLinks = projects
-    .filter((p) => getProjectEmphasis(p, lensId) !== 'hidden')
-    .map((p) => ({
-      href: `#${p.id}`,
-      label: p.id === 'research' ? 'Research' : 'SwimEdge',
-    }))
-  return [...projectLinks, ...base]
+function navLinksForLens(lensId: LensId, layout: LensLayout) {
+  const links: { href: string; label: string }[] = []
+
+  if (layout.sections.includes('project-research')) {
+    links.push({ href: '#research', label: 'Research' })
+  }
+  if (layout.sections.includes('project-swimedge')) {
+    links.push({ href: '#swimedge', label: 'SwimEdge' })
+  }
+  if (layout.sections.includes('agents')) {
+    links.push({ href: '#agents', label: 'Agents' })
+  }
+  if (layout.sections.includes('how-i-build')) {
+    links.push({ href: '#how-i-build', label: 'How I build' })
+  }
+  if (layout.sections.includes('skills')) {
+    links.push({ href: '#skills', label: 'Skills' })
+  }
+  links.push({ href: '#contact', label: 'Contact' })
+
+  // Fallback if layout is empty
+  if (links.length === 1) {
+    return projects
+      .filter((p) => getProjectEmphasis(p, lensId) !== 'hidden')
+      .map((p) => ({
+        href: `#${p.id}`,
+        label: p.id === 'research' ? 'Research' : 'SwimEdge',
+      }))
+      .concat([{ href: '#contact', label: 'Contact' }])
+  }
+
+  return links
 }
 
 export function Nav({
   deepWater,
   lensId,
+  layout,
   onToggle,
 }: {
   deepWater: boolean
   lensId: LensId
+  layout: LensLayout
   onToggle: () => void
 }) {
   const [scrolled, setScrolled] = useState(false)
-  const links = navLinksForLens(lensId)
+  const links = navLinksForLens(lensId, layout)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)

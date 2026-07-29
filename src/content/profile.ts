@@ -1,9 +1,9 @@
 /**
  * Identity, contact, and the role-lens model.
  *
- * The "lens" is the mechanism that replaces maintaining six separate portfolios:
- * one site, one URL, and a switcher that reframes the headline, the bio, the
- * order in which projects appear, and which resume the download button serves.
+ * The "lens" is the mechanism that replaces maintaining separate portfolios:
+ * one site, four shareable URLs, and a switcher that reframes headline, bio,
+ * section order, and which resume the download button serves.
  */
 
 export const profile = {
@@ -17,7 +17,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/asaf-belilus',
 } as const
 
-export type LensId = 'research' | 'fullstack' | 'data'
+export type LensId = 'research' | 'fullstack' | 'pm' | 'data'
 
 export interface Lens {
   id: LensId
@@ -47,7 +47,7 @@ export const lenses: Lens[] = [
       'The work sits between two faculties and two disciplines — computer vision on the input side, rigid-body kinematics and nonlinear optimization on the modeling side. What I care about most is knowing which part of an error is my code and which part is the data, and being able to prove the difference.',
     ],
     stats: [
-      { value: '2.1 mm', label: 'best-frame REALITY', note: 'lower-bound recipe; honest frame 60 ~6.6 mm' },
+      { value: '2.1 mm', label: 'best-frame REALITY', note: 'lower-bound recipe; honest frame 60 6.8 mm' },
       { value: '46', label: 'regression tests', note: 'golden-file byte-diff, ~1 s to run' },
       { value: '95', label: 'current M.Sc. GPA', note: 'Ben-Gurion University of the Negev' },
     ],
@@ -66,10 +66,27 @@ export const lenses: Lens[] = [
     stats: [
       { value: '45.7k', label: 'lines shipped solo', note: '18.1k Java · 27.5k TypeScript' },
       { value: '6', label: 'role-based workflows', note: 'admin, federation, club, coach, official, swimmer' },
-      { value: '23', label: 'versioned migrations', note: 'Flyway, zero destructive edits' },
+      { value: '579', label: 'backend tests', note: 'JUnit + Testcontainers before merge' },
     ],
-    projectVisibility: ['swimedge', 'research'],
+    projectVisibility: ['swimedge'],
     resume: { label: 'Full-Stack CV', file: 'Asaf-Belilus-Fullstack.pdf' },
+  },
+  {
+    id: 'pm',
+    label: 'PM / Founder',
+    blurb: 'For product management and founder-track roles.',
+    headline: 'Solo Product Founder · SwimEdge · Federation Platform',
+    bio: [
+      'I built SwimEdge because I lived the problem — as a competitive swimmer at BGU and a coach at Wingate, I watched clubs run national meets on spreadsheets and swimmers lose history when they changed clubs. The product is a governed system of record for the whole competition lifecycle: registration, seeding, live results, and career analytics that follow athletes across clubs.',
+      'As a solo founder I own vision, stakeholder conversations, and what ships. I have taken SwimEdge into direct engagement with the Israel Swimming Association and the Ministry of Culture and Sport, alongside a competitor analysis and demo-readiness audit. The engineering is real — but this lens is about the product decisions, users, and federation trust that make the code matter.',
+    ],
+    stats: [
+      { value: '6', label: 'role-based workflows', note: 'federation, club, coach, official, swimmer, public' },
+      { value: 'ISA', label: 'federation engagement', note: 'direct conversations + demo readiness' },
+      { value: 'Solo', label: 'founder & engineer', note: 'vision through production UI' },
+    ],
+    projectVisibility: ['swimedge'],
+    resume: { label: 'Product CV', file: 'Asaf-Belilus-PM.pdf' },
   },
   {
     id: 'data',

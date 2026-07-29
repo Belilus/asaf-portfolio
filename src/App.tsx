@@ -1,41 +1,42 @@
 import { useEffect, useMemo, useState } from 'react'
+import { AgentOrchestration } from './components/AgentOrchestration'
 import { Contact, Footer } from './components/Contact'
 import { Hero } from './components/Hero'
+import { HowIBuild } from './components/HowIBuild'
 import { Nav } from './components/Nav'
 import { ProjectCase } from './components/ProjectCase'
 import { Skills } from './components/Skills'
 import { SectionHeading } from './components/primitives'
+import { layoutForLens } from './content/lensLayout'
 import type { LensId } from './content/profile'
 import { lenses } from './content/profile'
-import { visibleProjectsForLens } from './content/projects'
+import { projects } from './content/projects'
+import { lensFromUrl, pathForLens } from './lib/lensFromUrl'
 
 const LENS_KEY = 'ab-portfolio-lens'
 const THEME_KEY = 'ab-portfolio-theme-v2'
 
-const featuredCopy: Record<LensId, { title: string; lead: string }> = {
-  research: {
-    title: 'M.Sc. research — measurement, not guesswork',
-    lead: 'A cross-faculty pipeline reconstructing underwater pose into hydrodynamic simulation input — with an error budget that proves what is fixable and what is not.',
-  },
-  fullstack: {
-    title: 'Two systems, built end to end',
-    lead: 'A federation platform I architected solo, and a research pipeline engineered with the same verification discipline. Both repositories are private — the case studies carry the technical detail.',
-  },
-  data: {
-    title: 'Governed data at federation scale',
-    lead: 'SwimEdge ingestion and attribution are the headline; the research pipeline applies the same reconciliation instinct to motion-capture error.',
-  },
-}
-
 export default function App() {
-  const [lensId, setLensId] = useState<LensId>(() => {
-    const stored = localStorage.getItem(LENS_KEY) as LensId | null
-    const fromUrl = new URLSearchParams(window.location.search).get('lens') as LensId | null
-    const candidate = fromUrl ?? stored
-    return lenses.some((l) => l.id === candidate) ? (candidate as LensId) : 'research'
-  })
+  const [lensId, setLensId] = useState<LensId>(() =>
+    lensFromUrl(window.location.pathname, window.location.search),
+  )
 
   const lens = useMemo(() => lenses.find((l) => l.id === lensId) ?? lenses[0], [lensId])
+  const layout = useMemo(() => layoutForLens(lensId), [lensId])
+
+  const handleLensChange = (id: LensId) => {
+    setLensId(id)
+    const path = pathForLens(id)
+    window.history.pushState(null, '', path)
+  }
+
+  useEffect(() => {
+    const onPopState = () => {
+      setLensId(lensFromUrl(window.location.pathname, window.location.search))
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   useEffect(() => {
     localStorage.setItem(LENS_KEY, lensId)
@@ -52,8 +53,8 @@ export default function App() {
     document.documentElement.classList.toggle('dark', !deepWater)
   }, [deepWater])
 
-  const ordered = useMemo(() => visibleProjectsForLens(lensId), [lensId])
-  const featured = featuredCopy[lensId]
+  const researchProject = projects.find((p) => p.id === 'research')
+  const swimedgeProject = projects.find((p) => p.id === 'swimedge')
 
   return (
     <div
@@ -66,25 +67,63 @@ export default function App() {
         Skip to content
       </a>
 
-      <Nav deepWater={deepWater} lensId={lensId} onToggle={() => setDeepWater((v) => !v)} />
+      <Nav deepWater={deepWater} lensId={lensId} layout={layout} onToggle={() => setDeepWater((v) => !v)} />
 
       <main>
-        <Hero lens={lens} onLensChange={setLensId} />
-
-        <div className="lane-rule" />
-
-        <section className="pt-16 sm:pt-24">
-          <div className="section-shell">
-            <SectionHeading eyebrow="Featured Work" title={featured.title} lead={featured.lead} />
-          </div>
-        </section>
-
-        {ordered.map((p, i) => (
-          <ProjectCase key={p.id} project={p} lens={lensId} index={i} />
-        ))}
-
-        <Skills lensId={lensId} />
-        <Contact lens={lens} />
+        {layout.sections.map((section) => {
+          switch (section) {
+            case 'hero':
+              return (
+                <Hero
+                  key="hero"
+                  lens={lens}
+                  showEducation={layout.hero.showEducation}
+                  onLensChange={handleLensChange}
+                />
+              )
+            case 'featured':
+              return (
+                <div key="featured">
+                  <div className="lane-rule" />
+                  <section className="pt-16 sm:pt-24">
+                    <div className="section-shell">
+                      <SectionHeading
+                        eyebrow={layout.featured.eyebrow}
+                        title={layout.featured.title}
+                        lead={layout.featured.lead}
+                      />
+                    </div>
+                  </section>
+                </div>
+              )
+            case 'project-research':
+              return researchProject ? (
+                <ProjectCase key="project-research" project={researchProject} lens={lensId} index={0} />
+              ) : null
+            case 'project-swimedge':
+              return swimedgeProject ? (
+                <ProjectCase key="project-swimedge" project={swimedgeProject} lens={lensId} index={0} />
+              ) : null
+            case 'agents':
+              return lensId === 'fullstack' || lensId === 'pm' ? (
+                <AgentOrchestration key="agents" lensId={lensId} />
+              ) : null
+            case 'how-i-build':
+              return <HowIBuild key="how-i-build" depth={layout.howIBuildDepth} />
+            case 'skills':
+              return (
+                <Skills
+                  key="skills"
+                  skillGroupTitles={layout.skillGroups}
+                  showPrinciples={lensId !== 'pm'}
+                />
+              )
+            case 'contact':
+              return <Contact key="contact" lens={lens} layout={layout.contact} />
+            default:
+              return null
+          }
+        })}
       </main>
 
       <Footer />

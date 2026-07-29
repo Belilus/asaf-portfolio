@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(research|fullstack|pm|data)", "destination": "/index.html" }
+  ]
+}

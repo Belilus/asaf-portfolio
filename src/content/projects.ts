@@ -9,7 +9,7 @@
 
 import { lenses, type LensId } from './profile'
 
-export type ProjectEmphasis = 'full' | 'compact' | 'hidden'
+export type ProjectEmphasis = 'full' | 'compact' | 'product' | 'hidden'
 
 export interface MetricRow {
   label: string
@@ -31,6 +31,8 @@ export interface MediaSlot {
   caption: string
   hint: string
   aspect?: 'wide' | 'tall' | 'square'
+  /** If set, only these lenses show this slot. */
+  lenses?: LensId[]
 }
 
 export interface Project {
@@ -50,6 +52,11 @@ export interface Project {
   compactHighlights?: string[]
   /** Section headings shown inline in compact mode (no accordion). */
   compactSections?: string[]
+  /** Product-tier highlights and sections (PM lens). */
+  productHighlights?: string[]
+  productSections?: string[]
+  /** Cap metrics rows in product tier. */
+  productMetricsMax?: number
   sections: { heading: string; body: string[] }[]
   architecture: { title: string; note: string; stages: ArchStage[] }
   metrics: { title: string; note: string; rows: MetricRow[] }
@@ -79,16 +86,19 @@ export const projects: Project[] = [
         'A cross-faculty project bridging computer vision and control theory. The contribution is not only the reconstruction pipeline but the error budget that separates modeling error from the definitional limits of the marker set.',
       fullstack:
         'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a 46-test golden-file harness that byte-diffs every refactor against a frozen baseline.',
+      pm:
+        'The measurement discipline behind SwimEdge: I learned to split code error from data error on this project before applying the same instinct to federation ingestion.',
       data:
         'A measurement pipeline whose real output is an attribution table: nine distinct error causes, each classified as code, data, or irreducible, with live millimetre figures regenerated from the run artifacts.',
     },
     emphasis: {
       research: 'full',
       fullstack: 'compact',
+      pm: 'hidden',
       data: 'compact',
     },
     compactHighlights: [
-      'Packed 43 underwater frames into SWUM Euler REALITY with a staged error budget — best full-body fit 2.1 mm (honest frame 60: ~6.6 mm).',
+      'Packed 43 underwater frames into SWUM Euler REALITY with a staged error budget — best full-body fit 2.1 mm (honest frame 60: 6.8 mm).',
       '46-test golden-file harness — every refactor must byte-diff engine output against a frozen baseline.',
     ],
     compactSections: ['Key results', 'Engineering rigor'],
@@ -113,7 +123,7 @@ export const projects: Project[] = [
         heading: 'Key results',
         body: [
           'Across 43 fully-underwater frames, staged fitting drives trunk error to exactly 0.0 mm on every frame once segment lengths are measured from the pose. Full-body REALITY ranges from 2.1 mm on the best frame (60, lower-bound recipe) to 9.5 mm at high torso roll (146); frame 62 reaches 2.4 mm as the documented lower bound.',
-          'Honest vs lower-bound framing matters: frame 60 at ~6.6 mm uses only measured rotations with no extra fitted shoulder depth; the 2.1 mm figure requires the full recipe (pelvis short, hip geometry, trunk geometry, shoulder clavicle fit). Both numbers are published — neither over-claims the other.',
+          'Honest vs lower-bound framing matters: frame 60 at 6.8 mm uses only measured rotations with no extra fitted shoulder depth; the 2.1 mm figure requires the full recipe (pelvis short, hip geometry, trunk geometry, shoulder clavicle fit). Both numbers are published — neither over-claims the other.',
           'Five systematic modeling defects were found by probing rather than guessing; four are fixed (template trunk lengths, hip width, degenerate ±15° bounds at roll). The result I consider most valuable is negative: 0 mm on every joint is not achievable with this marker set, and the error budget proves why — skin markers sit 2–6 mm from joint centres, and above-water arms are absent from the capture.',
         ],
       },
@@ -180,7 +190,7 @@ export const projects: Project[] = [
       rows: [
         { label: 'Best frame, lower bound (62)', value: '2.4 mm', hint: 'full recipe with clavicle fit', tone: 'improve' },
         { label: 'Best frame, recipe (60)', value: '2.1 mm', hint: 'showcase stroke window', tone: 'improve' },
-        { label: 'Honest frame (60, no extra fit)', value: '~6.6 mm', hint: 'measured rotations only', tone: 'neutral' },
+        { label: 'Honest frame (60, no extra fit)', value: '6.8 mm', hint: 'measured rotations only', tone: 'neutral' },
         { label: 'Trunk after geometry fit', value: '0.0 mm', hint: 'all 43 underwater frames', tone: 'improve' },
         { label: 'Worst frame, high roll (146)', value: '9.5 mm', hint: 'hips + shoulder asymmetry', tone: 'warn' },
         { label: 'Underwater frame bank', value: '43 frames', hint: 'fully submerged captures', tone: 'neutral' },
@@ -197,7 +207,7 @@ export const projects: Project[] = [
       { group: 'Workflow', items: ['Git', 'Cross-platform Mac / Windows split', 'Matplotlib'] },
     ],
     highlights: [
-      'Packed 43 underwater frames into SWUM Euler REALITY with trunk at 0.0 mm everywhere — best full-body fit 2.1 mm, honest floor documented at ~6.6 mm.',
+      'Packed 43 underwater frames into SWUM Euler REALITY with trunk at 0.0 mm everywhere — best full-body fit 2.1 mm, honest floor documented at 6.8 mm.',
       'Proved 0 mm is not achievable with Misha_7: nine-cause error budget separates code fixes from irreducible data limits.',
       'Diagnosed and fixed four systematic modeling defects — including degenerate ±15° bounds that silently clamped legs and shoulders at roll.',
       'Enforced correctness with a 46-test suite that byte-diffs engine inputs against a frozen baseline on every refactor.',
@@ -208,6 +218,14 @@ export const projects: Project[] = [
         caption: 'Fitted stick model vs. motion capture',
         hint: 'Frame 62 — profile and lean views, 2.4 mm full-body REALITY (lower bound)',
         aspect: 'wide',
+        lenses: ['research'],
+      },
+      {
+        file: 'research-spine-frame62.png',
+        caption: 'Spine alignment at frame 62',
+        hint: 'Lower-back de-kink diagnostic — body kinematics only',
+        aspect: 'wide',
+        lenses: ['research'],
       },
     ],
     status:
@@ -231,14 +249,25 @@ export const projects: Project[] = [
         'The applied counterpart to my research: the same insistence on traceable data. Every imported result carries its lineage, and nothing that cannot be attributed with confidence is allowed to silently become a fact.',
       fullstack:
         'A complete client–server system designed and built alone — 30 REST controllers over 40 service classes and a 23-migration Postgres schema, fronted by a bilingual RTL React application with six distinct role-based workflows.',
+      pm:
+        'A solo product bet on federation trust: six stakeholder workflows, public archive, identity claims, and held-result resolution — shaped by years inside the sport as swimmer and coach.',
       data:
         'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
     },
     emphasis: {
       research: 'hidden',
       fullstack: 'full',
+      pm: 'product',
       data: 'full',
     },
+    productHighlights: [
+      'Six role-based workflows — federation, club, coach, official, swimmer, and public archive — each seeing the data they own.',
+      'Shipped public competition archive and identity claim / held-result resolution (V22–V23).',
+      'Direct federation engagement with ISA and Ministry of Culture and Sport on modernising national sport technology.',
+      'Solo founder: vision, stakeholder conversations, and production UI — not a slide deck.',
+    ],
+    productSections: ['Product surface', 'Beyond the code'],
+    productMetricsMax: 3,
     sections: [
       {
         heading: 'The problem',
@@ -365,18 +394,42 @@ export const projects: Project[] = [
         caption: 'Public competition archive',
         hint: 'Browse historical meet results without logging in',
         aspect: 'wide',
+        lenses: ['fullstack', 'pm', 'data'],
       },
       {
         file: 'swimedge-dashboard.png',
         caption: 'Competition dashboard',
         hint: 'Manager competition detail — start lists, results, progression',
         aspect: 'wide',
+        lenses: ['fullstack', 'pm'],
       },
       {
         file: 'swimedge-claims.png',
         caption: 'Held-result resolution',
         hint: 'Federation queue for unattributed archived results',
         aspect: 'square',
+        lenses: ['fullstack', 'data'],
+      },
+      {
+        file: 'swimedge-approvals.png',
+        caption: 'Federation approvals queue',
+        hint: 'Swimmer claim review for federation admins',
+        aspect: 'wide',
+        lenses: ['pm'],
+      },
+      {
+        file: 'swimedge-held-results.png',
+        caption: 'Held-results operations',
+        hint: 'Federation ops — unattributed results awaiting resolution',
+        aspect: 'wide',
+        lenses: ['data'],
+      },
+      {
+        file: 'swimedge-career-hub.png',
+        caption: 'Swimmer career hub',
+        hint: 'Personal bests and progression across club changes',
+        aspect: 'wide',
+        lenses: ['fullstack'],
       },
     ],
     status:
@@ -386,6 +439,14 @@ export const projects: Project[] = [
 
 export function getProjectEmphasis(project: Project, lens: LensId): ProjectEmphasis {
   return project.emphasis[lens]
+}
+
+export function mediaForLens(project: Project, lens: LensId): Project['media'] {
+  return project.media.filter((m) => {
+    if (!m.file) return false
+    if (!m.lenses) return true
+    return m.lenses.includes(lens)
+  })
 }
 
 export function visibleProjectsForLens(lensId: LensId) {

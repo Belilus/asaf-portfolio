@@ -1,6 +1,6 @@
 import type { Lens } from '../content/profile'
 import { education, lenses, profile } from '../content/profile'
-import { Button, IconDownload, IconGitHub, IconLinkedIn, IconMail } from './primitives'
+import { Button, IconDownload, IconMail } from './primitives'
 
 /** Decorative lane-rope field — echoes the SwimEdge Deep Water identity. */
 function LaneBackdrop() {
@@ -27,9 +27,11 @@ function LaneBackdrop() {
 
 export function Hero({
   lens,
+  showEducation = true,
   onLensChange,
 }: {
   lens: Lens
+  showEducation?: boolean
   onLensChange: (id: Lens['id']) => void
 }) {
   return (
@@ -90,14 +92,6 @@ export function Hero({
               <IconMail />
               Email me
             </Button>
-            <Button href={profile.linkedin}>
-              <IconLinkedIn />
-              LinkedIn
-            </Button>
-            <Button href={profile.github}>
-              <IconGitHub />
-              GitHub
-            </Button>
             <Button
               href={`${import.meta.env.BASE_URL}resume/${lens.resume.file}`}
               download
@@ -120,18 +114,20 @@ export function Hero({
           </dl>
 
           {/* ---- education ---- */}
-          <div className="mt-8 flex flex-col gap-3 text-base sm:flex-row sm:flex-wrap sm:gap-8">
-            {education.map((e) => (
-              <div key={e.degree} className="flex gap-3">
-                <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <div>
-                  <p className="font-medium">{e.degree}</p>
-                  <p className="text-muted-foreground">{e.detail}</p>
-                  <p className="font-data text-sm text-muted-foreground/80">{e.period}</p>
+          {showEducation && (
+            <div className="mt-8 flex flex-col gap-3 text-base sm:flex-row sm:flex-wrap sm:gap-8">
+              {education.map((e) => (
+                <div key={e.degree} className="flex gap-3">
+                  <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <div>
+                    <p className="font-medium">{e.degree}</p>
+                    <p className="text-muted-foreground">{e.detail}</p>
+                    <p className="font-data text-sm text-muted-foreground/80">{e.period}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </header>
