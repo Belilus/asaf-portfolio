@@ -173,13 +173,14 @@ export function MediaPlaceholder({
 }) {
   if (file) {
     return (
-      <figure className="group overflow-hidden rounded-lg border border-border bg-muted/30 shadow-sm">
+      <figure className="group rounded-lg border border-border bg-muted/30 shadow-sm">
         <div className="flex items-center justify-center bg-muted/20 p-2 sm:p-4">
           <img
             src={`${import.meta.env.BASE_URL}media/${file}`}
             alt={caption}
             loading="lazy"
-            className="h-auto w-full max-w-full object-contain transition-transform duration-slow ease-out-expo group-hover:scale-[1.005]"
+            style={{ objectFit: 'contain' }}
+            className="h-auto w-full max-w-full transition-transform duration-slow ease-out-expo group-hover:scale-[1.005]"
           />
         </div>
         <figcaption className="border-t border-border px-4 py-3">
