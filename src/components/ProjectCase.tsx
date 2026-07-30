@@ -231,7 +231,7 @@ export function ProjectCase({
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               {project.id === 'research' ? 'Diagrams & result graphs' : 'Screenshots & demo'}
             </p>
-            <div className={`grid gap-4 ${(isFull || isProduct) && visibleMedia.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+            <div className="grid gap-6">
               {visibleMedia.map((m, i) => (
                 <div
                   key={m.caption}

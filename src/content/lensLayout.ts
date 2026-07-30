@@ -71,7 +71,7 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     featured: {
       eyebrow: 'Featured work',
       title: 'SwimEdge — solo full-stack platform',
-      lead: 'End-to-end competition management for Israeli swimming: ingestion, attribution, bilingual RTL UI, and a synchronized agent network.',
+      lead: 'Production client–server system: Spring Boot API, React/TypeScript UI, Postgres migrations, bilingual interface, and a synchronized agent network for solo delivery.',
     },
   },
   pm: {
@@ -83,7 +83,7 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     featured: {
       eyebrow: 'Product',
       title: 'A federation platform built from the pool deck',
-      lead: 'SwimEdge is the product I would have wanted as a swimmer and coach — governed records, identity that follows athletes, and workflows for every stakeholder.',
+      lead: 'Solo product bet on trust at scale — six stakeholder workflows, public archive, identity claims, and federation engagement. Built and shipped in English-first UI for demos and international stakeholders.',
     },
   },
   data: {

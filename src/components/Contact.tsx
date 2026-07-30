@@ -1,6 +1,7 @@
 import type { LensLayout } from '../content/lensLayout'
 import type { Lens } from '../content/profile'
 import { alsoDoing, education, profile } from '../content/profile'
+import { ShareCard } from './ShareCard'
 import { Button, IconGitHub, IconLinkedIn, IconMail, SectionHeading } from './primitives'
 
 const contactLeads: Record<Lens['id'], string> = {
@@ -17,6 +18,10 @@ export function Contact({ lens, layout }: { lens: Lens; layout: LensLayout['cont
     <section id="contact" className="scroll-mt-20 border-t border-border py-16 sm:py-24">
       <div className="section-shell">
         <SectionHeading eyebrow="Contact" title="Let’s talk" lead={contactLeads[lens.id]} />
+
+        <div className="mb-10">
+          <ShareCard lensId={lens.id} />
+        </div>
 
         <div className={`grid gap-10 ${layout.showAlso ? 'lg:grid-cols-[1.1fr_1fr]' : ''}`}>
           <div>

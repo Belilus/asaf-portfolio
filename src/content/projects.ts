@@ -30,7 +30,7 @@ export interface MediaSlot {
   file?: string
   caption: string
   hint: string
-  aspect?: 'wide' | 'tall' | 'square'
+  aspect?: 'wide' | 'tall' | 'square' | 'auto'
   /** If set, only these lenses show this slot. */
   lenses?: LensId[]
 }
@@ -217,14 +217,14 @@ export const projects: Project[] = [
         file: 'research-body-frame62.png',
         caption: 'Fitted stick model vs. motion capture',
         hint: 'Frame 62 — profile and lean views, 2.4 mm full-body REALITY (lower bound)',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['research'],
       },
       {
         file: 'research-spine-frame62.png',
         caption: 'Spine alignment at frame 62',
         hint: 'Lower-back de-kink diagnostic — body kinematics only',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['research'],
       },
     ],
@@ -393,42 +393,42 @@ export const projects: Project[] = [
         file: 'swimedge-archive.png',
         caption: 'Public competition archive',
         hint: 'Browse historical meet results without logging in',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['fullstack', 'pm', 'data'],
       },
       {
         file: 'swimedge-dashboard.png',
         caption: 'Competition dashboard',
         hint: 'Manager competition detail — start lists, results, progression',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['fullstack', 'pm'],
       },
       {
         file: 'swimedge-claims.png',
         caption: 'Held-result resolution',
         hint: 'Federation queue for unattributed archived results',
-        aspect: 'square',
+        aspect: 'auto',
         lenses: ['fullstack', 'data'],
       },
       {
         file: 'swimedge-approvals.png',
         caption: 'Federation approvals queue',
         hint: 'Swimmer claim review for federation admins',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['pm'],
       },
       {
         file: 'swimedge-held-results.png',
         caption: 'Held-results operations',
         hint: 'Federation ops — unattributed results awaiting resolution',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['data'],
       },
       {
         file: 'swimedge-career-hub.png',
         caption: 'Swimmer career hub',
         hint: 'Personal bests and progression across club changes',
-        aspect: 'wide',
+        aspect: 'auto',
         lenses: ['fullstack'],
       },
     ],

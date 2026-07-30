@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { AgentOrchestration } from './components/AgentOrchestration'
 import { Contact, Footer } from './components/Contact'
 import { Hero } from './components/Hero'
 import { HowIBuild } from './components/HowIBuild'
 import { Nav } from './components/Nav'
 import { ProjectCase } from './components/ProjectCase'
+import { SectionReveal } from './components/SectionReveal'
 import { Skills } from './components/Skills'
 import { SectionHeading } from './components/primitives'
 import { applyLensPageMeta } from './content/lensMeta'
@@ -16,6 +17,10 @@ import { isSingleLensSite, pathForLens, resolveLensId } from './lib/lensFromUrl'
 
 const LENS_KEY = 'ab-portfolio-lens'
 const THEME_KEY = 'ab-portfolio-theme-v2'
+
+function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+  return <SectionReveal delay={delay}>{children}</SectionReveal>
+}
 
 export default function App() {
   const singleLens = isSingleLensSite()
@@ -47,7 +52,6 @@ export default function App() {
     localStorage.setItem(LENS_KEY, lensId)
   }, [lensId, singleLens])
 
-  /** Single-lens deploys always live at `/` — strip legacy path/query lens URLs. */
   useEffect(() => {
     if (!singleLens) return
     const { pathname, search } = window.location
@@ -77,6 +81,13 @@ export default function App() {
   const researchProject = projects.find((p) => p.id === 'research')
   const swimedgeProject = projects.find((p) => p.id === 'swimedge')
 
+  let revealIndex = 0
+  const nextDelay = () => {
+    const d = revealIndex * 60
+    revealIndex += 1
+    return d
+  }
+
   return (
     <div
       className={`min-h-screen antialiased ${deepWater ? 'track-deep bg-background text-foreground' : 'bg-background text-foreground'}`}
@@ -105,7 +116,7 @@ export default function App() {
               )
             case 'featured':
               return (
-                <div key="featured">
+                <Reveal key="featured" delay={nextDelay()}>
                   <div className="lane-rule" />
                   <section className="pt-16 sm:pt-24">
                     <div className="section-shell">
@@ -116,32 +127,44 @@ export default function App() {
                       />
                     </div>
                   </section>
-                </div>
+                </Reveal>
               )
             case 'project-research':
               return researchProject ? (
-                <ProjectCase key="project-research" project={researchProject} lens={lensId} index={0} />
+                <Reveal key="project-research" delay={nextDelay()}>
+                  <ProjectCase project={researchProject} lens={lensId} index={0} />
+                </Reveal>
               ) : null
             case 'project-swimedge':
               return swimedgeProject ? (
-                <ProjectCase key="project-swimedge" project={swimedgeProject} lens={lensId} index={0} />
+                <Reveal key="project-swimedge" delay={nextDelay()}>
+                  <ProjectCase project={swimedgeProject} lens={lensId} index={0} />
+                </Reveal>
               ) : null
             case 'agents':
               return lensId === 'fullstack' || lensId === 'pm' ? (
-                <AgentOrchestration key="agents" lensId={lensId} />
+                <Reveal key="agents" delay={nextDelay()}>
+                  <AgentOrchestration lensId={lensId} />
+                </Reveal>
               ) : null
             case 'how-i-build':
-              return <HowIBuild key="how-i-build" depth={layout.howIBuildDepth} />
+              return (
+                <Reveal key="how-i-build" delay={nextDelay()}>
+                  <HowIBuild depth={layout.howIBuildDepth} />
+                </Reveal>
+              )
             case 'skills':
               return (
-                <Skills
-                  key="skills"
-                  skillGroupTitles={layout.skillGroups}
-                  showPrinciples={lensId !== 'pm'}
-                />
+                <Reveal key="skills" delay={nextDelay()}>
+                  <Skills skillGroupTitles={layout.skillGroups} showPrinciples={lensId !== 'pm'} />
+                </Reveal>
               )
             case 'contact':
-              return <Contact key="contact" lens={lens} layout={layout.contact} />
+              return (
+                <Reveal key="contact" delay={nextDelay()}>
+                  <Contact lens={lens} layout={layout.contact} />
+                </Reveal>
+              )
             default:
               return null
           }

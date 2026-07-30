@@ -169,26 +169,35 @@ export function MediaPlaceholder({
   file?: string
   caption: string
   hint: string
-  aspect?: 'wide' | 'tall' | 'square'
+  aspect?: 'wide' | 'tall' | 'square' | 'auto'
 }) {
-  const ratio =
-    aspect === 'wide' ? 'aspect-[16/9]' : aspect === 'tall' ? 'aspect-[3/4]' : 'aspect-[4/3]'
-
   if (file) {
     return (
-      <figure className="group overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-        <img
-          src={`${import.meta.env.BASE_URL}media/${file}`}
-          alt={caption}
-          loading="lazy"
-          className={`${ratio} w-full object-cover transition-transform duration-slow ease-out-expo group-hover:scale-[1.02]`}
-        />
-        <figcaption className="border-t border-border px-4 py-3 text-sm text-muted-foreground">
-          {caption}
+      <figure className="group overflow-hidden rounded-lg border border-border bg-muted/30 shadow-sm">
+        <div className="flex items-center justify-center bg-muted/20 p-2 sm:p-4">
+          <img
+            src={`${import.meta.env.BASE_URL}media/${file}`}
+            alt={caption}
+            loading="lazy"
+            className="h-auto w-full max-w-full object-contain transition-transform duration-slow ease-out-expo group-hover:scale-[1.005]"
+          />
+        </div>
+        <figcaption className="border-t border-border px-4 py-3">
+          <p className="text-sm font-medium text-foreground/90">{caption}</p>
+          {hint && <p className="mt-0.5 text-sm text-muted-foreground">{hint}</p>}
         </figcaption>
       </figure>
     )
   }
+
+  const ratio =
+    aspect === 'auto'
+      ? 'min-h-[12rem]'
+      : aspect === 'wide'
+        ? 'aspect-[16/9]'
+        : aspect === 'tall'
+          ? 'aspect-[3/4]'
+          : 'aspect-[4/3]'
 
   return (
     <figure
