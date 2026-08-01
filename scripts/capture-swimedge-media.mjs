@@ -32,8 +32,8 @@ const PROFILES = {
   ],
   data: [
     { name: 'swimedge-archive.png', fn: captureArchive },
-    { name: 'swimedge-held-results.png', fn: captureHeldResults },
-    { name: 'swimedge-claims.png', fn: captureHeldResults },
+    { name: 'swimedge-results.png', fn: captureArchiveResults },
+    { name: 'swimedge-claims.png', fn: captureClaims },
   ],
 }
 
@@ -54,19 +54,50 @@ async function forceEnglish(page) {
   await page.waitForTimeout(400)
 }
 
+const API = process.env.SWIMEDGE_API ?? 'http://localhost:8080'
+
+/**
+ * Authenticate through the API and seed the persisted store directly, instead
+ * of driving the login form. The form path is timing-sensitive and was the
+ * reason earlier capture runs stalled; this also lets us set the language
+ * before the app's first render so no Hebrew frame is ever painted.
+ *
+ * Shapes mirrored from SwimEdge:
+ *   POST /api/v1/auth/login -> { data: { accessToken, user } }
+ *   authStore persist name 'swimedge-auth', partialize -> { token, user }
+ */
 async function login(page, { email, password }) {
-  await page.goto(`${BASE}/login`, { waitUntil: 'networkidle' })
-  await page.evaluate(EN_SCRIPT)
-  await page.reload({ waitUntil: 'networkidle' })
-  await forceEnglish(page)
-  await page.locator('#email').fill(email)
-  await page.locator('#password').fill(password)
-  await page.locator('#password').press('Enter')
-  await page.waitForURL((u) => !u.pathname.endsWith('/login'), { timeout: 20000 })
+  const res = await page.request.post(`${API}/api/v1/auth/login`, {
+    data: { email, password },
+  })
+  if (!res.ok()) throw new Error(`API login failed for ${email}: ${res.status()}`)
+
+  const body = await res.json()
+  const { accessToken, user } = body.data ?? {}
+  if (!accessToken) throw new Error(`No accessToken in login response for ${email}`)
+
+  // Seed storage on the app origin, then reload so the store hydrates from it.
+  // Deliberately not addInitScript: this runs once per login rather than
+  // stacking a new script on the shared page for every role we authenticate as.
+  await page.goto(`${BASE}/login`, { waitUntil: 'domcontentloaded' })
+  await page.evaluate(
+    ([storageKey, payload]) => {
+      localStorage.setItem(storageKey, payload)
+      localStorage.setItem('swimedge-language', 'en')
+    },
+    ['swimedge-auth', JSON.stringify({ state: { token: accessToken, user }, version: 0 })],
+  )
+
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' })
   await forceEnglish(page)
 }
 
-async function shotMain(page, name) {
+/**
+ * `maxHeight` caps very long pages so the result reads as a screenshot rather
+ * than a full-page dump — the archive list is thousands of pixels tall and
+ * renders as an unusable strip in the portfolio's media grid otherwise.
+ */
+async function shotMain(page, name, { maxHeight } = {}) {
   await forceEnglish(page)
   await page.waitForTimeout(800)
 
@@ -82,7 +113,16 @@ async function shotMain(page, name) {
 
   const path = join(OUT_DIR, name)
   try {
-    await target.screenshot({ path, animations: 'disabled' })
+    const box = maxHeight ? await target.boundingBox() : null
+    if (box && box.height > maxHeight) {
+      await page.screenshot({
+        path,
+        animations: 'disabled',
+        clip: { x: box.x, y: box.y, width: box.width, height: maxHeight },
+      })
+    } else {
+      await target.screenshot({ path, animations: 'disabled' })
+    }
   } catch {
     await page.screenshot({ path, fullPage: true, animations: 'disabled' })
   }
@@ -91,38 +131,42 @@ async function shotMain(page, name) {
 
 async function captureArchive(page) {
   await page.goto(`${BASE}/competitions/archive`, { waitUntil: 'networkidle', timeout: 30000 })
-  await shotMain(page, 'swimedge-archive.png')
+  await shotMain(page, 'swimedge-archive.png', { maxHeight: 900 })
 }
 
-async function openFirstCompetition(page) {
-  await page.goto(`${BASE}/competitions`, { waitUntil: 'networkidle' })
-  await forceEnglish(page)
-  const link = page.locator('a[href*="/competitions/"]').filter({ hasNotText: /archive/i }).first()
-  if ((await link.count()) > 0) {
-    await link.click()
-    await page.waitForURL(/\/competitions\/\d+/, { timeout: 15000 })
-    return true
-  }
-  const meet = page.getByText(/winter|sprint|championship|cup/i).first()
-  if ((await meet.count()) > 0) {
-    await meet.click()
-    await page.waitForURL(/\/competitions\//, { timeout: 15000 })
-    return true
-  }
-  return false
-}
+/**
+ * Competitions chosen because they hold real content. Picking "the first
+ * competition in the list" landed on a future PLANNED meet with zero events
+ * and zero entries, which photographs as an empty product.
+ *   COMPLETED_DEMO_ID — seeded winter championship with events, entries, relays
+ *   ARCHIVE_MEET_ID   — a real ISA meet imported from federation documents
+ */
+const COMPLETED_DEMO_ID = process.env.SWIMEDGE_DEMO_COMP ?? '393'
+const ARCHIVE_MEET_ID = process.env.SWIMEDGE_ARCHIVE_COMP ?? '403'
 
 async function captureDashboard(page) {
   await login(page, CREDENTIALS.manager)
-  const opened = await openFirstCompetition(page)
-  if (opened) await shotMain(page, 'swimedge-dashboard.png')
-  else console.warn('no competition found — dashboard screenshot skipped')
+  await page.goto(`${BASE}/competitions/${COMPLETED_DEMO_ID}`, { waitUntil: 'networkidle' })
+  await shotMain(page, 'swimedge-dashboard.png', { maxHeight: 1000 })
+}
+
+async function captureArchiveResults(page) {
+  await page.goto(`${BASE}/competitions/archive/${ARCHIVE_MEET_ID}`, {
+    waitUntil: 'networkidle',
+    timeout: 30000,
+  })
+  await shotMain(page, 'swimedge-results.png', { maxHeight: 1000 })
 }
 
 async function captureHeldResults(page) {
   await login(page, CREDENTIALS.federation)
   await page.goto(`${BASE}/federation/ops?tab=heldResults`, { waitUntil: 'networkidle' })
   await shotMain(page, 'swimedge-held-results.png')
+}
+
+async function captureClaims(page) {
+  await login(page, CREDENTIALS.federation)
+  await page.goto(`${BASE}/federation/ops?tab=claims`, { waitUntil: 'networkidle' })
   await shotMain(page, 'swimedge-claims.png')
 }
 
