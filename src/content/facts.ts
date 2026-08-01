@@ -62,10 +62,10 @@ export const facts = {
   swimdata: {
     swims: 4770,
     swimmers: 1311,
-    /** Raw club spellings across both meets, before resolution */
-    clubSpellings: 72,
-    /** Canonical clubs after federation-code keying + statistical-mode naming */
-    canonicalClubs: 39,
+    /** Canonical clubs in the loaded database (both meets) */
+    clubs: 72,
+    /** Distinct observed spellings recorded in the club_name_variant audit table */
+    nameVariants: 105,
     events: 340,
     championships: 2,
     /** Hebrew start list → English results, bridged on (event, heat, lane) */
