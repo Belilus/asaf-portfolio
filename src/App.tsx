@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { AgentOrchestration } from './components/AgentOrchestration'
 import { Contact, Footer } from './components/Contact'
 import { Hero } from './components/Hero'
-import { HowIBuild } from './components/HowIBuild'
+import { HowIWork } from './components/HowIWork'
 import { Nav } from './components/Nav'
 import { ProjectCase } from './components/ProjectCase'
 import { SectionReveal } from './components/SectionReveal'
@@ -141,16 +140,10 @@ export default function App() {
                   <ProjectCase project={swimedgeProject} lens={lensId} index={0} />
                 </Reveal>
               ) : null
-            case 'agents':
-              return lensId === 'fullstack' || lensId === 'pm' ? (
-                <Reveal key="agents" delay={nextDelay()}>
-                  <AgentOrchestration lensId={lensId} />
-                </Reveal>
-              ) : null
-            case 'how-i-build':
+            case 'how-i-work':
               return (
-                <Reveal key="how-i-build" delay={nextDelay()}>
-                  <HowIBuild depth={layout.howIBuildDepth} />
+                <Reveal key="how-i-work" delay={nextDelay()}>
+                  <HowIWork lens={lensId} />
                 </Reveal>
               )
             case 'skills':

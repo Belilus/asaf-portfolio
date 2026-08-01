@@ -14,11 +14,8 @@ function navLinksForLens(lensId: LensId, layout: LensLayout) {
   if (layout.sections.includes('project-swimedge')) {
     links.push({ href: '#swimedge', label: 'SwimEdge' })
   }
-  if (layout.sections.includes('agents')) {
-    links.push({ href: '#agents', label: 'Agents' })
-  }
-  if (layout.sections.includes('how-i-build')) {
-    links.push({ href: '#how-i-build', label: 'How I build' })
+  if (layout.sections.includes('how-i-work')) {
+    links.push({ href: '#how-i-work', label: 'How I work' })
   }
   if (layout.sections.includes('skills')) {
     links.push({ href: '#skills', label: 'Skills' })

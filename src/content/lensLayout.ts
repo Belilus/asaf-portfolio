@@ -1,4 +1,3 @@
-import type { HowIBuildDepth } from './how-i-build'
 import type { LensId } from './profile'
 
 export type SectionId =
@@ -6,8 +5,7 @@ export type SectionId =
   | 'featured'
   | 'project-research'
   | 'project-swimedge'
-  | 'agents'
-  | 'how-i-build'
+  | 'how-i-work'
   | 'skills'
   | 'contact'
 
@@ -15,10 +13,6 @@ export interface LensLayout {
   sections: SectionId[]
   /** Skill group titles to show; undefined = all groups */
   skillGroups?: string[]
-  /** How I build depth */
-  howIBuildDepth: HowIBuildDepth
-  /** Agent section framing */
-  agentsAngle?: 'engineering' | 'product'
   /** Contact section options */
   contact: {
     showAlso: boolean
@@ -38,8 +32,7 @@ export interface LensLayout {
 
 export const lensLayouts: Record<LensId, LensLayout> = {
   research: {
-    sections: ['hero', 'featured', 'project-research', 'how-i-build', 'contact'],
-    howIBuildDepth: 'brief',
+    sections: ['hero', 'featured', 'project-research', 'project-swimedge', 'how-i-work', 'contact'],
     contact: { showAlso: true, showEducation: true, resumeAsTextLink: true },
     hero: { showEducation: true },
     featured: {
@@ -53,8 +46,8 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       'hero',
       'featured',
       'project-swimedge',
-      'agents',
-      'how-i-build',
+      'project-research',
+      'how-i-work',
       'skills',
       'contact',
     ],
@@ -64,8 +57,6 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       'Databases & Storage',
       'Tools, Testing & Infrastructure',
     ],
-    howIBuildDepth: 'full',
-    agentsAngle: 'engineering',
     contact: { showAlso: false, showEducation: false, resumeAsTextLink: true },
     hero: { showEducation: false },
     featured: {
@@ -75,9 +66,7 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     },
   },
   pm: {
-    sections: ['hero', 'featured', 'project-swimedge', 'agents', 'contact'],
-    howIBuildDepth: 'brief',
-    agentsAngle: 'product',
+    sections: ['hero', 'featured', 'project-swimedge', 'how-i-work', 'contact'],
     contact: { showAlso: true, showEducation: false, resumeAsTextLink: true },
     hero: { showEducation: false },
     featured: {
@@ -92,7 +81,7 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       'featured',
       'project-swimedge',
       'project-research',
-      'how-i-build',
+      'how-i-work',
       'skills',
       'contact',
     ],
@@ -103,7 +92,6 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       'AI / ML & Computer Vision',
       'Tools, Testing & Infrastructure',
     ],
-    howIBuildDepth: 'medium',
     contact: { showAlso: false, showEducation: false, resumeAsTextLink: true },
     hero: { showEducation: false },
     featured: {

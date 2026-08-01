@@ -181,6 +181,12 @@ export function MediaPlaceholder({
             loading="lazy"
             style={{ objectFit: 'contain' }}
             className="h-auto w-full max-w-full transition-transform duration-slow ease-out-expo group-hover:scale-[1.005]"
+            onLoad={(e) => {
+              // #region agent log
+              const img = e.currentTarget
+              fetch('http://127.0.0.1:7538/ingest/2790cbfd-2303-4928-8cde-da54d0c43cfa',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'d6f95d'},body:JSON.stringify({sessionId:'d6f95d',runId:'post-fix',hypothesisId:'H1',location:'primitives.tsx:MediaPlaceholder',message:'image loaded',data:{file,caption,objectFit:getComputedStyle(img).objectFit,clientW:img.clientWidth,clientH:img.clientHeight,naturalW:img.naturalWidth,naturalH:img.naturalHeight},timestamp:Date.now()})}).catch(()=>{});
+              // #endregion
+            }}
           />
         </div>
         <figcaption className="border-t border-border px-4 py-3">
