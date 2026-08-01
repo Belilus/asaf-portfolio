@@ -12,27 +12,27 @@ export const lensPageMeta: Record<
   { title: string; description: string; ogTitle: string }
 > = {
   research: {
-    title: 'Asaf Belilus — M.Sc. Researcher · Computer Vision & Biomechanics',
+    title: 'Asaf Belilus — Computer Vision & Biomechanics Research',
     description:
-      'M.Sc. research at Ben-Gurion University: underwater pose reconstruction, SWUM kinematics, and an honest error budget.',
+      'M.Sc. research reconstructing swimmer joint kinematics from underwater pose data — with an honest, regenerated error budget.',
     ogTitle: 'Asaf Belilus — Research Portfolio',
   },
   fullstack: {
     title: 'Asaf Belilus — Full-Stack Software Engineer',
     description:
-      'Solo full-stack engineer behind SwimEdge: Java/Spring Boot, React/TypeScript, Postgres, and a synchronized agent network.',
+      'SwimEdge: a solo-built federation platform — Spring Boot, React/TypeScript, Postgres, bilingual RTL — verified by test gates before every merge.',
     ogTitle: 'Asaf Belilus — Full-Stack Portfolio',
   },
   pm: {
     title: 'Asaf Belilus — Product Founder · SwimEdge',
     description:
-      'Solo product founder building SwimEdge — a federation platform for Israeli competitive swimming, from vision to production.',
+      'SwimEdge: replacing spreadsheet-era federation software. Discovery on the incumbent first; demoed to ISA leadership, July 2026.',
     ogTitle: 'Asaf Belilus — Product / Founder Portfolio',
   },
   data: {
-    title: 'Asaf Belilus — Data & Pipeline Engineer',
+    title: 'Asaf Belilus — Data Engineer',
     description:
-      'Federation-scale ingestion, three-tier result attribution, and governed data pipelines — SwimEdge and research error budgets.',
+      'Federation-scale ingestion: three-tier attribution, lineage on every row, zero silent drops — with a public, verifiable proof of method.',
     ogTitle: 'Asaf Belilus — Data Portfolio',
   },
 }

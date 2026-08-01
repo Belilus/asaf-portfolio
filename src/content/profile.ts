@@ -6,6 +6,8 @@
  * section order, and which resume the download button serves.
  */
 
+import { facts, totalResearchTests } from './facts'
+
 export const profile = {
   name: 'Asaf Belilus',
   title: 'M.Sc. Student · Software & Computer Vision Developer',
@@ -47,11 +49,19 @@ export const lenses: Lens[] = [
       'The work sits between two faculties and two disciplines — computer vision on the input side, rigid-body kinematics and nonlinear optimization on the modeling side. What I care about most is knowing which part of an error is my code and which part is the data, and being able to prove the difference.',
     ],
     stats: [
-      { value: '2.1 mm', label: 'best-frame REALITY', note: 'lower-bound recipe; honest frame 60 6.8 mm' },
-      { value: '46', label: 'regression tests', note: 'golden-file byte-diff, ~1 s to run' },
+      {
+        value: `${facts.research.bestFrameMm} mm`,
+        label: 'best-frame reconstruction',
+        note: `lower-bound recipe; honest cross-check ${facts.research.honestFrame60Mm} mm`,
+      },
+      {
+        value: String(totalResearchTests),
+        label: 'tests across two suites',
+        note: `${facts.research.pipelineTests} pipeline + ${facts.research.labTests} underwater lab`,
+      },
       { value: '95', label: 'current M.Sc. GPA', note: 'Ben-Gurion University of the Negev' },
     ],
-    projectVisibility: ['research'],
+    projectVisibility: ['research', 'swimedge'],
     resume: { label: 'Researcher CV', file: 'Asaf-Belilus-Researcher.pdf' },
   },
   {
@@ -60,30 +70,50 @@ export const lenses: Lens[] = [
     blurb: 'For product engineering and full-stack software roles.',
     headline: 'Full-Stack Software Engineer · Java / Spring Boot · React / TypeScript',
     bio: [
-      'I design and ship production client–server systems end to end — data model, migrations, secure APIs, and the interface people actually use. SwimEdge is the clearest example: a competition management platform for Israeli swimming that I architected and built alone, from the Postgres schema up through a bilingual RTL React application.',
+      'I design and ship production client–server systems end to end — data model, migrations, secure APIs, and the interface people actually use. SwimEdge is the clearest example: a competition management platform for Israeli swimming, built solo from the Postgres schema up through a bilingual right-to-left React application.',
       'I came to it as a competitive swimmer and coach who kept watching clubs run national meets on spreadsheets. That domain knowledge is why the data model holds up: I knew what a heat sheet, a qualifying minimum, and a disputed result actually are before I wrote a line of it.',
     ],
     stats: [
-      { value: '45.7k', label: 'lines shipped solo', note: '18.1k Java · 27.5k TypeScript' },
-      { value: '6', label: 'role-based workflows', note: 'admin, federation, club, coach, official, swimmer' },
-      { value: '579', label: 'backend tests', note: 'JUnit + Testcontainers before merge' },
+      {
+        value: facts.swimedge.migrations,
+        label: 'append-forward migrations',
+        note: 'every environment rebuilds deterministically from V1',
+      },
+      {
+        value: `${facts.swimedge.backendTests} + ${facts.swimedge.frontendTests}`,
+        label: 'tests green before merge',
+        note: 'JUnit with Testcontainers · Vitest',
+      },
+      {
+        value: `${facts.swimedge.roles} roles`,
+        label: `across ${facts.swimedge.pages} pages`,
+        note: 'admin, federation, club, coach, official, swimmer',
+      },
     ],
-    projectVisibility: ['swimedge'],
+    projectVisibility: ['swimedge', 'research'],
     resume: { label: 'Full-Stack CV', file: 'Asaf-Belilus-Fullstack.pdf' },
   },
   {
     id: 'pm',
     label: 'PM / Founder',
     blurb: 'For product management and founder-track roles.',
-    headline: 'Solo Product Founder · SwimEdge · Federation Platform',
+    headline: 'Product Founder · SwimEdge — Replacing Spreadsheet-Era Federation Software',
     bio: [
-      'I built SwimEdge because I lived the problem — as a competitive swimmer at BGU and a coach at Wingate, I watched clubs run national meets on spreadsheets and swimmers lose history when they changed clubs. The product is a governed system of record for the whole competition lifecycle: registration, seeding, live results, and career analytics that follow athletes across clubs.',
-      'As a solo founder I own vision, stakeholder conversations, and what ships. I have taken SwimEdge into direct engagement with the Israel Swimming Association and the Ministry of Culture and Sport, alongside a competitor analysis and demo-readiness audit. The engineering is real — but this lens is about the product decisions, users, and federation trust that make the code matter.',
+      'SwimEdge did not start with code. It started with a limitation inventory: as a competitive swimmer at BGU and a coach at Wingate I lived the spreadsheet-and-PDF reality of Israeli swimming, and before building anything I spent months studying the incumbent platform the sport actually runs on — mapping where it fails clubs, officials, and swimmers, and reading federation regulation booklets as requirements documents.',
+      'What came out of that is a governed system of record for the whole competition lifecycle — registration, seeding, live results, identity, and career analytics that follow an athlete across club changes. I designed it, built it, and took it to the federation myself. I am also an M.Sc. computer-science researcher at Ben-Gurion University; the same evidence discipline runs through both.',
     ],
     stats: [
-      { value: '6', label: 'role-based workflows', note: 'federation, club, coach, official, swimmer, public' },
-      { value: 'ISA', label: 'federation engagement', note: 'direct conversations + demo readiness' },
-      { value: 'Solo', label: 'founder & engineer', note: 'vision through production UI' },
+      { value: 'Jul 2026', label: 'demoed to ISA leadership', note: 'discussions ongoing' },
+      {
+        value: 'V22–V23',
+        label: 'shipped release',
+        note: 'public archive · identity claims · held-result resolution',
+      },
+      {
+        value: `${facts.swimedge.archiveMeets} meets`,
+        label: 'national archive under management',
+        note: `ISA championships, ${facts.swimedge.archiveYears}`,
+      },
     ],
     projectVisibility: ['swimedge'],
     resume: { label: 'Product CV', file: 'Asaf-Belilus-PM.pdf' },
@@ -92,15 +122,27 @@ export const lenses: Lens[] = [
     id: 'data',
     label: 'Data & Analytics',
     blurb: 'For data engineering, analytics, and pipeline roles.',
-    headline: 'Data & Pipeline Engineer · Ingestion, Modeling, Analytics',
+    headline: 'Data Engineer · Ingestion, Entity Resolution, Governed Pipelines',
     bio: [
       'Most of my work is a pipeline problem wearing different clothes. On one side, messy federation documents — Arena XLSX exports, PDF-derived regulation books — that have to become clean, attributed relational rows. On the other, raw motion-capture arrays that have to become a physically valid skeleton.',
       'Both taught me the same lesson: the interesting engineering is in the records that do not match. Unattributed results, duplicate swimmers across clubs, markers that disagree with anatomy. I build the reconciliation layer and the evidence trail that says why each row landed where it did.',
     ],
     stats: [
-      { value: '3-tier', label: 'result attribution', note: 'exact, fuzzy, and held-for-review matching' },
-      { value: '9-cause', label: 'error attribution table', note: 'each split into code vs. data vs. irreducible' },
-      { value: '0', label: 'silent drops', note: 'unmatched rows are quarantined, never discarded' },
+      {
+        value: `${facts.swimedge.importedResults.toLocaleString()}`,
+        label: 'archived results imported',
+        note: `${facts.swimedge.importedMeets} meets, dry run and live run identical`,
+      },
+      {
+        value: '3-tier',
+        label: 'result attribution',
+        note: 'exact, heuristic, held for review — never silently dropped',
+      },
+      {
+        value: `${facts.research.errorCauses}-cause`,
+        label: 'error attribution table',
+        note: 'each split into code vs. data vs. irreducible',
+      },
     ],
     projectVisibility: ['swimedge', 'research'],
     resume: { label: 'Data CV', file: 'Asaf-Belilus-Data.pdf' },
