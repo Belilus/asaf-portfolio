@@ -7,3 +7,4 @@ dist-ssr
 *.log
 tsconfig.tsbuildinfo
 vite.config.ts.timestamp-*.mjs
+.vercel

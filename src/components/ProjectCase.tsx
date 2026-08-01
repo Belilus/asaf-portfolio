@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import type { LensId } from '../content/profile'
 import type { Project } from '../content/projects'
-import { getProjectEmphasis, linksForLens, mediaForLens, sectionsForLens } from '../content/projects'
+import {
+  getProjectEmphasis,
+  linksForLens,
+  mediaForLens,
+  metricsForLens,
+  sectionsForLens,
+} from '../content/projects'
 import { IconChevron, MediaPlaceholder } from './primitives'
 
 function toneClass(tone?: string) {
@@ -134,6 +140,7 @@ export function ProjectCase({
           : project.highlights
 
   const sections = sectionsForLens(project, lens)
+  const metrics = metricsForLens(project, lens)
   const links = linksForLens(project, lens)
   const mediaSlots = mediaForLens(project, lens)
   const visibleMedia = isProduct
@@ -151,8 +158,8 @@ export function ProjectCase({
 
   const productMetrics =
     project.productMetricsMax != null
-      ? { ...project.metrics, rows: project.metrics.rows.slice(0, project.productMetricsMax) }
-      : project.metrics
+      ? { ...metrics, rows: metrics.rows.slice(0, project.productMetricsMax) }
+      : metrics
 
   return (
     <article id={project.id} className="scroll-mt-20 py-16 sm:py-24">
@@ -216,13 +223,13 @@ export function ProjectCase({
         {isFull && (
           <div className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-start">
             <ArchitectureFlow architecture={project.architecture} />
-            <MetricTable metrics={project.metrics} />
+            <MetricTable metrics={metrics} />
           </div>
         )}
 
         {isCompact && (
           <div className="mb-12 grid gap-6 lg:grid-cols-2 lg:items-start">
-            <MetricTable metrics={project.metrics} />
+            <MetricTable metrics={metrics} />
             <InlineSections sections={sections} headings={compactHeadings} />
           </div>
         )}

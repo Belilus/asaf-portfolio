@@ -17,6 +17,8 @@ export interface MetricRow {
   value: string
   hint?: string
   tone?: 'improve' | 'neutral' | 'warn'
+  /** `lenses` restricts a row to specific sites; omitted = shown everywhere. */
+  lenses?: LensId[]
 }
 
 export interface ArchStage {
@@ -261,14 +263,14 @@ export const projects: Project[] = [
     period: '2025 – Present',
     role: 'Architecture, backend, frontend, data ingestion, design system, infrastructure',
     premise:
-      'A production platform that takes a national swimming federation from spreadsheets and PDFs to a governed system of record — registration, seeding, live results, scoring, and swimmer career analytics.',
+      'A production platform giving every club in Israeli swimming one governed place to run its swimmers — membership, registration, seeding, live results, scoring, and career history — engineered as a system of record rather than another reporting tool.',
     angle: {
       research:
         'The applied counterpart to my research: the same insistence on traceable data. Every imported result carries its lineage, and nothing that cannot be attributed with confidence is allowed to silently become a fact.',
       fullstack:
         `A complete client–server system designed and built alone — ${facts.swimedge.controllers} REST controllers over ${facts.swimedge.services} domain services and a ${facts.swimedge.migrationCount}-migration Postgres schema, fronted by a bilingual right-to-left React application with ${facts.swimedge.roles} distinct role-based workflows.`,
       pm:
-        'A product story: months of discovery on the platform the sport already runs on, a governed system of record built from that limitation inventory, and a route to market that runs through the governing body itself.',
+        'The product case: a hierarchy that mirrors how the sport is actually run, so a club, a coach, an official and a swimmer each get exactly the view they are accountable for — and a route to market that goes through the governing body itself.',
       data:
         'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
     },
@@ -284,12 +286,18 @@ export const projects: Project[] = [
     ],
     compactSections: ['The problem'],
     productHighlights: [
-      'Discovery came first: a formal analysis of the incumbent platform and a limitation inventory shaped the product — and took months, on purpose.',
-      `Six stakeholder workflows, each seeing only the data it owns — boundaries drawn from how a federation actually governs, not from an org chart.`,
-      'Trust as the product thesis: quarantine rather than guess, lineage on every record, and held-result resolution as a first-class flow.',
+      'A governed role hierarchy is the product: every club runs its own swimmers, coaches see only theirs, swimmers own their history, and the federation oversees — with the boundaries enforced server-side.',
+      'Covers the lifecycle a club actually lives — membership and registration through seeding, live results, scoring, and career history that follows a swimmer between clubs.',
+      'Engineered for durability rather than for demos: Java and Spring Boot over an append-forward Postgres schema, because a decade of a club’s times is only as safe as the way it is stored and recovered.',
+      'Discovery came first — a formal analysis of the incumbent and a limitation inventory shaped the product, and took months on purpose.',
       'Route to market through the governing body: readiness audit, then federation leadership, then the Ministry of Culture and Sport.',
     ],
-    productSections: ['Discovery before code', 'The product', 'Taking it to the federation'],
+    productSections: [
+      'Discovery before code',
+      'The product',
+      'Absorbing the sport’s history',
+      'Taking it to the federation',
+    ],
     productMetricsMax: 3,
     sections: [
       {
@@ -342,9 +350,18 @@ export const projects: Project[] = [
       {
         heading: 'The product',
         body: [
-          'Six roles see six different systems. Federation administrators run ingestion, competition import, swimmer-claim review, and held-result resolution. Club managers handle membership, rosters, and claim queues for their clubs. Coaches work with their assigned swimmers. Officials enter results for the days they are assigned. Swimmers see their own career hub — personal bests, progression, and history that follows them across club changes.',
-          'A public competition archive lets anyone browse historical meet results without logging in. Identity claim flows let swimmers and managers reconcile placeholder records against archived federation data — with federation admins resolving held results that cannot auto-match.',
-          'On top of that sits the competition machinery: heat seeding, format progression, a versioned scoring engine, and analytics that render performance deltas with semantic meaning — improvement, regression, personal best — rather than as undifferentiated numbers.',
+          'The centre of the system is the hierarchy, because that is how the sport is actually organised. A club manager runs their own club: members, rosters, coach assignments, registrations, and payments. Coaches see the swimmers assigned to them and nobody else’s. Officials enter results for the days they are given. Swimmers hold a career hub of their own — personal bests, progression, and a history that survives changing clubs. The federation sits above all of it with oversight that stops at the boundary of what a federation is actually accountable for.',
+          'That hierarchy is enforced in the backend, not drawn in the interface. Each role’s scope is a rule the API applies on every request, so a club manager cannot reach another club’s swimmers even if they go looking. Getting that boundary right is what makes the system safe to hand to every club in the country at once.',
+          'Around the hierarchy sits the competition lifecycle a club actually lives: build the meet, open registration, take entries, seed the heats, run the day, enter results, and score them — with format progression and a versioned scoring engine behind it, and analytics that read a swim as improvement, regression, or a personal best rather than as an undifferentiated number.',
+          'Underneath, the engineering is deliberately conservative, because this is a system of record. Java and Spring Boot on the server, PostgreSQL under append-forward migrations that add and backfill but never rewrite history, and a schema any environment can rebuild deterministically from the first migration. A club trusting the platform with a decade of its swimmers’ times is really trusting how that data is stored, versioned, and recovered.',
+        ],
+      },
+      {
+        heading: 'Absorbing the sport’s history',
+        lenses: ['fullstack', 'pm', 'data'],
+        body: [
+          'Once the platform existed, the remaining obstacle to a club actually switching was everything that came before it. A swimmer’s times live in the incumbent system and in years of published federation documents, and a product that starts everyone from an empty history is not a replacement — it is a second place to type things.',
+          'So the ingestion layer was built on top of the platform, not underneath it: federation exports and published meet documents become attributed records inside the same governed model, which is how a club can arrive with its history intact. It is the capability that turns a better system into a switchable one.',
         ],
       },
       {
@@ -410,58 +427,71 @@ export const projects: Project[] = [
       note: 'Counted directly from the repository, not estimated.',
       rows: [
         {
+          label: 'Role-based workflows',
+          value: String(facts.swimedge.roles),
+          hint: 'federation, club, coach, official, swimmer, public',
+          tone: 'neutral',
+        },
+        {
+          label: 'Governed schema',
+          value: facts.swimedge.migrations,
+          hint: 'append-forward; any environment rebuilds deterministically',
+          tone: 'improve',
+        },
+        {
+          label: 'Backend test suite',
+          value: `${facts.swimedge.backendTests} tests`,
+          hint: 'JUnit + Testcontainers against real PostgreSQL',
+          tone: 'improve',
+        },
+        {
           label: 'Archived results imported',
           value: facts.swimedge.importedResults.toLocaleString(),
           hint: `${facts.swimedge.importedMeets} meets; dry run and live run identical`,
           tone: 'improve',
+          lenses: ['fullstack', 'data'],
         },
         {
           label: 'Held-result queue',
           value: `${facts.swimedge.heldQueueFrom} → 0`,
           hint: 'every ambiguous row resolved, none dropped',
           tone: 'improve',
+          lenses: ['data'],
         },
         {
           label: 'REST controllers',
           value: String(facts.swimedge.controllers),
           hint: 'JWT-secured, role-gated',
           tone: 'neutral',
+          lenses: ['fullstack', 'data'],
         },
         {
           label: 'Domain service classes',
           value: String(facts.swimedge.services),
           hint: 'organised by domain, not by layer',
           tone: 'neutral',
+          lenses: ['fullstack', 'data'],
         },
         {
           label: 'JPA entities',
           value: String(facts.swimedge.entities),
           hint: 'competition + identity model',
           tone: 'neutral',
-        },
-        {
-          label: 'Flyway migrations',
-          value: facts.swimedge.migrations,
-          hint: 'append-forward; any environment rebuilds deterministically',
-          tone: 'neutral',
+          lenses: ['fullstack', 'data'],
         },
         {
           label: 'React pages / components',
           value: `${facts.swimedge.pages} / ${facts.swimedge.components}`,
           hint: facts.swimedge.languagesNote,
           tone: 'neutral',
-        },
-        {
-          label: 'Backend test suite',
-          value: `${facts.swimedge.backendTests} tests`,
-          hint: 'JUnit + Testcontainers',
-          tone: 'improve',
+          lenses: ['fullstack', 'data', 'research'],
         },
         {
           label: 'Frontend test suite',
           value: `${facts.swimedge.frontendTests} tests`,
           hint: `Vitest + Testing Library, ${facts.swimedge.frontendTestFiles} files`,
           tone: 'improve',
+          lenses: ['fullstack', 'data', 'research'],
         },
       ],
     },
@@ -473,10 +503,10 @@ export const projects: Project[] = [
       { group: 'Platform', items: ['Docker', 'OpenAPI / Swagger', 'Render', 'Git'] },
     ],
     highlights: [
-      `Runs a live national-archive campaign: ${facts.swimedge.importedResults.toLocaleString()} historical results ingested across ${facts.swimedge.importedMeets} meets, with the held-result queue worked down to zero.`,
-      'Shipped the identity release end to end — public competition archive, swimmer claims, and held-result resolution.',
+      `Architected the whole system solo — ${facts.swimedge.controllers} REST controllers over ${facts.swimedge.services} domain services, ${facts.swimedge.migrationCount} append-forward migrations, and a bilingual right-to-left interface.`,
+      `Enforced a ${facts.swimedge.roles}-role hierarchy server-side, so a club reaches its own swimmers and no one else’s no matter what the client asks for.`,
+      `Extended the platform to absorb the sport’s history: ${facts.swimedge.importedResults.toLocaleString()} archived results ingested across ${facts.swimedge.importedMeets} meets so a club can arrive without losing its past.`,
       'Designed a three-tier attribution strategy that quarantines ambiguous records instead of silently corrupting a swimmer’s history.',
-      `Architected the whole system solo — ${facts.swimedge.controllers} REST controllers, ${facts.swimedge.services} domain services, ${facts.swimedge.migrationCount} migrations, and a bilingual right-to-left interface.`,
     ],
     media: [
       {
@@ -538,7 +568,7 @@ export const projects: Project[] = [
       },
     ],
     status:
-      'In active development. The identity release — public archive, swimmer claims, and held-result resolution — is shipped; the national archive import campaign and rules-engine hardening are ongoing.',
+      'In active development, running on real federation data. The club-facing platform and its role hierarchy are the core and are in place; the public archive, identity claims, and the archive import campaign extend it, and rules-engine hardening is ongoing.',
   },
 ]
 
@@ -548,6 +578,13 @@ export function getProjectEmphasis(project: Project, lens: LensId): ProjectEmpha
 
 export function sectionsForLens(project: Project, lens: LensId): Project['sections'] {
   return project.sections.filter((s) => !s.lenses || s.lenses.includes(lens))
+}
+
+export function metricsForLens(project: Project, lens: LensId): Project['metrics'] {
+  return {
+    ...project.metrics,
+    rows: project.metrics.rows.filter((r) => !r.lenses || r.lenses.includes(lens)),
+  }
 }
 
 export function linksForLens(project: Project, lens: LensId): NonNullable<Project['links']> {

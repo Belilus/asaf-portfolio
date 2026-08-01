@@ -73,7 +73,7 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     featured: {
       eyebrow: 'Product',
       title: 'A federation platform built from the pool deck',
-      lead: 'The product case: replace document handoffs with a governed system of record a federation can trust — and take it to the governing body directly.',
+      lead: 'The product case: give every club in the country one governed place to run its swimmers — and take it to the governing body directly.',
     },
   },
   data: {

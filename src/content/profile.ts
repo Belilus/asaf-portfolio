@@ -100,20 +100,20 @@ export const lenses: Lens[] = [
     headline: 'Product Founder · SwimEdge — Replacing Spreadsheet-Era Federation Software',
     bio: [
       'SwimEdge did not start with code. It started with a limitation inventory: as a competitive swimmer at BGU and a coach at Wingate I lived the spreadsheet-and-PDF reality of Israeli swimming, and before building anything I spent months studying the incumbent platform the sport actually runs on — mapping where it fails clubs, officials, and swimmers, and reading federation regulation booklets as requirements documents.',
-      'What came out of that is a governed system of record for the whole competition lifecycle — registration, seeding, live results, identity, and career analytics that follow an athlete across club changes. I designed it, built it, and took it to the federation myself. I am also an M.Sc. computer-science researcher at Ben-Gurion University; the same evidence discipline runs through both.',
+      'What came out of it is a platform any club in the country can run its swimmers on: a governed hierarchy where a club owns its members, a coach sees only their squad, a swimmer keeps a history that survives changing clubs, and the federation oversees without reaching past its remit — over the full competition lifecycle, from registration through seeding, live results, and scoring. I designed it, built it on Java and Spring Boot as a system of record rather than a reporting tool, and took it to the federation myself. I am also an M.Sc. computer-science researcher at Ben-Gurion University; the same evidence discipline runs through both.',
     ],
     stats: [
+      {
+        value: `${facts.swimedge.roles} roles`,
+        label: 'one governed hierarchy',
+        note: 'federation, club, coach, official, swimmer, public',
+      },
+      {
+        value: 'Full lifecycle',
+        label: 'membership to career history',
+        note: 'registration, entries, seeding, live results, scoring',
+      },
       { value: 'Jul 2026', label: 'demoed to ISA leadership', note: 'discussions ongoing' },
-      {
-        value: 'V22–V23',
-        label: 'shipped release',
-        note: 'public archive · identity claims · held-result resolution',
-      },
-      {
-        value: `${facts.swimedge.archiveMeets} meets`,
-        label: 'national archive under management',
-        note: `ISA championships, ${facts.swimedge.archiveYears}`,
-      },
     ],
     projectVisibility: ['swimedge'],
     resume: { label: 'Product CV', file: 'Asaf-Belilus-PM.pdf' },
