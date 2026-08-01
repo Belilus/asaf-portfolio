@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { LensId } from '../content/profile'
 import type { Project } from '../content/projects'
-import { getProjectEmphasis, mediaForLens } from '../content/projects'
+import { getProjectEmphasis, linksForLens, mediaForLens, sectionsForLens } from '../content/projects'
 import { IconChevron, MediaPlaceholder } from './primitives'
 
 function toneClass(tone?: string) {
@@ -81,13 +81,13 @@ function ArchitectureFlow({
 }
 
 function InlineSections({
-  project,
+  sections: available,
   headings,
 }: {
-  project: Project
+  sections: Project['sections']
   headings: string[]
 }) {
-  const sections = project.sections.filter((s) => headings.includes(s.heading))
+  const sections = available.filter((s) => headings.includes(s.heading))
   if (sections.length === 0) return null
 
   return (
@@ -133,6 +133,8 @@ export function ProjectCase({
           ? project.highlights.slice(0, 2)
           : project.highlights
 
+  const sections = sectionsForLens(project, lens)
+  const links = linksForLens(project, lens)
   const mediaSlots = mediaForLens(project, lens)
   const visibleMedia = isProduct
     ? mediaSlots.slice(0, 3)
@@ -141,9 +143,9 @@ export function ProjectCase({
       : mediaSlots.slice(0, 1)
 
   const compactHeadings =
-    project.compactSections ?? [project.sections[0]?.heading, project.sections[2]?.heading].filter(
+    project.compactSections ?? ([sections[0]?.heading, sections[2]?.heading].filter(
       Boolean,
-    ) as string[]
+    ) as string[])
 
   const productHeadings =
     project.productSections ?? ['Product surface', 'Beyond the code']
@@ -208,7 +210,7 @@ export function ProjectCase({
         {isProduct && (
           <div className="mb-12 grid gap-6 lg:grid-cols-2 lg:items-start">
             <MetricTable metrics={productMetrics} />
-            <InlineSections project={project} headings={productHeadings} />
+            <InlineSections sections={sections} headings={productHeadings} />
           </div>
         )}
 
@@ -222,7 +224,7 @@ export function ProjectCase({
         {isCompact && (
           <div className="mb-12 grid gap-6 lg:grid-cols-2 lg:items-start">
             <MetricTable metrics={project.metrics} />
-            <InlineSections project={project} headings={compactHeadings} />
+            <InlineSections sections={sections} headings={compactHeadings} />
           </div>
         )}
 
@@ -244,6 +246,35 @@ export function ProjectCase({
           </div>
         )}
 
+        {links.length > 0 && (
+          <div className="mb-12 grid gap-3 sm:grid-cols-2">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring portal-card group flex items-start gap-3 p-4 transition-colors duration-fast hover:bg-accent"
+              >
+                <span
+                  aria-hidden="true"
+                  className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                />
+                <span className="min-w-0">
+                  <span className="block text-base font-medium text-primary group-hover:underline">
+                    {l.label} ↗
+                  </span>
+                  {l.note && (
+                    <span className="mt-0.5 block text-sm leading-relaxed text-muted-foreground">
+                      {l.note}
+                    </span>
+                  )}
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+
         {isFull && (
           <div className="portal-card overflow-hidden">
             <button
@@ -257,7 +288,7 @@ export function ProjectCase({
                   {open ? 'Hide' : 'Read'} the full case study
                 </span>
                 <span className="mt-0.5 block text-sm text-muted-foreground">
-                  {project.sections.map((s) => s.heading).join(' · ')}
+                  {sections.map((s) => s.heading).join(' · ')}
                 </span>
               </span>
               <IconChevron
@@ -270,7 +301,7 @@ export function ProjectCase({
             {open && (
               <div className="animate-fade-in-up border-t border-border px-5 py-8 sm:px-6">
                 <div className="max-w-3xl space-y-10">
-                  {project.sections.map((s) => (
+                  {sections.map((s) => (
                     <section key={s.heading}>
                       <h4 className="mb-3 text-base font-semibold text-primary">{s.heading}</h4>
                       <div className="space-y-4">

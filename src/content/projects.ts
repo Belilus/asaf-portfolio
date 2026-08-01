@@ -7,6 +7,7 @@
  * still judge the engineering.
  */
 
+import { facts, totalResearchTests } from './facts'
 import { lenses, type LensId } from './profile'
 
 export type ProjectEmphasis = 'full' | 'compact' | 'product' | 'hidden'
@@ -57,7 +58,8 @@ export interface Project {
   productSections?: string[]
   /** Cap metrics rows in product tier. */
   productMetricsMax?: number
-  sections: { heading: string; body: string[] }[]
+  /** `lenses` restricts a section to specific sites; omitted = shown everywhere. */
+  sections: { heading: string; body: string[]; lenses?: LensId[] }[]
   architecture: { title: string; note: string; stages: ArchStage[] }
   metrics: { title: string; note: string; rows: MetricRow[] }
   stack: { group: string; items: string[] }[]
@@ -65,7 +67,7 @@ export interface Project {
   media: MediaSlot[]
   /** Shown as a muted note — honest about scope and current state. */
   status: string
-  links?: { label: string; href: string; note?: string }[]
+  links?: { label: string; href: string; note?: string; lenses?: LensId[] }[]
 }
 
 export const projects: Project[] = [
@@ -85,7 +87,7 @@ export const projects: Project[] = [
       research:
         'A cross-faculty project bridging computer vision and control theory. The contribution is not only the reconstruction pipeline but the error budget that separates modeling error from the definitional limits of the marker set.',
       fullstack:
-        'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a 46-test golden-file harness that byte-diffs every refactor against a frozen baseline.',
+        'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a golden-file regression gate standing between any refactor and the claim that it changed nothing.',
       pm:
         'The measurement discipline behind SwimEdge: I learned to split code error from data error on this project before applying the same instinct to federation ingestion.',
       data:
@@ -98,8 +100,8 @@ export const projects: Project[] = [
       data: 'compact',
     },
     compactHighlights: [
-      'Packed 43 underwater frames into SWUM Euler REALITY with a staged error budget — best full-body fit 2.1 mm (honest frame 60: 6.8 mm).',
-      '46-test golden-file harness — every refactor must byte-diff engine output against a frozen baseline.',
+      `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles with a staged error budget — best full-body fit ${facts.research.bestFrameMm} mm, honest cross-check ${facts.research.honestFrame60Mm} mm.`,
+      `${totalResearchTests} tests across two suites, including a golden-file gate that blocks any refactor which cannot prove zero output drift.`,
     ],
     compactSections: ['Key results', 'Engineering rigor'],
     sections: [
@@ -114,7 +116,7 @@ export const projects: Project[] = [
       {
         heading: 'Methodological approach',
         body: [
-          'The core question is SWUM Euler REALITY packing: how closely can a 21-segment stick model match Misha’s underwater markers on joints 1–20, measured in millimetres per frame. The pipeline reconstructs the skeleton in stages, each one constrained by the previous. Body geometry is fitted from the pose rather than taken from the engine’s default template, which removes an entire class of systematic error before any angle is solved.',
+          'The core question is how closely a 21-segment rigid-body model, forced into the exact Euler-angle convention the simulation engine accepts, can match the captured swimmer’s underwater markers — scored in millimetres per joint, per frame. The pipeline reconstructs the skeleton in stages, each constrained by the last. Body geometry is fitted from the pose rather than taken from the engine’s default template, which removes an entire class of systematic error before any angle is solved.',
           'Joint angles are recovered by nonlinear least-squares fitting. Rather than inverting the kinematic chain analytically — which is degenerate for the shoulder — the solver poses forward kinematics as an optimization: choose the four Euler angles the engine expects such that the resulting bone directions best match the observed pose. A Tikhonov regularisation term (λ = 1e-4) keeps the solution stable where the pose under-determines the joint.',
           'The diagnostic strategy is the part I would defend most. Rather than reporting a single number, the pipeline reruns the fit stage by stage and records what each lever buys — pelvis, hips, legs, trunk, shoulders, arms — with a live cause table that classifies each residual as code, data, or irreducible.',
         ],
@@ -122,9 +124,9 @@ export const projects: Project[] = [
       {
         heading: 'Key results',
         body: [
-          'Across 43 fully-underwater frames, staged fitting drives trunk error to exactly 0.0 mm on every frame once segment lengths are measured from the pose. Full-body REALITY ranges from 2.1 mm on the best frame (60, lower-bound recipe) to 9.5 mm at high torso roll (146); frame 62 reaches 2.4 mm as the documented lower bound.',
-          'Honest vs lower-bound framing matters: frame 60 at 6.8 mm uses only measured rotations with no extra fitted shoulder depth; the 2.1 mm figure requires the full recipe (pelvis short, hip geometry, trunk geometry, shoulder clavicle fit). Both numbers are published — neither over-claims the other.',
-          'Five systematic modeling defects were found by probing rather than guessing; four are fixed (template trunk lengths, hip width, degenerate ±15° bounds at roll). The result I consider most valuable is negative: 0 mm on every joint is not achievable with this marker set, and the error budget proves why — skin markers sit 2–6 mm from joint centres, and above-water arms are absent from the capture.',
+          `Across ${facts.research.frames} fully-underwater frames, staged fitting drives trunk error to exactly ${facts.research.trunkMm} mm on every frame once segment lengths are measured from the pose rather than inherited from the engine template. Whole-body error ranges from ${facts.research.bestFrameMm} mm on the best frame to ${facts.research.worstFrameMm} mm at high torso roll.`,
+          `Two numbers are published for the same frame, and the distinction is the point. The ${facts.research.honestFrame60Mm} mm figure uses only measured rotations, with nothing fitted at the shoulder; the ${facts.research.bestFrameMm} mm figure is the best achievable recipe, which buys one fitted clavicle-depth parameter per frame. Reporting only the second would be a quiet over-claim.`,
+          `Five systematic modeling defects were found by probing rather than guessing, and ${facts.research.errorCausesFixed} are fixed — including degenerate ±15° solver bounds that silently clamped legs and shoulders at roll. The result I consider most valuable is negative: zero error on every joint is not achievable with this marker set, and the error budget proves why — skin markers sit ${facts.research.markerFloorMm} mm from the joint centres they stand in for, and the above-water half of the stroke is absent from the capture entirely.`,
         ],
       },
       {
@@ -185,17 +187,33 @@ export const projects: Project[] = [
       ],
     },
     metrics: {
-      title: 'Error budget — SWUM Euler REALITY (mm)',
-      note: 'Live figures from build_error_budget.py. “full” = mean REALITY over joints 1–20.',
+      title: 'Error budget — whole-body reconstruction (mm)',
+      note: 'Regenerated from the run artifacts, never hand-maintained. Each figure is the mean error across the scored joints.',
       rows: [
         { label: 'Best frame, lower bound (62)', value: '2.4 mm', hint: 'full recipe with clavicle fit', tone: 'improve' },
         { label: 'Best frame, recipe (60)', value: '2.1 mm', hint: 'showcase stroke window', tone: 'improve' },
-        { label: 'Honest frame (60, no extra fit)', value: '6.8 mm', hint: 'measured rotations only', tone: 'neutral' },
+        {
+          label: 'Honest frame (60, no extra fit)',
+          value: `${facts.research.honestFrame60Mm} mm`,
+          hint: 'measured rotations only',
+          tone: 'neutral',
+        },
         { label: 'Trunk after geometry fit', value: '0.0 mm', hint: 'all 43 underwater frames', tone: 'improve' },
         { label: 'Worst frame, high roll (146)', value: '9.5 mm', hint: 'hips + shoulder asymmetry', tone: 'warn' },
         { label: 'Underwater frame bank', value: '43 frames', hint: 'fully submerged captures', tone: 'neutral' },
         { label: 'Skin-marker vs. joint-centre', value: '2–6 mm', hint: 'irreducible — data, not code', tone: 'neutral' },
-        { label: 'Regression suite', value: '46 tests', hint: 'unit + golden-file byte-diff', tone: 'improve' },
+        {
+          label: 'Error causes catalogued',
+          value: String(facts.research.errorCauses),
+          hint: `each bucketed code, data, or irreducible; ${facts.research.errorCausesFixed} fixed by probing`,
+          tone: 'improve',
+        },
+        {
+          label: 'Regression suites',
+          value: `${totalResearchTests} tests`,
+          hint: 'pipeline + underwater lab, golden-file gated',
+          tone: 'improve',
+        },
       ],
     },
     stack: [
@@ -207,10 +225,10 @@ export const projects: Project[] = [
       { group: 'Workflow', items: ['Git', 'Cross-platform Mac / Windows split', 'Matplotlib'] },
     ],
     highlights: [
-      'Packed 43 underwater frames into SWUM Euler REALITY with trunk at 0.0 mm everywhere — best full-body fit 2.1 mm, honest floor documented at 6.8 mm.',
-      'Proved 0 mm is not achievable with Misha_7: nine-cause error budget separates code fixes from irreducible data limits.',
-      'Diagnosed and fixed four systematic modeling defects — including degenerate ±15° bounds that silently clamped legs and shoulders at roll.',
-      'Enforced correctness with a 46-test suite that byte-diffs engine inputs against a frozen baseline on every refactor.',
+      `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles, driving trunk error to ${facts.research.trunkMm} mm on every frame — best whole-body fit ${facts.research.bestFrameMm} mm.`,
+      `Proved a negative result rather than hiding it: zero error per joint is unreachable with this capture, and a ${facts.research.errorCauses}-cause budget separates what code can still fix from what the data forbids.`,
+      `Diagnosed and fixed ${facts.research.errorCausesFixed} systematic modeling defects — including degenerate solver bounds that silently clamped legs and shoulders at high roll.`,
+      `Published both an honest and a best-achievable figure for the same frame, so the headline number cannot quietly outrun the method.`,
     ],
     media: [
       {
@@ -439,6 +457,14 @@ export const projects: Project[] = [
 
 export function getProjectEmphasis(project: Project, lens: LensId): ProjectEmphasis {
   return project.emphasis[lens]
+}
+
+export function sectionsForLens(project: Project, lens: LensId): Project['sections'] {
+  return project.sections.filter((s) => !s.lenses || s.lenses.includes(lens))
+}
+
+export function linksForLens(project: Project, lens: LensId): NonNullable<Project['links']> {
+  return (project.links ?? []).filter((l) => !l.lenses || l.lenses.includes(lens))
 }
 
 export function mediaForLens(project: Project, lens: LensId): Project['media'] {
