@@ -16,6 +16,7 @@
     "build:data": "VITE_PORTFOLIO_LENS=data npm run build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist",
+    "check:dedupe": "node scripts/check-copy-dedupe.mjs",
     "capture:research": "node scripts/capture-research-media.mjs",
     "capture:swimedge": "node scripts/capture-swimedge-media.mjs",
     "generate:icons": "node scripts/generate-pwa-icons.mjs"

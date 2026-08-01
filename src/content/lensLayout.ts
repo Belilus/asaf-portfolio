@@ -33,7 +33,8 @@ export interface LensLayout {
 export const lensLayouts: Record<LensId, LensLayout> = {
   research: {
     sections: ['hero', 'featured', 'project-research', 'project-swimedge', 'how-i-work', 'contact'],
-    contact: { showAlso: true, showEducation: true, resumeAsTextLink: true },
+    // Education lives in the hero on this lens; repeating it in contact was a duplicate.
+    contact: { showAlso: true, showEducation: false, resumeAsTextLink: true },
     hero: { showEducation: true },
     featured: {
       eyebrow: 'Featured work',

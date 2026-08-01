@@ -77,7 +77,7 @@ export function Contact({ lens, layout }: { lens: Lens; layout: LensLayout['cont
                   ))}
                 </>
               )}
-              {!layout.showEducation && lens.id !== 'research' && (
+              {!layout.showEducation && (
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-muted-foreground">Research</dt>
                   <dd>{profile.researchLocation}</dd>

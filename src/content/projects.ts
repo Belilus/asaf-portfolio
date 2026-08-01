@@ -157,7 +157,7 @@ export const projects: Project[] = [
         {
           step: '03',
           title: 'Body geometry fitting',
-          body: 'Segment lengths and hip geometry are measured from the pose rather than inherited from the engine template, eliminating a systematic error class up front.',
+          body: 'Segment lengths and hip geometry are solved per pose, so the skeleton carries this swimmer’s real proportions rather than a generic template’s.',
           tech: ['core/kinematics'],
         },
         {
@@ -227,7 +227,7 @@ export const projects: Project[] = [
     highlights: [
       `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles, driving trunk error to ${facts.research.trunkMm} mm on every frame — best whole-body fit ${facts.research.bestFrameMm} mm.`,
       `Proved a negative result rather than hiding it: zero error per joint is unreachable with this capture, and a ${facts.research.errorCauses}-cause budget separates what code can still fix from what the data forbids.`,
-      `Diagnosed and fixed ${facts.research.errorCausesFixed} systematic modeling defects — including degenerate solver bounds that silently clamped legs and shoulders at high roll.`,
+      `Diagnosed and fixed ${facts.research.errorCausesFixed} systematic modeling defects that only targeted probing exposed — from template-inherited limb geometry to an optimiser fenced into the wrong solution basin.`,
       `Published both an honest and a best-achievable figure for the same frame, so the headline number cannot quietly outrun the method.`,
     ],
     media: [

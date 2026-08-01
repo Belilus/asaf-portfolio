@@ -131,7 +131,7 @@ export const lenses: Lens[] = [
       {
         value: `${facts.swimedge.importedResults.toLocaleString()}`,
         label: 'archived results imported',
-        note: `${facts.swimedge.importedMeets} meets, dry run and live run identical`,
+        note: `${facts.swimedge.importedMeets} championship meets, reconciled row by row`,
       },
       {
         value: '3-tier',
