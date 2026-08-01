@@ -484,7 +484,7 @@ export const projects: Project[] = [
         caption: 'Public competition archive',
         hint: 'Browse historical meet results without logging in',
         aspect: 'auto',
-        lenses: ['fullstack', 'pm', 'data'],
+        lenses: ['fullstack', 'pm', 'data', 'research'],
       },
       {
         file: 'swimedge-dashboard.png',
