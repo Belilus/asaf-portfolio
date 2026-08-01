@@ -266,18 +266,23 @@ export const projects: Project[] = [
       research:
         'The applied counterpart to my research: the same insistence on traceable data. Every imported result carries its lineage, and nothing that cannot be attributed with confidence is allowed to silently become a fact.',
       fullstack:
-        'A complete client–server system designed and built alone — 30 REST controllers over 40 service classes and a 23-migration Postgres schema, fronted by a bilingual RTL React application with six distinct role-based workflows.',
+        `A complete client–server system designed and built alone — ${facts.swimedge.controllers} REST controllers over ${facts.swimedge.services} domain services and a ${facts.swimedge.migrationCount}-migration Postgres schema, fronted by a bilingual right-to-left React application with ${facts.swimedge.roles} distinct role-based workflows.`,
       pm:
         'A solo product bet on federation trust: six stakeholder workflows, public archive, identity claims, and held-result resolution — shaped by years inside the sport as swimmer and coach.',
       data:
         'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
     },
     emphasis: {
-      research: 'hidden',
+      research: 'compact',
       fullstack: 'full',
       pm: 'product',
       data: 'full',
     },
+    compactHighlights: [
+      'A production platform for a national sport federation — registration, seeding, live results, identity, and career analytics — built and operated solo.',
+      'The same evidence discipline as the research: every imported record carries its lineage, and ambiguity is quarantined rather than guessed.',
+    ],
+    compactSections: ['The problem'],
     productHighlights: [
       'Six role-based workflows — federation, club, coach, official, swimmer, and public archive — each seeing the data they own.',
       'Shipped public competition archive and identity claim / held-result resolution (V22–V23).',
@@ -291,16 +296,16 @@ export const projects: Project[] = [
         heading: 'The problem',
         body: [
           'Israeli competitive swimming runs on documents. Meet entries arrive as spreadsheets, results come back as exported files and PDFs, qualifying standards live in regulation booklets, and swimmer histories are scattered across whichever club happened to hold them at the time.',
-          'The cost lands on everyone: clubs re-key entries by hand, officials reconcile results across incompatible exports, and a swimmer who changes clubs can effectively lose their competitive history. I saw this from inside — as a competitive swimmer at BGU and a coach at Wingate — long before I could build anything about it.',
+          'The cost lands on everyone: clubs re-key entries by hand, officials reconcile results across incompatible exports, and a swimmer who changes clubs can effectively lose their competitive history.',
           'SwimEdge treats the whole competition lifecycle as one governed system rather than a chain of file handoffs, while accepting that the federation’s existing documents are the input it must live with.',
         ],
       },
       {
         heading: 'System architecture',
         body: [
-          'The backend is a service-oriented Spring Boot application on Java 21, organised by domain rather than by technical layer: registration, membership, competition, seeding, results, payments, documents, and swimmer identity each own their services and repositories. Thirty REST controllers sit over roughly forty service classes, with JWT authentication and a role hierarchy enforced at the boundary.',
-          'Persistence is PostgreSQL under Flyway, evolved through twenty-three versioned migrations. The schema is treated as append-forward: migrations add and backfill, never rewrite history, so a production database can always be reconstructed from V1.',
-          'The frontend is React 18 with Vite and TypeScript — 64 pages and over 100 components — built on the design system whose tokens this portfolio also uses. It is fully bilingual with right-to-left support, because a Hebrew-first federation product that treats RTL as an afterthought is unusable in practice.',
+          `The backend is a service-oriented Spring Boot application on Java 21, organised by domain rather than by technical layer: registration, membership, competition, seeding, results, payments, documents, and swimmer identity each own their services and repositories. ${facts.swimedge.controllers} REST controllers sit over ${facts.swimedge.services} domain services, with JWT authentication and a role hierarchy enforced at the boundary.`,
+          `Persistence is PostgreSQL under Flyway, evolved through ${facts.swimedge.migrationCount} versioned migrations. The schema is treated as append-forward: migrations add and backfill, never rewrite history, so a production database can always be reconstructed from the first migration onward.`,
+          `The frontend is React 18 with Vite and TypeScript — ${facts.swimedge.pages} pages and ${facts.swimedge.components} components — built on the design system whose tokens this portfolio also uses. It is fully bilingual with right-to-left support, because a Hebrew-first federation product that treats text direction as an afterthought is unusable in practice.`,
           'The two halves are kept honest by generation rather than discipline: frontend API types are regenerated from the live OpenAPI specification, so a backend DTO change that breaks the client fails at compile time instead of in front of a user.',
         ],
       },
@@ -310,7 +315,17 @@ export const projects: Project[] = [
           'The hardest engineering in the system is getting federation documents in without corrupting the record. Start lists and results arrive as Arena XLSX exports, parsed with Apache POI into an intermediate representation before anything touches the database.',
           'Attributing a result to a swimmer is the crux. Names appear transliterated inconsistently between Hebrew and Latin, clubs rename themselves, and the same human being appears under several identities across seasons. Matching runs in three tiers — exact identity, then heuristic association, then explicit hold — and anything that fails all three becomes an unattributed result with a placeholder rather than a bad row or a silent drop. A human resolves it later, and the resolution is recorded.',
           'Every ingested row carries lineage: which batch imported it, from which source document, under which matching tier. That trail is what lets an official answer “where did this time come from?” — the question that decides whether a federation trusts the system at all.',
+          `This is not a theoretical capability. The national archive import has put ${facts.swimedge.importedResults.toLocaleString()} historical results through this machinery across ${facts.swimedge.importedMeets} championship meets, with the dry run and the live run producing identical output, and the held-result queue worked from ${facts.swimedge.heldQueueFrom} unresolved rows down to zero.`,
           'Regulation books get the same treatment. A dedicated format registry converts a season’s rules into structured intermediate JSON, which then materialises a draft competition complete with events, age cohorts, and qualifying minimums — instead of an administrator retyping a booklet.',
+        ],
+      },
+      {
+        heading: 'The method, in public — swimdata-il',
+        lenses: ['data'],
+        body: [
+          'The ingestion approach has a standalone, public proof. Before scaling it inside SwimEdge, I built swimdata-il as a Data Management course final at Ben-Gurion University: it turns the federation’s PDF-only competition results into a normalised relational database anyone can query.',
+          `The parser reads PDFs by geometry — word coordinates become column bands — rather than by text order, which is what breaks when a layout shifts. Identities are then resolved across languages and scripts: the same club appears as Maccabi, Macabbi, Maccabbi and Macabi, so keying on the federation code and choosing the canonical name by statistical mode collapses ${facts.swimdata.clubSpellings} raw spellings into ${facts.swimdata.canonicalClubs} real clubs, with an auditable trail. A Hebrew start list is bridged to an English results sheet on the shared event, heat, and lane tuple at ${facts.swimdata.matchRate} deterministic match.`,
+          `The result is ${facts.swimdata.championships} real championships — ${facts.swimdata.swims.toLocaleString()} swims, ${facts.swimdata.swimmers.toLocaleString()} swimmers, ${facts.swimdata.events} events — normalised to BCNF with ${facts.swimdata.orphanForeignKeys} orphan foreign keys, plus a self-contained dashboard built from the loaded data. It is the one part of this work anyone can open and check for themselves.`,
         ],
       },
       {
@@ -319,7 +334,7 @@ export const projects: Project[] = [
           'Six roles see six different systems. Federation administrators run ingestion, competition import, swimmer-claim review, and held-result resolution. Club managers handle membership, rosters, and claim queues for their clubs. Coaches work with their assigned swimmers. Officials enter results for the days they are assigned. Swimmers see their own career hub — personal bests, progression, and history that follows them across club changes.',
           'A public competition archive lets anyone browse historical meet results without logging in. Identity claim flows let swimmers and managers reconcile placeholder records against archived federation data — with federation admins resolving held results that cannot auto-match.',
           'On top of that sits the competition machinery: heat seeding, format progression, a versioned scoring engine, and analytics that render performance deltas with semantic meaning — improvement, regression, personal best — rather than as undifferentiated numbers.',
-          'Testing is split by cost. 232 Vitest tests cover components and hooks with no server. The backend runs 579 JUnit tests; repository and ingestion E2E tests use real PostgreSQL through Testcontainers.',
+          'Testing is split by cost. Component and hook tests run in milliseconds with no server behind them, while repository and ingestion end-to-end tests run against real PostgreSQL through Testcontainers, because the failures that matter in this system are data failures that mocks cannot reproduce.',
         ],
       },
       {
@@ -382,15 +397,60 @@ export const projects: Project[] = [
       title: 'System scale',
       note: 'Counted directly from the repository, not estimated.',
       rows: [
-        { label: 'Backend', value: '18,145 LOC', hint: '330 Java files', tone: 'neutral' },
-        { label: 'Frontend', value: '27,533 LOC', hint: 'TypeScript / TSX', tone: 'neutral' },
-        { label: 'REST controllers', value: '30', hint: 'JWT-secured, role-gated', tone: 'neutral' },
-        { label: 'Service classes', value: '40', hint: 'organised by domain', tone: 'neutral' },
-        { label: 'JPA entities', value: '31', hint: 'competition + identity model', tone: 'neutral' },
-        { label: 'Flyway migrations', value: '23', hint: 'V1 → V23, append-forward', tone: 'neutral' },
-        { label: 'React pages / components', value: '64 / 102', hint: 'bilingual, RTL-ready', tone: 'neutral' },
-        { label: 'Backend test suite', value: '579 tests', hint: 'JUnit + Testcontainers', tone: 'improve' },
-        { label: 'Frontend test suite', value: '232 tests', hint: 'Vitest + Testing Library', tone: 'improve' },
+        {
+          label: 'Archived results imported',
+          value: facts.swimedge.importedResults.toLocaleString(),
+          hint: `${facts.swimedge.importedMeets} meets; dry run and live run identical`,
+          tone: 'improve',
+        },
+        {
+          label: 'Held-result queue',
+          value: `${facts.swimedge.heldQueueFrom} → 0`,
+          hint: 'every ambiguous row resolved, none dropped',
+          tone: 'improve',
+        },
+        {
+          label: 'REST controllers',
+          value: String(facts.swimedge.controllers),
+          hint: 'JWT-secured, role-gated',
+          tone: 'neutral',
+        },
+        {
+          label: 'Domain service classes',
+          value: String(facts.swimedge.services),
+          hint: 'organised by domain, not by layer',
+          tone: 'neutral',
+        },
+        {
+          label: 'JPA entities',
+          value: String(facts.swimedge.entities),
+          hint: 'competition + identity model',
+          tone: 'neutral',
+        },
+        {
+          label: 'Flyway migrations',
+          value: facts.swimedge.migrations,
+          hint: 'append-forward; any environment rebuilds deterministically',
+          tone: 'neutral',
+        },
+        {
+          label: 'React pages / components',
+          value: `${facts.swimedge.pages} / ${facts.swimedge.components}`,
+          hint: facts.swimedge.languagesNote,
+          tone: 'neutral',
+        },
+        {
+          label: 'Backend test suite',
+          value: `${facts.swimedge.backendTests} tests`,
+          hint: 'JUnit + Testcontainers',
+          tone: 'improve',
+        },
+        {
+          label: 'Frontend test suite',
+          value: `${facts.swimedge.frontendTests} tests`,
+          hint: `Vitest + Testing Library, ${facts.swimedge.frontendTestFiles} files`,
+          tone: 'improve',
+        },
       ],
     },
     stack: [
@@ -401,10 +461,10 @@ export const projects: Project[] = [
       { group: 'Platform', items: ['Docker', 'OpenAPI / Swagger', 'Render', 'Git'] },
     ],
     highlights: [
-      'Imported 20k+ archived federation results with expectations-gated regulation matching and a held-result queue — nothing unattributed becomes a fact.',
-      'Shipped public competition archive and identity claim / held-result resolution UI (V22–V23).',
-      'Designed a three-tier result attribution strategy that quarantines ambiguous records instead of silently corrupting swimmer histories.',
-      'Architected a solo full-stack platform — 30 REST controllers, 40 domain services, 23 Flyway migrations, bilingual RTL React UI.',
+      `Runs a live national-archive campaign: ${facts.swimedge.importedResults.toLocaleString()} historical results ingested across ${facts.swimedge.importedMeets} meets, with the held-result queue worked down to zero.`,
+      'Shipped the identity release end to end — public competition archive, swimmer claims, and held-result resolution.',
+      'Designed a three-tier attribution strategy that quarantines ambiguous records instead of silently corrupting a swimmer’s history.',
+      `Architected the whole system solo — ${facts.swimedge.controllers} REST controllers, ${facts.swimedge.services} domain services, ${facts.swimedge.migrationCount} migrations, and a bilingual right-to-left interface.`,
     ],
     media: [
       {
@@ -449,9 +509,24 @@ export const projects: Project[] = [
         aspect: 'auto',
         lenses: ['fullstack'],
       },
+      {
+        file: 'swimdata-dashboard.png',
+        caption: 'swimdata-il — the ingestion method, in public',
+        hint: `Self-contained dashboard built from ${facts.swimdata.swims.toLocaleString()} geometry-parsed swims`,
+        aspect: 'auto',
+        lenses: ['data'],
+      },
+    ],
+    links: [
+      {
+        label: 'swimdata-il on GitHub',
+        href: facts.swimdata.repo,
+        note: 'Public repository — the parsing and entity-resolution method as a standalone, runnable project',
+        lenses: ['data'],
+      },
     ],
     status:
-      'In active development. Public competition archive and identity claim / held-result resolution shipped (V22–V23); federation ingestion and rules-engine hardening ongoing.',
+      'In active development. The identity release — public archive, swimmer claims, and held-result resolution — is shipped; the national archive import campaign and rules-engine hardening are ongoing.',
   },
 ]
 
