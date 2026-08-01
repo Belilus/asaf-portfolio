@@ -147,8 +147,7 @@ export function ProjectCase({
       Boolean,
     ) as string[])
 
-  const productHeadings =
-    project.productSections ?? ['Product surface', 'Beyond the code']
+  const productHeadings = project.productSections ?? sections.map((s) => s.heading)
 
   const productMetrics =
     project.productMetricsMax != null

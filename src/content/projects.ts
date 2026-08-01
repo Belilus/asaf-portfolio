@@ -268,7 +268,7 @@ export const projects: Project[] = [
       fullstack:
         `A complete client–server system designed and built alone — ${facts.swimedge.controllers} REST controllers over ${facts.swimedge.services} domain services and a ${facts.swimedge.migrationCount}-migration Postgres schema, fronted by a bilingual right-to-left React application with ${facts.swimedge.roles} distinct role-based workflows.`,
       pm:
-        'A solo product bet on federation trust: six stakeholder workflows, public archive, identity claims, and held-result resolution — shaped by years inside the sport as swimmer and coach.',
+        'A product story: months of discovery on the platform the sport already runs on, a governed system of record built from that limitation inventory, and a route to market that runs through the governing body itself.',
       data:
         'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
     },
@@ -284,14 +284,24 @@ export const projects: Project[] = [
     ],
     compactSections: ['The problem'],
     productHighlights: [
-      'Six role-based workflows — federation, club, coach, official, swimmer, and public archive — each seeing the data they own.',
-      'Shipped public competition archive and identity claim / held-result resolution (V22–V23).',
-      'Direct federation engagement with ISA and Ministry of Culture and Sport on modernising national sport technology.',
-      'Solo founder: vision, stakeholder conversations, and production UI — not a slide deck.',
+      'Discovery came first: a formal analysis of the incumbent platform and a limitation inventory shaped the product — and took months, on purpose.',
+      `Six stakeholder workflows, each seeing only the data it owns — boundaries drawn from how a federation actually governs, not from an org chart.`,
+      'Trust as the product thesis: quarantine rather than guess, lineage on every record, and held-result resolution as a first-class flow.',
+      'Route to market through the governing body: readiness audit, then federation leadership, then the Ministry of Culture and Sport.',
     ],
-    productSections: ['Product surface', 'Beyond the code'],
+    productSections: ['Discovery before code', 'The product', 'Taking it to the federation'],
     productMetricsMax: 3,
     sections: [
+      {
+        heading: 'Discovery before code',
+        lenses: ['pm'],
+        body: [
+          'The first product artifact was not a feature. It was a study of the incumbent: I analysed Loglig, the platform Israeli swimming actually runs on, and built a limitation inventory — where entries get re-keyed by hand, where results diverge between exports, where a swimmer’s history breaks at a club change, and which of those the existing product had structurally chosen not to solve.',
+          'Regulation booklets became requirements documents. A season’s rulebook defines the events, the age cohorts, and the qualifying standards a competition must enforce, so the product treats a printed booklet as structured input rather than something an administrator retypes — a discovery finding that later became the regulations-ingestion pipeline.',
+          'The data model was the product argument, not an implementation detail. I designed the entity relationships around identity, lineage, and accountability — who owns a record, who may change it, and what evidence stands behind it — using the industrial-engineering toolbox of entity-relationship modelling and process mapping, with a computer scientist’s view of what the schema would have to guarantee later.',
+          'That work is why the build could be opinionated. By the time I wrote code I knew which problems were worth solving, which were incumbent design choices rather than laws of the domain, and what a replacement would have to prove before anyone would switch.',
+        ],
+      },
       {
         heading: 'The problem',
         body: [
@@ -329,19 +339,20 @@ export const projects: Project[] = [
         ],
       },
       {
-        heading: 'Product surface',
+        heading: 'The product',
         body: [
           'Six roles see six different systems. Federation administrators run ingestion, competition import, swimmer-claim review, and held-result resolution. Club managers handle membership, rosters, and claim queues for their clubs. Coaches work with their assigned swimmers. Officials enter results for the days they are assigned. Swimmers see their own career hub — personal bests, progression, and history that follows them across club changes.',
           'A public competition archive lets anyone browse historical meet results without logging in. Identity claim flows let swimmers and managers reconcile placeholder records against archived federation data — with federation admins resolving held results that cannot auto-match.',
           'On top of that sits the competition machinery: heat seeding, format progression, a versioned scoring engine, and analytics that render performance deltas with semantic meaning — improvement, regression, personal best — rather than as undifferentiated numbers.',
-          'Testing is split by cost. Component and hook tests run in milliseconds with no server behind them, while repository and ingestion end-to-end tests run against real PostgreSQL through Testcontainers, because the failures that matter in this system are data failures that mocks cannot reproduce.',
         ],
       },
       {
-        heading: 'Beyond the code',
+        heading: 'Taking it to the federation',
+        lenses: ['pm'],
         body: [
-          'I have taken SwimEdge into direct conversations with the Israel Swimming Association and engaged the Ministry of Culture and Sport on the broader opportunity to modernise technology across national sport federations, alongside a competitor analysis of the incumbent platform and a formal demo-readiness audit.',
-          'That part has been as instructive as the engineering. A federation platform is only partly a software problem; the rest is understanding who owns which data, who is accountable for a disputed result, and what a governing body needs to see before it will trust a system with its records.',
+          'A federation platform is bought on trust, not on features. Before approaching the association I ran a formal demo-readiness audit against the live system and wrote a scripted executive walkthrough of the flows a governing body actually cares about: where a result came from, who approved it, and what happens when someone disputes it.',
+          'In July 2026 I presented SwimEdge to Israel Swimming Association leadership, and those discussions are ongoing. In parallel I have engaged the Ministry of Culture and Sport on the wider opportunity — modernising record-keeping across national sport federations — informed by the same competitor analysis that started the project.',
+          'A governing body asks three questions: who is accountable for a record, what happens to a swimmer’s history when they move, and how hard would it be to leave this system later. Most of the product decisions above trace back to one of those three.',
         ],
       },
     ],
