@@ -127,17 +127,20 @@ export function ProjectCase({
   const isFull = emphasis === 'full'
   const isCompact = emphasis === 'compact'
   const isProduct = emphasis === 'product'
+  const isBrief = emphasis === 'brief'
 
   const [open, setOpen] = useState(false)
 
   const highlights =
     isProduct && project.productHighlights
       ? project.productHighlights
-      : isCompact && project.compactHighlights
-        ? project.compactHighlights
-        : isCompact
-          ? project.highlights.slice(0, 2)
-          : project.highlights
+      : isBrief && project.briefHighlights
+        ? project.briefHighlights
+        : (isCompact || isBrief) && project.compactHighlights
+          ? project.compactHighlights
+          : isCompact || isBrief
+            ? project.highlights.slice(0, 2)
+            : project.highlights
 
   const sections = sectionsForLens(project, lens)
   const metrics = metricsForLens(project, lens)
@@ -170,7 +173,7 @@ export function ProjectCase({
               {String(index + 1).padStart(2, '0')}
             </span>
             <span className="portal-eyebrow">{project.eyebrow}</span>
-            {isCompact && (
+            {(isCompact || isBrief) && (
               <span className="chip border-primary/30 text-primary">Supporting project</span>
             )}
             {isProduct && (
@@ -370,6 +373,8 @@ export function ProjectCase({
           </aside>
         )}
 
+        {/* Brief deliberately omits status: its wording is tuned to the lens
+            that owns the project, and reads as jargon anywhere else. */}
         {isCompact && (
           <aside className="portal-card p-5">
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">

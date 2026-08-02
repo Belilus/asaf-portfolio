@@ -90,7 +90,6 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       'Programming Languages',
       'Data Engineering',
       'Databases & Storage',
-      'AI / ML & Computer Vision',
       'Tools, Testing & Infrastructure',
     ],
     contact: { showAlso: false, showEducation: false, resumeAsTextLink: true },

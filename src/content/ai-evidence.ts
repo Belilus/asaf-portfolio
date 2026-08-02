@@ -127,7 +127,7 @@ const content: Record<LensId, HowIWorkContent> = {
     eyebrow: 'How I work',
     title: 'Governed automation',
     lead: 'The pipelines and the AI tooling that builds them run under one rule: provenance, quarantine, and proof before anything is treated as true.',
-    cards: [quarantineLineage, verificationData, byteDiffGate, agentRosterData],
+    cards: [quarantineLineage, verificationData, agentRosterData],
     showRoster: false,
   },
 }

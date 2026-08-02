@@ -10,7 +10,8 @@
 import { facts, totalResearchTests } from './facts'
 import { lenses, type LensId } from './profile'
 
-export type ProjectEmphasis = 'full' | 'compact' | 'product' | 'hidden'
+/** `brief` is a name-check: header, two highlights, status — no metrics or prose. */
+export type ProjectEmphasis = 'full' | 'compact' | 'product' | 'brief' | 'hidden'
 
 export interface MetricRow {
   label: string
@@ -53,6 +54,8 @@ export interface Project {
   emphasis: Record<LensId, ProjectEmphasis>
   /** Optional override for compact mode (defaults to first two highlights). */
   compactHighlights?: string[]
+  /** Optional override for brief mode (defaults to compactHighlights). */
+  briefHighlights?: string[]
   /** Section headings shown inline in compact mode (no accordion). */
   compactSections?: string[]
   /** Product-tier highlights and sections (PM lens). */
@@ -93,17 +96,21 @@ export const projects: Project[] = [
       pm:
         'The measurement discipline behind SwimEdge: I learned to split code error from data error on this project before applying the same instinct to federation ingestion.',
       data:
-        'A measurement pipeline whose real output is an attribution table: nine distinct error causes, each classified as code, data, or irreducible, with live millimetre figures regenerated from the run artifacts.',
+        'Where the data-quality instinct comes from: a measurement pipeline whose real output is an attribution table separating error I could fix in code from error the data itself imposes.',
     },
     emphasis: {
       research: 'full',
       fullstack: 'compact',
       pm: 'hidden',
-      data: 'compact',
+      data: 'brief',
     },
     compactHighlights: [
       `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles with a staged error budget — best full-body fit ${facts.research.bestFrameMm} mm, honest cross-check ${facts.research.honestFrame60Mm} mm.`,
       `${totalResearchTests} tests across two suites, including a golden-file gate that blocks any refactor which cannot prove zero output drift.`,
+    ],
+    briefHighlights: [
+      'Built the error-attribution table that separates error I could still fix in code from error the capture itself imposes — the habit behind quarantining a record rather than guessing at it.',
+      'Published an honest figure alongside the best achievable one for the same measurement, so the headline number could never outrun the method.',
     ],
     compactSections: ['Key results', 'Engineering rigor'],
     sections: [

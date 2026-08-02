@@ -87,6 +87,10 @@ export default function App() {
     return d
   }
 
+  // Case studies are numbered by the order this lens actually renders them.
+  let projectIndex = 0
+  const nextProjectIndex = () => projectIndex++
+
   return (
     <div
       className={`min-h-screen antialiased ${deepWater ? 'track-deep bg-background text-foreground' : 'bg-background text-foreground'}`}
@@ -131,13 +135,13 @@ export default function App() {
             case 'project-research':
               return researchProject ? (
                 <Reveal key="project-research" delay={nextDelay()}>
-                  <ProjectCase project={researchProject} lens={lensId} index={0} />
+                  <ProjectCase project={researchProject} lens={lensId} index={nextProjectIndex()} />
                 </Reveal>
               ) : null
             case 'project-swimedge':
               return swimedgeProject ? (
                 <Reveal key="project-swimedge" delay={nextDelay()}>
-                  <ProjectCase project={swimedgeProject} lens={lensId} index={0} />
+                  <ProjectCase project={swimedgeProject} lens={lensId} index={nextProjectIndex()} />
                 </Reveal>
               ) : null
             case 'how-i-work':

@@ -139,9 +139,9 @@ export const lenses: Lens[] = [
         note: 'exact, heuristic, held for review — never silently dropped',
       },
       {
-        value: `${facts.research.errorCauses}-cause`,
-        label: 'error attribution table',
-        note: 'each split into code vs. data vs. irreducible',
+        value: facts.swimdata.matchRate,
+        label: 'bilingual record match',
+        note: 'Hebrew start lists bridged to English results, deterministically',
       },
     ],
     projectVisibility: ['swimedge', 'research'],
