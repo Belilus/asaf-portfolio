@@ -540,16 +540,18 @@ export const projects: Project[] = [
       {
         file: 'swimedge-approvals.png',
         caption: 'Federation approvals queue',
-        hint: 'Swimmer claim review for federation admins',
+        hint: 'Document verification and payment clearing for federation admins',
         aspect: 'auto',
-        lenses: ['pm'],
+        // Held back until the approvals queue renders club names in the active
+        // UI language — it still shows the raw Hebrew name (SwimEdge tsk_118).
+        lenses: [],
       },
       {
         file: 'swimedge-results.png',
         caption: 'An imported championship, in the archive',
         hint: 'A real federation meet ingested from source documents — full event catalogue, publicly browsable',
         aspect: 'auto',
-        lenses: ['data'],
+        lenses: ['data', 'pm'],
       },
       {
         file: 'swimedge-career-hub.png',

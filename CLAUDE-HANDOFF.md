@@ -1,6 +1,6 @@
 # Portfolio handoff — Claude Cowork polish pass
 
-**Live:** https://asaf-portfolio-ten.vercel.app/  
+**Live:** https://asaf-portfolio-research.vercel.app/  
 **Repo:** https://github.com/Belilus/asaf-portfolio  
 **Dev:** `npm run dev` → http://localhost:5174 (SwimEdge uses 5173)
 

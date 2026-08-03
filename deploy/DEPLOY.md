@@ -26,7 +26,7 @@ backup if you ever change the build command to plain `npm run build`.
 
 | Lens | URL |
 |------|-----|
-| Research | https://asaf-portfolio-ten.vercel.app |
+| Research | https://asaf-portfolio-research.vercel.app |
 | Full-Stack | https://asaf-portfolio-fullstack.vercel.app |
 | PM / Founder | https://asaf-portfolio-pm.vercel.app |
 | Data | https://asaf-portfolio-data.vercel.app |
@@ -67,18 +67,6 @@ https://asaf-portfolio-data.vercel.app
 
 Optional: add custom domains per role (`research.asaf.dev`, etc.) in each project’s
 **Settings → Domains**.
-
-## Migrate the existing combined site
-
-If `asaf-portfolio-ten.vercel.app` still shows all four tabs:
-
-1. Open that project in Vercel
-2. Set **Build command** → `npm run build:research` (or pick one lens and use the other
-   three as new projects)
-3. Add **VITE_PORTFOLIO_LENS** = `research`
-4. Redeploy
-
-Or delete/rename that project and use four fresh ones as above.
 
 ## Local dev
 

@@ -1,7 +1,7 @@
 import type { LensId } from './profile'
 
 export const lensShareUrls: Record<LensId, string> = {
-  research: 'https://asaf-portfolio-ten.vercel.app',
+  research: 'https://asaf-portfolio-research.vercel.app',
   fullstack: 'https://asaf-portfolio-fullstack.vercel.app',
   pm: 'https://asaf-portfolio-pm.vercel.app',
   data: 'https://asaf-portfolio-data.vercel.app',
