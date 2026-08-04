@@ -19,7 +19,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/asaf-belilus',
 } as const
 
-export type LensId = 'research' | 'fullstack' | 'pm' | 'data'
+export type LensId = 'research' | 'fullstack' | 'pm' | 'data' | 'backend' | 'frontend'
 
 export interface Lens {
   id: LensId
@@ -148,6 +148,64 @@ export const lenses: Lens[] = [
     ],
     projectVisibility: ['swimedge', 'research'],
     resume: { label: 'Data CV', file: 'Asaf-Belilus-Data.pdf' },
+  },
+  {
+    id: 'backend',
+    label: 'Backend',
+    blurb: 'For backend engineering, API, and platform roles.',
+    headline: 'Backend Software Engineer · Java (Spring Boot) & PostgreSQL · API Architecture',
+    bio: [
+      'I design and build robust, scalable backend systems and APIs. My primary stack is Java and Spring Boot, focusing heavily on domain-driven design, secure data models, and strict API contracts.',
+      'In SwimEdge, I built a production-grade multi-tenant architecture entirely from scratch. I emphasize append-forward database evolution (Flyway), deterministic testing (JUnit & Testcontainers), and enforcing strict role-based access control (RBAC) at the server boundary.',
+    ],
+    stats: [
+      {
+        value: facts.swimedge.migrations,
+        label: 'Flyway migrations',
+        note: 'append-forward DB evolution',
+      },
+      {
+        value: `${facts.swimedge.backendTests} tests`,
+        label: 'backend test suite',
+        note: 'JUnit + Testcontainers',
+      },
+      {
+        value: String(facts.swimedge.controllers),
+        label: 'REST controllers',
+        note: 'over 40 domain services',
+      },
+    ],
+    projectVisibility: ['swimedge', 'research'],
+    resume: { label: 'Backend CV', file: 'Asaf-Belilus-Backend.pdf' },
+  },
+  {
+    id: 'frontend',
+    label: 'Frontend',
+    blurb: 'For frontend engineering and UI architecture roles.',
+    headline: 'Frontend Software Engineer · React 18 & TypeScript · Complex UI Architecture',
+    bio: [
+      'I build complex, data-rich user interfaces with React, TypeScript, and Vite. I specialize in developing scalable frontend architectures that handle demanding state management and dynamic role-based workflows.',
+      'For SwimEdge, I engineered a bilingual, right-to-left (RTL) platform serving 6 distinct user roles. I prioritize type safety by regenerating API client contracts directly from backend OpenAPI specs, ensuring UI stability and seamless UX for thousands of historical data points.',
+    ],
+    stats: [
+      {
+        value: `${facts.swimedge.pages} pages`,
+        label: 'React architecture',
+        note: `with ${facts.swimedge.components} components`,
+      },
+      {
+        value: 'Bilingual RTL',
+        label: 'i18n infrastructure',
+        note: 'native Hebrew/English support',
+      },
+      {
+        value: `${facts.swimedge.frontendTests} tests`,
+        label: 'frontend suite',
+        note: 'Vitest + Testing Library',
+      },
+    ],
+    projectVisibility: ['swimedge'],
+    resume: { label: 'Frontend CV', file: 'Asaf-Belilus-Frontend.pdf' },
   },
 ]
 

@@ -97,12 +97,18 @@ export const projects: Project[] = [
         'The measurement discipline behind my software engineering: developed an error attribution framework to separate system code defects from external data limitations.',
       data:
         'Data quality and error attribution engine: categorizes experimental residuals into code artifacts, input noise, and irreducible physical constraints.',
+      backend:
+        'A headless, I/O-isolated numerical Python core built with backend rigor. Emphasizes automated QA reporting and golden-file byte-diff testing that blocks regression.',
+      frontend:
+        'Data visualization and diagnostic tooling: transforming complex 3D arrays into clear, interpretable visual models using Matplotlib.',
     },
     emphasis: {
       research: 'full',
       fullstack: 'compact',
       pm: 'hidden',
       data: 'brief',
+      backend: 'brief',
+      frontend: 'hidden',
     },
     compactHighlights: [
       `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles with a staged error budget — best full-body fit ${facts.research.bestFrameMm} mm, honest cross-check ${facts.research.honestFrame60Mm} mm.`,
@@ -280,12 +286,18 @@ export const projects: Project[] = [
         'Unified system of record replacing fragmented legacy software. Designed a 6-tier permission framework, mapped complex competition lifecycles, and presented directly to national governing body executives.',
       data:
         'Federation-scale ingestion engine: imported 47,000+ historical race records across 17 championships. Built a 3-tier entity resolution strategy resolving 105 spelling variants down to 72 canonical entities with 98.3% bilingual match accuracy.',
+      backend:
+        'A production backend built with Spring Boot 3, Java 21, and PostgreSQL. Features 31 JWT-secured REST controllers, 40 domain services, and strict multi-tenant data governance.',
+      frontend:
+        'A massive React 18 / TypeScript single-page application. Features a robust Tailwind design system, seamless RTL support, and API types synced via OpenAPI generation.',
     },
     emphasis: {
       research: 'compact',
       fullstack: 'full',
       pm: 'product',
       data: 'full',
+      backend: 'full',
+      frontend: 'full',
     },
     compactHighlights: [
       'A production platform for a national sport federation — registration, seeding, live results, identity, and career analytics — built and operated solo.',
@@ -456,7 +468,7 @@ export const projects: Project[] = [
           value: facts.swimedge.importedResults.toLocaleString(),
           hint: `${facts.swimedge.importedMeets} meets; dry run and live run identical`,
           tone: 'improve',
-          lenses: ['fullstack', 'data'],
+          lenses: ['fullstack', 'data', 'backend'],
         },
         {
           label: 'Held-result queue',
@@ -470,35 +482,35 @@ export const projects: Project[] = [
           value: String(facts.swimedge.controllers),
           hint: 'JWT-secured, role-gated',
           tone: 'neutral',
-          lenses: ['fullstack', 'data'],
+          lenses: ['fullstack', 'data', 'backend'],
         },
         {
           label: 'Domain service classes',
           value: String(facts.swimedge.services),
           hint: 'organised by domain, not by layer',
           tone: 'neutral',
-          lenses: ['fullstack', 'data'],
+          lenses: ['fullstack', 'data', 'backend'],
         },
         {
           label: 'JPA entities',
           value: String(facts.swimedge.entities),
           hint: 'competition + identity model',
           tone: 'neutral',
-          lenses: ['fullstack', 'data'],
+          lenses: ['fullstack', 'data', 'backend'],
         },
         {
           label: 'React pages / components',
           value: `${facts.swimedge.pages} / ${facts.swimedge.components}`,
           hint: facts.swimedge.languagesNote,
           tone: 'neutral',
-          lenses: ['fullstack', 'data', 'research'],
+          lenses: ['fullstack', 'data', 'research', 'frontend'],
         },
         {
           label: 'Frontend test suite',
           value: `${facts.swimedge.frontendTests} tests`,
           hint: `Vitest + Testing Library, ${facts.swimedge.frontendTestFiles} files`,
           tone: 'improve',
-          lenses: ['fullstack', 'data', 'research'],
+          lenses: ['fullstack', 'data', 'research', 'frontend'],
         },
       ],
     },
@@ -521,21 +533,21 @@ export const projects: Project[] = [
         caption: 'Public competition archive',
         hint: 'Browse historical meet results without logging in',
         aspect: 'auto',
-        lenses: ['fullstack', 'pm', 'data', 'research'],
+        lenses: ['fullstack', 'pm', 'data', 'research', 'backend', 'frontend'],
       },
       {
         file: 'swimedge-dashboard.png',
         caption: 'Competition dashboard',
         hint: 'Manager competition detail — start lists, results, progression',
         aspect: 'auto',
-        lenses: ['fullstack', 'pm'],
+        lenses: ['fullstack', 'pm', 'backend', 'frontend'],
       },
       {
         file: 'swimedge-claims.png',
         caption: 'Held-result resolution',
         hint: 'Federation queue for unattributed archived results',
         aspect: 'auto',
-        lenses: ['fullstack', 'data'],
+        lenses: ['fullstack', 'data', 'backend'],
       },
       {
         file: 'swimedge-approvals.png',
@@ -558,7 +570,7 @@ export const projects: Project[] = [
         caption: 'Swimmer career hub',
         hint: 'Personal bests and progression across club changes',
         aspect: 'auto',
-        lenses: ['fullstack'],
+        lenses: ['fullstack', 'frontend'],
       },
       {
         file: 'swimdata-challenge.png',

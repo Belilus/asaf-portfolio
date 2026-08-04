@@ -56,7 +56,7 @@ export default function App() {
     const { pathname, search } = window.location
     const onRoot = pathname === '/' || pathname === ''
     const hasLensQuery = new URLSearchParams(search).has('lens')
-    const onLegacyPath = /^\/(research|fullstack|pm|data)\/?$/.test(pathname)
+    const onLegacyPath = /^\/(research|fullstack|pm|data|backend|frontend)\/?$/.test(pathname)
     if (!onRoot || hasLensQuery || onLegacyPath) {
       window.history.replaceState(null, '', '/')
     }

@@ -11,6 +11,10 @@ const contactLeads: Record<Lens['id'], string> = {
     'I’m looking for full-stack engineering roles where I can own systems end to end. Email is fastest — I reply to everything.',
   pm: 'I’m looking for product and founder-track roles where domain depth and shipping discipline matter. Email is fastest.',
   data: 'I’m looking for data engineering and analytics roles where governed ingestion matters. Email is fastest.',
+  backend:
+    'I’m looking for backend engineering roles where I can own APIs, data models, and platform reliability. Email is fastest.',
+  frontend:
+    'I’m looking for frontend engineering roles where I can own complex UI architecture and design systems. Email is fastest.',
 }
 
 export function Contact({ lens, layout }: { lens: Lens; layout: LensLayout['contact'] }) {

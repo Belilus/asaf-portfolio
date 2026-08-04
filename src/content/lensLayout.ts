@@ -33,13 +33,12 @@ export interface LensLayout {
 export const lensLayouts: Record<LensId, LensLayout> = {
   research: {
     sections: ['hero', 'featured', 'project-research', 'project-swimedge', 'how-i-work', 'contact'],
-    // Education lives in the hero on this lens; repeating it in contact was a duplicate.
     contact: { showAlso: true, showEducation: false, resumeAsTextLink: true },
     hero: { showEducation: true },
     featured: {
       eyebrow: 'Featured work',
-      title: 'Underwater kinematics with an honest error budget',
-      lead: 'M.Sc. research bridging computer vision and hydrodynamic simulation — measured, staged, and regression-tested.',
+      title: 'Measured underwater kinematics',
+      lead: 'Bridging computer vision and hydrodynamic simulation with an honest, regression-tested error budget.',
     },
   },
   fullstack: {
@@ -62,8 +61,8 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     hero: { showEducation: false },
     featured: {
       eyebrow: 'Featured work',
-      title: 'SwimEdge — solo full-stack platform',
-      lead: 'A production client–server system for a national sport federation, from Postgres schema to bilingual right-to-left interface — shipped and operated by one engineer.',
+      title: 'SwimEdge — Solo full-stack platform',
+      lead: 'A production client–server system shipped and operated by one engineer, from schema to UI.',
     },
   },
   pm: {
@@ -72,8 +71,8 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     hero: { showEducation: false },
     featured: {
       eyebrow: 'Product',
-      title: 'A federation platform built from the pool deck',
-      lead: 'The product case: give every club in the country one governed place to run its swimmers — and take it to the governing body directly.',
+      title: 'Built from the pool deck up',
+      lead: 'Giving every swimming club one governed place to run operations—demoed directly to the governing body.',
     },
   },
   data: {
@@ -96,8 +95,47 @@ export const lensLayouts: Record<LensId, LensLayout> = {
     hero: { showEducation: false },
     featured: {
       eyebrow: 'Featured work',
-      title: 'Governed data at federation scale',
-      lead: 'Arena exports and regulation PDFs become attributed relational records — with lineage, quarantine, and semantic performance deltas.',
+      title: 'Governed data at scale',
+      lead: 'Converting messy PDFs and Excel exports into relational records with zero silent drops.',
+    },
+  },
+  backend: {
+    sections: [
+      'hero',
+      'featured',
+      'project-swimedge',
+      'project-research',
+      'how-i-work',
+      'skills',
+      'contact',
+    ],
+    skillGroups: [
+      'Programming Languages',
+      'Databases & Storage',
+      'Web & System Development',
+      'Tools, Testing & Infrastructure',
+    ],
+    contact: { showAlso: false, showEducation: false, resumeAsTextLink: true },
+    hero: { showEducation: false },
+    featured: {
+      eyebrow: 'Featured work',
+      title: 'Scalable federation architecture',
+      lead: 'A secure, service-oriented Spring Boot backend handling complex multi-tenant hierarchies and data integrity.',
+    },
+  },
+  frontend: {
+    sections: ['hero', 'featured', 'project-swimedge', 'how-i-work', 'skills', 'contact'],
+    skillGroups: [
+      'Programming Languages',
+      'Web & System Development',
+      'Tools, Testing & Infrastructure',
+    ],
+    contact: { showAlso: false, showEducation: false, resumeAsTextLink: true },
+    hero: { showEducation: false },
+    featured: {
+      eyebrow: 'Featured work',
+      title: 'Complex, data-rich interfaces',
+      lead: 'A bilingual, RTL-native React application rendering deep career analytics and live competition dashboards.',
     },
   },
 }

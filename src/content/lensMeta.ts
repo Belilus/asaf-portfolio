@@ -5,6 +5,8 @@ export const lensShareUrls: Record<LensId, string> = {
   fullstack: 'https://asaf-portfolio-fullstack.vercel.app',
   pm: 'https://asaf-portfolio-pm.vercel.app',
   data: 'https://asaf-portfolio-data.vercel.app',
+  backend: 'https://asaf-portfolio-backend.vercel.app',
+  frontend: 'https://asaf-portfolio-frontend.vercel.app',
 }
 
 export const lensPageMeta: Record<
@@ -34,6 +36,18 @@ export const lensPageMeta: Record<
     description:
       'Federation-scale ingestion: three-tier attribution, lineage on every row, zero silent drops — with a public, verifiable proof of method.',
     ogTitle: 'Asaf Belilus — Data Portfolio',
+  },
+  backend: {
+    title: 'Asaf Belilus — Backend Software Engineer',
+    description:
+      'Backend engineer specializing in Java, Spring Boot, and PostgreSQL. Architect of the SwimEdge platform.',
+    ogTitle: 'Asaf Belilus — Backend Portfolio',
+  },
+  frontend: {
+    title: 'Asaf Belilus — Frontend Software Engineer',
+    description:
+      'Frontend engineer specializing in React, TypeScript, and complex RTL interfaces. Builder of the SwimEdge platform.',
+    ogTitle: 'Asaf Belilus — Frontend Portfolio',
   },
 }
 

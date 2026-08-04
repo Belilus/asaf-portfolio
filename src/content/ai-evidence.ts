@@ -130,6 +130,20 @@ const content: Record<LensId, HowIWorkContent> = {
     cards: [quarantineLineage, verificationData, agentRosterData],
     showRoster: false,
   },
+  backend: {
+    eyebrow: 'How I build',
+    title: 'Backend rigor & automation',
+    lead: 'I use AI to accelerate implementation, but database migrations, API contracts, and security boundaries pass strict human gates.',
+    cards: [councilFullstack, verificationFullstack, byteDiffGate],
+    showRoster: true,
+  },
+  frontend: {
+    eyebrow: 'How I build',
+    title: 'Interface velocity with safety',
+    lead: 'AI accelerates component generation, but state management, i18n completeness, and OpenAPI contract syncing are strictly gated.',
+    cards: [councilFullstack, verificationFullstack],
+    showRoster: false,
+  },
 }
 
 export function howIWorkForLens(lens: LensId): HowIWorkContent {

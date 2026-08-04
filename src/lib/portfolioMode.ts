@@ -1,6 +1,6 @@
 import type { LensId } from '../content/profile'
 
-const VALID_LENS = new Set<LensId>(['research', 'fullstack', 'pm', 'data'])
+const VALID_LENS = new Set<LensId>(['research', 'fullstack', 'pm', 'data', 'backend', 'frontend'])
 
 /** When set at build time, this deploy is a single-lens site with no switcher. */
 export function lockedLens(): LensId | null {
@@ -26,6 +26,8 @@ export function resolveLensId(pathname: string, search: string): LensId {
     fullstack: 'fullstack',
     pm: 'pm',
     data: 'data',
+    backend: 'backend',
+    frontend: 'frontend',
   }
   if (last && pathMap[last]) return pathMap[last]
 
