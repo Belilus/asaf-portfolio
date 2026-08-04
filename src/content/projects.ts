@@ -90,13 +90,13 @@ export const projects: Project[] = [
       'Turn noisy 3-D underwater motion capture into a physically valid joint-angle model that a hydrodynamic engine will accept — and quantify exactly how much of the remaining error is fixable.',
     angle: {
       research:
-        'A cross-faculty project bridging computer vision and control theory. The contribution is not only the reconstruction pipeline but the error budget that separates modeling error from the definitional limits of the marker set.',
+        'A cross-faculty research pipeline bridging computer vision and rigid-body mechanics. Formulates non-linear least-squares optimization using Tikhonov regularization (λ = 1e-4) to transform underwater marker frames into simulator-ready joint kinematics—delivering an isolated trunk error of 0.0 mm and an honest whole-body baseline.',
       fullstack:
-        'A research problem engineered like production software: a four-layer Python package with an I/O-free numerical core, a pluggable stroke-dispatch layer, and a golden-file regression gate standing between any refactor and the claim that it changed nothing.',
+        'A numerical Python core built with production software rigor: strict I/O isolation, modular stroke dispatchers, and automated golden-file byte-diff testing that blocks any refactor causing non-zero output drift.',
       pm:
-        'The measurement discipline behind SwimEdge: I learned to split code error from data error on this project before applying the same instinct to federation ingestion.',
+        'The measurement discipline behind my software engineering: developed an error attribution framework to separate system code defects from external data limitations.',
       data:
-        'Where the data-quality instinct comes from: a measurement pipeline whose real output is an attribution table separating error I could fix in code from error the data itself imposes.',
+        'Data quality and error attribution engine: categorizes experimental residuals into code artifacts, input noise, and irreducible physical constraints.',
     },
     emphasis: {
       research: 'full',
@@ -273,13 +273,13 @@ export const projects: Project[] = [
       'A production platform giving every club in Israeli swimming one governed place to run its swimmers — membership, registration, seeding, live results, scoring, and career history — engineered as a system of record rather than another reporting tool.',
     angle: {
       research:
-        'The applied counterpart to my research: the same insistence on traceable data. Every imported result carries its lineage, and nothing that cannot be attributed with confidence is allowed to silently become a fact.',
+        'The applied system counterpart: rigorous data provenance and immutable record lineage applied to nationwide competition management.',
       fullstack:
-        `A complete client–server system designed and built alone — ${facts.swimedge.controllers} REST controllers over ${facts.swimedge.services} domain services and a ${facts.swimedge.migrationCount}-migration Postgres schema, fronted by a bilingual right-to-left React application with ${facts.swimedge.roles} distinct role-based workflows.`,
+        'A production multi-role federation platform built solo with Spring Boot 3 and React 18: 31 REST controllers, 40 domain services, 23 Flyway migrations, and strict JWT role authorization.',
       pm:
-        'The product case: a hierarchy that mirrors how the sport is actually run, so a club, a coach, an official and a swimmer each get exactly the view they are accountable for — and a route to market that goes through the governing body itself.',
+        'Unified system of record replacing fragmented legacy software. Designed a 6-tier permission framework, mapped complex competition lifecycles, and presented directly to national governing body executives.',
       data:
-        'A federation-scale ingestion problem: Arena XLSX exports and PDF-derived regulation books turned into attributed relational records, with a three-tier matching strategy and an explicit quarantine for everything that does not resolve cleanly.',
+        'Federation-scale ingestion engine: imported 47,000+ historical race records across 17 championships. Built a 3-tier entity resolution strategy resolving 105 spelling variants down to 72 canonical entities with 98.3% bilingual match accuracy.',
     },
     emphasis: {
       research: 'compact',
