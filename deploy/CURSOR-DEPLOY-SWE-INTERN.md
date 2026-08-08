@@ -12,7 +12,7 @@ provisioning, committing, and deploying.
 
 **Repo:** `Belilus/asaf-portfolio` (branch `main`)
 **New lens id:** `swe-intern`
-**Target URL:** `https://asaf-portfolio-swe-intern.vercel.app`
+**Target URL:** `https://asaf-portfolio-swe.vercel.app`
 **Vercel project name:** `asaf-portfolio-swe-intern`
 
 This site is the portfolio link on my Microsoft Software Engineering Intern application,
@@ -59,7 +59,7 @@ npm run preview
 ```
 
 Confirm at `localhost`: **no lens switcher is visible**, SwimEdge appears **before** the
-research project, the tab title reads "Asaf Belilus — Software Engineering Intern", and
+research project, the tab title reads "Asaf Belilus — Software Engineer", and
 the CV download button says just "CV" and resolves to
 `/resume/Asaf-Belilus-Software-Engineering-Intern.pdf`.
 
@@ -97,13 +97,13 @@ This is the step that has bitten this repo before: a Vercel project rename does 
 retroactively attach the new `.vercel.app` alias to existing deployments.
 
 After deploying, open **Settings → Domains** and confirm
-`asaf-portfolio-swe-intern.vercel.app` is listed and assigned to the production
+`asaf-portfolio-swe.vercel.app` is listed and assigned to the production
 deployment. If it is missing, add it, then trigger a fresh production redeploy.
 
 ### 5. Verify live
 
 ```bash
-curl -sI https://asaf-portfolio-swe-intern.vercel.app | head -1
+curl -sI https://asaf-portfolio-swe.vercel.app | head -1
 ```
 
 Expect `HTTP/2 200` — **not** 404 / `DEPLOYMENT_NOT_FOUND`.
@@ -113,10 +113,10 @@ switcher, SwimEdge first, correct tab title, CV button works).
 
 ## Acceptance criteria
 
-- [ ] `https://asaf-portfolio-swe-intern.vercel.app` returns 200 and renders the SWE-intern lens
+- [ ] `https://asaf-portfolio-swe.vercel.app` returns 200 and renders the SWE lens
 - [ ] No lens switcher anywhere on the page
 - [ ] SwimEdge case study appears before the research case study
-- [ ] Tab title: "Asaf Belilus — Software Engineering Intern"
+- [ ] Tab title: "Asaf Belilus — Software Engineer"
 - [ ] CV button downloads `Asaf-Belilus-Software-Engineering-Intern.pdf`
 - [ ] The other six sites still work and still serve their own lens (regression check)
 

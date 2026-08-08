@@ -11,10 +11,10 @@ profiles, root URL only.
 | Research | `npm run build:research` | `asaf-portfolio-research` |
 | Full-Stack | `npm run build:fullstack` | `asaf-portfolio-fullstack` |
 | PM / Founder | `npm run build:pm` | `asaf-portfolio-pm` |
-| Data | `npm run build:data` | `asaf-portfolio-data` |
+| Data Engineering | `npm run build:data` | `asaf-portfolio-data` |
 | Backend | `npm run build:backend` | `asaf-portfolio-backend` |
 | Frontend | `npm run build:frontend` | `asaf-portfolio-frontend` |
-| SWE Intern | `npm run build:swe-intern` | `asaf-portfolio-swe-intern` |
+| SWE | `npm run build:swe-intern` | `asaf-portfolio-swe-intern` |
 
 Each site also needs this **environment variable** (Production + Preview):
 
@@ -32,10 +32,10 @@ backup if you ever change the build command to plain `npm run build`.
 | Research | https://asaf-portfolio-research.vercel.app |
 | Full-Stack | https://asaf-portfolio-fullstack.vercel.app |
 | PM / Founder | https://asaf-portfolio-pm.vercel.app |
-| Data | https://asaf-portfolio-data.vercel.app |
+| Data Engineering | https://asaf-portfolio-data.vercel.app |
 | Backend | https://asaf-portfolio-backend.vercel.app |
 | Frontend | https://asaf-portfolio-frontend.vercel.app |
-| SWE Intern | https://asaf-portfolio-swe-intern.vercel.app |
+| SWE | https://asaf-portfolio-swe.vercel.app |
 
 Re-run provisioning after cloning:
 
@@ -87,6 +87,9 @@ Use a separate `.vercel` link (or `--cwd` + project) for each of the seven Verce
 Drop role-specific CVs in `public/resume/`:
 
 - `Asaf-Belilus-Backend.pdf`
+- `Asaf-Belilus-Data.pdf`
 - `Asaf-Belilus-Frontend.pdf`
-
-(and the existing four lens PDFs). Download buttons 404 until the file is present.
+- `Asaf-Belilus-Fullstack.pdf`
+- `Asaf-Belilus-PM.pdf`
+- `Asaf-Belilus-Researcher.pdf`
+- `Asaf-Belilus-Software-Engineer.pdf`

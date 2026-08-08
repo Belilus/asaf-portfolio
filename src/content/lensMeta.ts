@@ -7,7 +7,7 @@ export const lensShareUrls: Record<LensId, string> = {
   data: 'https://asaf-portfolio-data.vercel.app',
   backend: 'https://asaf-portfolio-backend.vercel.app',
   frontend: 'https://asaf-portfolio-frontend.vercel.app',
-  'swe-intern': 'https://asaf-portfolio-swe-intern.vercel.app',
+  'swe-intern': 'https://asaf-portfolio-swe.vercel.app',
 }
 
 export const lensPageMeta: Record<
@@ -17,44 +17,44 @@ export const lensPageMeta: Record<
   research: {
     title: 'Asaf Belilus — Computer Vision & Biomechanics Research',
     description:
-      'M.Sc. research reconstructing swimmer joint kinematics from underwater pose data — with an honest, regenerated error budget.',
-    ogTitle: 'Asaf Belilus — Research Portfolio',
+      'M.Sc. research reconstructing swimmer joint motion from underwater 3-D pose data for hydrodynamic simulation.',
+    ogTitle: 'Asaf Belilus — Computer Vision Research',
   },
   fullstack: {
     title: 'Asaf Belilus — Full-Stack Software Engineer',
     description:
-      'SwimEdge: a solo-built federation platform — Spring Boot, React/TypeScript, Postgres, bilingual RTL — verified by test gates before every merge.',
-    ogTitle: 'Asaf Belilus — Full-Stack Portfolio',
+      'Full-stack engineer behind SwimEdge: Spring Boot, React, PostgreSQL, role-based access, and 811 automated tests.',
+    ogTitle: 'Asaf Belilus — Full-Stack Engineer',
   },
   pm: {
     title: 'Asaf Belilus — Product Founder · SwimEdge',
     description:
       'SwimEdge: replacing spreadsheet-era federation software. Discovery on the incumbent first; demoed to ISA leadership, July 2026.',
-    ogTitle: 'Asaf Belilus — Product / Founder Portfolio',
+    ogTitle: 'Asaf Belilus — Product Founder',
   },
   data: {
     title: 'Asaf Belilus — Data Engineer',
     description:
-      'Federation-scale ingestion: three-tier attribution, lineage on every row, zero silent drops — with a public, verifiable proof of method.',
-    ogTitle: 'Asaf Belilus — Data Portfolio',
+      'Data engineering for federation records: document ingestion, entity resolution, source lineage, and explicit review of ambiguity.',
+    ogTitle: 'Asaf Belilus — Data Engineer',
   },
   backend: {
     title: 'Asaf Belilus — Backend Software Engineer',
     description:
-      'Backend engineer specializing in Java, Spring Boot, and PostgreSQL. Architect of the SwimEdge platform.',
-    ogTitle: 'Asaf Belilus — Backend Portfolio',
+      'Backend engineer building Spring Boot APIs, PostgreSQL schemas, club-scoped authorization, and database-backed tests.',
+    ogTitle: 'Asaf Belilus — Backend Engineer',
   },
   frontend: {
     title: 'Asaf Belilus — Frontend Software Engineer',
     description:
-      'Frontend engineer specializing in React, TypeScript, and complex RTL interfaces. Builder of the SwimEdge platform.',
-    ogTitle: 'Asaf Belilus — Frontend Portfolio',
+      'Frontend engineer building React and TypeScript interfaces across six roles, three languages, and RTL layouts.',
+    ogTitle: 'Asaf Belilus — Frontend Engineer',
   },
   'swe-intern': {
-    title: 'Asaf Belilus — Software Engineering Intern',
+    title: 'Asaf Belilus — Software Engineer',
     description:
-      'M.Sc. Computer Science student building production systems and computer-vision research pipelines — Spring Boot, PostgreSQL, React, and evaluation harnesses that separate code error from data limits.',
-    ogTitle: 'Asaf Belilus — Software Engineering',
+      'Software engineer and M.Sc. Computer Science student building full-stack systems and computer-vision research pipelines.',
+    ogTitle: 'Asaf Belilus — Software Engineer',
   },
 }
 

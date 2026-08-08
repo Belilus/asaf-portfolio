@@ -153,7 +153,10 @@ export default function App() {
             case 'skills':
               return (
                 <Reveal key="skills" delay={nextDelay()}>
-                  <Skills skillGroupTitles={layout.skillGroups} showPrinciples={lensId !== 'pm'} />
+                  <Skills
+                    skillGroupTitles={layout.skillGroups}
+                    showPrinciples={lensId !== 'pm' && lensId !== 'swe-intern'}
+                  />
                 </Reveal>
               )
             case 'contact':

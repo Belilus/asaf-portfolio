@@ -8,17 +8,11 @@ import { getProjectEmphasis, projects } from '../content/projects'
 function navLinksForLens(lensId: LensId, layout: LensLayout) {
   const links: { href: string; label: string }[] = []
 
-  if (layout.sections.includes('project-research')) {
-    links.push({ href: '#research', label: 'Research' })
-  }
-  if (layout.sections.includes('project-swimedge')) {
-    links.push({ href: '#swimedge', label: 'SwimEdge' })
-  }
-  if (layout.sections.includes('how-i-work')) {
-    links.push({ href: '#how-i-work', label: 'How I work' })
-  }
-  if (layout.sections.includes('skills')) {
-    links.push({ href: '#skills', label: 'Skills' })
+  for (const section of layout.sections) {
+    if (section === 'project-research') links.push({ href: '#research', label: 'Research' })
+    if (section === 'project-swimedge') links.push({ href: '#swimedge', label: 'SwimEdge' })
+    if (section === 'how-i-work') links.push({ href: '#how-i-work', label: 'How I work' })
+    if (section === 'skills') links.push({ href: '#skills', label: 'Skills' })
   }
   links.push({ href: '#contact', label: 'Contact' })
 

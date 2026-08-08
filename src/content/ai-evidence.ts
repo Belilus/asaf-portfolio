@@ -71,6 +71,21 @@ const verificationData: EvidenceCard = {
   body: 'Ingestion logic is written test-first: the failing test that defines correct behaviour exists before the code that satisfies it. Repository and end-to-end tests run against real PostgreSQL rather than mocks, because the bugs that matter here are data bugs.',
 }
 
+const schemaEvolutionBackend: EvidenceCard = {
+  title: 'Schema history only moves forward',
+  body: 'Twenty-three Flyway migrations reconstruct the database from V1. Changes add, backfill, and preserve history so a deployment never depends on editing an old migration in place.',
+}
+
+const contractSyncBackend: EvidenceCard = {
+  title: 'The API contract has one source',
+  body: 'Backend DTO changes flow through the OpenAPI specification into regenerated TypeScript client types. A broken contract is caught at build time instead of becoming a disagreement between two handwritten models.',
+}
+
+const interfaceLanguageFrontend: EvidenceCard = {
+  title: 'Language direction is architecture',
+  body: 'Hebrew, English, and Russian share one token-driven component system. Translation completeness, RTL layout, and role-specific navigation are verified as part of interface work rather than patched after a feature is finished.',
+}
+
 const byteDiffGate: EvidenceCard = {
   title: 'A refactor is not “safe” because an agent says so',
   body: 'Structural changes to the research pipeline have to regenerate the simulation input files and prove them byte-identical to a frozen baseline before the change counts as behaviour-preserving. It is the cheapest available check on confident-sounding output, and it is not optional.',
@@ -112,7 +127,7 @@ const content: Record<LensId, HowIWorkContent> = {
   fullstack: {
     eyebrow: 'How I work',
     title: 'How I build — and how I run AI',
-    lead: 'SwimEdge is solo engineering at federation scale, and I get there by operating AI agents and skill playbooks aggressively — inside gates I designed. AI accelerates implementation; the gates and the sign-offs decide what merges.',
+    lead: 'I use AI agents and reusable playbooks to cover a broad stack, while specifications, automated tests, and human review remain the release boundary.',
     cards: [councilFullstack, verificationFullstack, byteDiffGate],
     showRoster: true,
   },
@@ -132,16 +147,16 @@ const content: Record<LensId, HowIWorkContent> = {
   },
   backend: {
     eyebrow: 'How I build',
-    title: 'Backend rigor & automation',
-    lead: 'I use AI to accelerate implementation, but database migrations, API contracts, and security boundaries pass strict human gates.',
-    cards: [councilFullstack, verificationFullstack, byteDiffGate],
-    showRoster: true,
+    title: 'Backend changes preserve contracts and history',
+    lead: 'Database evolution, API types, and role boundaries are treated as explicit contracts with automated checks.',
+    cards: [schemaEvolutionBackend, contractSyncBackend, verificationFullstack],
+    showRoster: false,
   },
   frontend: {
     eyebrow: 'How I build',
-    title: 'Interface velocity with safety',
-    lead: 'AI accelerates component generation, but state management, i18n completeness, and OpenAPI contract syncing are strictly gated.',
-    cards: [councilFullstack, verificationFullstack],
+    title: 'One interface across roles and languages',
+    lead: 'Components stay consistent through shared tokens, generated API types, translation checks, and focused UI tests.',
+    cards: [interfaceLanguageFrontend, contractSyncBackend, verificationFullstack],
     showRoster: false,
   },
   'swe-intern': {

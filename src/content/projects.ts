@@ -102,7 +102,7 @@ export const projects: Project[] = [
       frontend:
         'Data visualization and diagnostic tooling: transforming complex 3D arrays into clear, interpretable visual models using Matplotlib.',
       'swe-intern':
-        'Where I learned to test what I cannot see directly: a numerical Python pipeline with strict I/O isolation, golden-file byte-diff gates, and an error budget that separates my own code defects from the limits of the data itself.',
+        'A Python, NumPy, and SciPy pipeline that turns noisy 3-D pose data into simulator-ready joint motion.',
     },
     emphasis: {
       research: 'full',
@@ -111,7 +111,7 @@ export const projects: Project[] = [
       data: 'brief',
       backend: 'brief',
       frontend: 'hidden',
-      'swe-intern': 'compact',
+      'swe-intern': 'brief',
     },
     compactHighlights: [
       `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles with a staged error budget — best full-body fit ${facts.research.bestFrameMm} mm, honest cross-check ${facts.research.honestFrame60Mm} mm.`,
@@ -279,22 +279,22 @@ export const projects: Project[] = [
     period: '2025 – Present',
     role: 'Architecture, backend, frontend, data ingestion, design system, infrastructure',
     premise:
-      'A production platform giving every club in Israeli swimming one governed place to run its swimmers — membership, registration, seeding, live results, scoring, and career history — engineered as a system of record rather than another reporting tool.',
+      'An active platform giving swimming clubs one governed place to run their swimmers — membership, registration, seeding, live results, scoring, and career history — engineered as a system of record rather than another reporting tool.',
     angle: {
       research:
         'The applied system counterpart: rigorous data provenance and immutable record lineage applied to nationwide competition management.',
       fullstack:
-        'A production multi-role federation platform built solo with Spring Boot 3 and React 18: 31 REST controllers, 40 domain services, 23 Flyway migrations, and strict JWT role authorization.',
+        'A multi-role federation platform built solo with Spring Boot 3 and React 18: 31 REST controllers, 40 domain services, 23 Flyway migrations, and strict JWT role authorization.',
       pm:
-        'Unified system of record replacing fragmented legacy software. Designed a 6-tier permission framework, mapped complex competition lifecycles, and presented directly to national governing body executives.',
+        'A system of record replacing fragmented legacy software. Defined a 6-role operating model, mapped competition lifecycles, and presented the product directly to national governing body leadership.',
       data:
-        'Federation-scale ingestion engine: imported 47,000+ historical race records across 17 championships. Built a 3-tier entity resolution strategy resolving 105 spelling variants down to 72 canonical entities with 98.3% bilingual match accuracy.',
+        'Imported 47,509 historical results across 17 championships with source lineage and explicit holds for ambiguity. A separate public course project proves the matching method at smaller scale, including 98.3% bilingual row matching.',
       backend:
-        'A production backend built with Spring Boot 3, Java 21, and PostgreSQL. Features 31 JWT-secured REST controllers, 40 domain services, and strict multi-tenant data governance.',
+        'A Spring Boot 3, Java 21, and PostgreSQL backend with 31 JWT-secured REST controllers, 40 domain services, and club-scoped authorization enforced server-side.',
       frontend:
         'A massive React 18 / TypeScript single-page application. Features a robust Tailwind design system, seamless RTL support, and API types synced via OpenAPI generation.',
       'swe-intern':
-        'A zero-to-one platform taken from empty repo to production by one engineer: Spring Boot 3 and React 18, 23 append-forward migrations, server-enforced role boundaries, and comprehensive automated test suites.',
+        'Spring Boot services, a React interface, and a PostgreSQL data model joined by role-based access and automated tests.',
     },
     emphasis: {
       research: 'compact',
@@ -303,11 +303,11 @@ export const projects: Project[] = [
       data: 'full',
       backend: 'full',
       frontend: 'full',
-      'swe-intern': 'full',
+      'swe-intern': 'brief',
     },
     compactHighlights: [
-      'A production platform for a national sport federation — registration, seeding, live results, identity, and career analytics — built and operated solo.',
-      'The same evidence discipline as the research: every imported record carries its lineage, and ambiguity is quarantined rather than guessed.',
+      'Six server-enforced roles keep federation, club, coach, official, swimmer, and public workflows within their authorization boundaries.',
+      'Every imported record preserves its source, while ambiguous matches are held for review instead of silently assigned.',
     ],
     compactSections: ['The problem'],
     productHighlights: [
@@ -436,7 +436,7 @@ export const projects: Project[] = [
         {
           step: '06',
           title: 'Typed API boundary',
-          body: '30 REST controllers behind JWT auth and a role hierarchy; frontend types are regenerated from the live OpenAPI spec.',
+          body: '31 REST controllers behind JWT auth and a role hierarchy; frontend types are regenerated from the live OpenAPI spec.',
           tech: ['REST', 'JWT', 'OpenAPI'],
         },
         {

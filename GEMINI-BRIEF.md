@@ -1,4 +1,4 @@
-# Gemini brief — asaf-portfolio (six role lenses)
+# Gemini brief — asaf-portfolio (seven role lenses)
 
 Use this file to onboard Gemini on the portfolio. Upload the listed source files alongside this brief, or paste the **Ready-to-paste prompt** at the bottom.
 
@@ -6,16 +6,17 @@ Use this file to onboard Gemini on the portfolio. Upload the listed source files
 
 ## What this is
 
-One React/Vite repo builds **six separate recruiter-facing sites**. Each Vercel deploy locks to one audience via `VITE_PORTFOLIO_LENS`. There is **no lens switcher** in production.
+One React/Vite repo builds **seven separate recruiter-facing sites**. Each Vercel deploy locks to one audience via `VITE_PORTFOLIO_LENS`. There is **no lens switcher** in production.
 
 | Lens | Live URL | Vercel project |
 |------|----------|----------------|
 | Research | https://asaf-portfolio-research.vercel.app | `asaf-portfolio-research` |
 | Full-Stack | https://asaf-portfolio-fullstack.vercel.app | `asaf-portfolio-fullstack` |
 | PM / Founder | https://asaf-portfolio-pm.vercel.app | `asaf-portfolio-pm` |
-| Data | https://asaf-portfolio-data.vercel.app | `asaf-portfolio-data` |
+| Data Engineering | https://asaf-portfolio-data.vercel.app | `asaf-portfolio-data` |
 | Backend | https://asaf-portfolio-backend.vercel.app | `asaf-portfolio-backend` |
 | Frontend | https://asaf-portfolio-frontend.vercel.app | `asaf-portfolio-frontend` |
+| SWE | https://asaf-portfolio-swe.vercel.app | `asaf-portfolio-swe-intern` |
 
 **Repo:** https://github.com/Belilus/asaf-portfolio  
 **Latest commit (content refactor):** `1d3cd0b` — lens headlines, bios, project angles  
@@ -122,7 +123,7 @@ Project depth tiers: `full` · `compact` · `product` · `brief` · `hidden` —
 |------|------------------|
 | `src/lib/portfolioMode.ts` | `lockedLens()`, single-lens site detection |
 | `src/lib/lensFromUrl.ts` | Path/query lens resolution |
-| `deploy/DEPLOY.md` | Four-site Vercel setup |
+| `deploy/DEPLOY.md` | Seven-site Vercel setup |
 | `package.json` | `dev:*` and `build:*` scripts |
 | `scripts/capture-swimedge-media.mjs` | Playwright screenshot capture |
 | `public/media/README.md` | Media slot documentation |
@@ -132,7 +133,7 @@ Project depth tiers: `full` · `compact` · `product` · `brief` · `hidden` —
 ## Non-negotiables for any Gemini edit
 
 1. **Numbers** — only change metrics in `facts.ts`; copy elsewhere must interpolate from there.
-2. **Four sites, not one** — each lens is a separate deploy; no cross-lens switcher in production.
+2. **Seven sites, not one** — each lens is a separate deploy; no cross-lens switcher in production.
 3. **Do not over-claim** — SwimEdge is not nationally deployed; ISA demo Jul 2026, discussions ongoing.
 4. **How I work** — AI as orchestration with human gates; not "AI wrote my code."
 5. **Research test count** — `totalResearchTests` = pipeline + lab suites from `facts.ts` (currently 111).
@@ -158,7 +159,7 @@ Project depth tiers: `full` · `compact` · `product` · `brief` · `hidden` —
 1. Go to [aistudio.google.com](https://aistudio.google.com)
 2. Start a new chat → **Add file** → upload Tier 1 files + this `GEMINI-BRIEF.md`
 3. Paste the prompt below
-4. For UX feedback, also open the four live URLs in another tab and describe what you see
+4. For UX feedback, also open the seven live URLs in another tab and describe what you see
 
 ### Gemini chat (with file upload)
 
@@ -185,14 +186,14 @@ Copy everything inside the block below into Gemini after uploading the files.
 ---
 
 ```
-You are reviewing and improving a six-lens portfolio (research, fullstack, pm, data, backend, frontend) built from one React/Vite repo. Each lens is a separate Vercel site locked by VITE_PORTFOLIO_LENS — no tab switcher in production.
+You are reviewing and improving a seven-lens portfolio (research, fullstack, pm, data, backend, frontend, SWE) built from one React/Vite repo. Each lens is a separate Vercel site locked by VITE_PORTFOLIO_LENS — no tab switcher in production.
 
 I attached GEMINI-BRIEF.md plus the content source files. Read them before proposing changes.
 
 Goals:
 1. Stronger above-the-fold hook — a recruiter should grasp my positioning in 5 seconds.
 2. Less narrative repetition across hero → featured → case study opener.
-3. Sharper per-lens differentiation — research reads like a CV/ML researcher, fullstack like a staff engineer, PM like a founder/PM, data like a pipeline engineer.
+3. Sharper per-lens differentiation — research reads like a CV/ML researcher, fullstack like an end-to-end engineer, PM like a founder/PM, data like a pipeline engineer, and SWE like a concise general software engineer.
 4. Better scan-ability — shorter paragraphs, clearer hierarchy, less wall-of-text.
 5. Recruiter-friendly language on PM and research lenses; technical depth on fullstack and data.
 
@@ -203,15 +204,16 @@ Constraints:
 - Respect project emphasis tiers (full / compact / product / brief / hidden) per lens.
 - Propose concrete edits with file paths and before/after snippets.
 
-Live sites to mentally compare (six separate URLs):
+Live sites to mentally compare (seven separate URLs):
 - Research: https://asaf-portfolio-research.vercel.app
 - Full-Stack: https://asaf-portfolio-fullstack.vercel.app
 - PM: https://asaf-portfolio-pm.vercel.app
-- Data: https://asaf-portfolio-data.vercel.app
+- Data Engineering: https://asaf-portfolio-data.vercel.app
 - Backend: https://asaf-portfolio-backend.vercel.app
 - Frontend: https://asaf-portfolio-frontend.vercel.app
+- SWE: https://asaf-portfolio-swe.vercel.app
 
-Start by listing the top 5 issues you see across all six lenses, then propose prioritized edits to profile.ts, lensLayout.ts, and projects.ts.
+Start by listing the top 5 issues you see across all seven lenses, then propose prioritized edits to profile.ts, lensLayout.ts, and projects.ts.
 ```
 
 ---

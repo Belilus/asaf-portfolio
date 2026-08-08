@@ -51,10 +51,9 @@ export const lenses: Lens[] = [
     label: 'Research',
     blurb: 'For research groups, labs, and CV/ML positions.',
     headline:
-      'Computer Vision & Biomechanics Researcher (M.Sc.) · Kinematic Reconstruction & Physics-Constrained Optimization',
+      'M.Sc. Researcher · Underwater Pose, Joint Kinematics & Hydrodynamic Simulation',
     bio: [
-      'I specialize in modeling human joint motion from complex 3D pose data, translating noisy underwater visual inputs into deterministic, physics-compliant joint angles. My M.Sc. research at Ben-Gurion University bridges computer vision and hydrodynamic simulation by enforcing strict Euler kinematic constraints on raw biomechanical streams.',
-      'Rather than treating models as black boxes, my focus is on measurement rigor: isolating system-level code artifacts from inherent data limits. I design end-to-end evaluation pipelines with golden-file regression testing to guarantee mathematical reproducibility.',
+      'My M.Sc. research at Ben-Gurion University reconstructs swimmer joint motion from underwater 3-D pose data for hydrodynamic simulation. I use constrained optimization, staged error attribution, and regression-tested Python pipelines to report both the best fit and the limits imposed by the measurements.',
     ],
     stats: [
       {
@@ -77,10 +76,9 @@ export const lenses: Lens[] = [
     label: 'Full-Stack',
     blurb: 'For product engineering and full-stack software roles.',
     headline:
-      'Full-Stack Software Engineer · Java (Spring Boot) & TypeScript (React) · Scalable System Architecture',
+      'Full-Stack Software Engineer · Spring Boot, React & PostgreSQL · End-to-End Ownership',
     bio: [
-      'I design and engineer production-grade client-server systems built for data integrity and high availability. As the sole architect of SwimEdge, a national sports management engine, I built a multi-tenant platform handling core operational workflows across thousands of concurrent users.',
-      'My approach emphasizes strict backend authorization boundaries, append-forward database evolution (Flyway), and type-safe API contracts (OpenAPI). I prioritize long-term maintainability using modular service design, comprehensive test suites (JUnit, Testcontainers, Vitest), and clean UI architecture.',
+      'I designed and built SwimEdge end to end: Spring Boot services, a PostgreSQL schema evolved through 23 Flyway migrations, and a 64-page React interface with generated OpenAPI types. Its six roles are enforced server-side, and 811 automated tests cover the backend and frontend.',
     ],
     stats: [
       {
@@ -106,10 +104,9 @@ export const lenses: Lens[] = [
     id: 'pm',
     label: 'PM / Founder',
     blurb: 'For product management and founder-track roles.',
-    headline: 'Product Founder & PM · SwimEdge · Systems of Record & Enterprise B2B Solutions',
+    headline: 'Product Founder & PM · SwimEdge · System of Record for Competitive Swimming',
     bio: [
-      'I build systems by first mapping the operational realities of the domain. Before writing a line of code for SwimEdge, I conducted extensive competitive teardowns of legacy federation tools, converting regulatory rulebooks into structured system requirements.',
-      'I focus on building software that users trust with their primary system of record. By designing transparent role hierarchies, seamless lifecycle workflows, and automated compliance pipelines, I bridge technical capability with executive strategy—taking products from discovery to national governing body presentations.',
+      'I began SwimEdge with a teardown of the incumbent federation tools, mapped regulations and competition workflows into requirements, and shaped a staged rollout for clubs, coaches, swimmers, officials, and the federation. As founder and sole engineer, I own discovery, prioritization, implementation, and stakeholder validation, including a July 2026 demo to Israel Swimming Association leadership.',
     ],
     stats: [
       {
@@ -122,19 +119,18 @@ export const lenses: Lens[] = [
         label: 'operational core',
         note: 'registration to historical analytics',
       },
-      { value: 'Jul 2026', label: 'ISA leadership demo', note: 'national deployment track' },
+      { value: 'Jul 2026', label: 'ISA leadership demo', note: 'stakeholder validation' },
     ],
     projectVisibility: ['swimedge'],
     resume: { label: 'Product CV', file: 'Asaf-Belilus-PM.pdf' },
   },
   {
     id: 'data',
-    label: 'Data & Analytics',
-    blurb: 'For data engineering, analytics, and pipeline roles.',
-    headline: 'Data Engineer · High-Throughput Ingestion, Entity Resolution & Governed Pipelines',
+    label: 'Data Engineering',
+    blurb: 'For data engineering, ingestion, and data-quality roles.',
+    headline: 'Data Engineer · Federation Ingestion, Entity Resolution & Record Lineage',
     bio: [
-      'I build data pipelines designed for raw, unstructured input formats—turning legacy documents, PDFs, and spreadsheets into fully attributed, queryable relational databases.',
-      'My core specialization lies in entity resolution and record lineage under zero-silent-drop constraints. Whether handling multilingual identity variations across sports archives or calibrating motion-capture data streams, I build self-healing pipelines with transparent quarantine queues and verifiable data lineage.',
+      'I turn PDFs, spreadsheets, and multilingual identities into traceable relational data. SwimEdge imported 47,509 archived results across 17 meets with source lineage on every row and a held-result queue reduced from 278 to zero; the public swimdata-il project demonstrates the matching and normalization method on a smaller reproducible dataset.',
     ],
     stats: [
       {
@@ -150,7 +146,7 @@ export const lenses: Lens[] = [
       {
         value: facts.swimdata.matchRate,
         label: 'bilingual record match',
-        note: 'zero silent record drops',
+        note: 'public swimdata-il project',
       },
     ],
     projectVisibility: ['swimedge', 'research'],
@@ -160,10 +156,9 @@ export const lenses: Lens[] = [
     id: 'backend',
     label: 'Backend',
     blurb: 'For backend engineering, API, and platform roles.',
-    headline: 'Backend Software Engineer · Java (Spring Boot) & PostgreSQL · API Architecture',
+    headline: 'Backend Software Engineer · Java, Spring Boot & PostgreSQL · APIs, Schema & RBAC',
     bio: [
-      'I design and build robust, scalable backend systems and APIs. My primary stack is Java and Spring Boot, focusing heavily on domain-driven design, secure data models, and strict API contracts.',
-      'In SwimEdge, I built a production-grade multi-tenant architecture entirely from scratch. I emphasize append-forward database evolution (Flyway), deterministic testing (JUnit & Testcontainers), and enforcing strict role-based access control (RBAC) at the server boundary.',
+      'I built SwimEdge’s backend as 40 domain services behind 31 REST controllers, with six-role authorization enforced at the API boundary. PostgreSQL evolves through 23 append-forward Flyway migrations, and 579 JUnit and Testcontainers tests verify business rules against a real database.',
     ],
     stats: [
       {
@@ -179,7 +174,7 @@ export const lenses: Lens[] = [
       {
         value: String(facts.swimedge.controllers),
         label: 'REST controllers',
-        note: 'over 40 domain services',
+        note: `${facts.swimedge.services} domain services`,
       },
     ],
     projectVisibility: ['swimedge', 'research'],
@@ -189,10 +184,9 @@ export const lenses: Lens[] = [
     id: 'frontend',
     label: 'Frontend',
     blurb: 'For frontend engineering and UI architecture roles.',
-    headline: 'Frontend Software Engineer · React 18 & TypeScript · Complex UI Architecture',
+    headline: 'Frontend Software Engineer · React & TypeScript · RTL, Design Systems & Role-Based UI',
     bio: [
-      'I build complex, data-rich user interfaces with React, TypeScript, and Vite. I specialize in developing scalable frontend architectures that handle demanding state management and dynamic role-based workflows.',
-      'For SwimEdge, I engineered a bilingual, right-to-left (RTL) platform serving 6 distinct user roles. I prioritize type safety by regenerating API client contracts directly from backend OpenAPI specs, ensuring UI stability and seamless UX for thousands of historical data points.',
+      'I built SwimEdge’s 64-page React and TypeScript interface across 107 components for six distinct user roles. The UI supports Hebrew, English, and Russian with RTL layouts, follows a token-driven design system, regenerates client types from OpenAPI, and is covered by 232 frontend tests.',
     ],
     stats: [
       {
@@ -201,9 +195,9 @@ export const lenses: Lens[] = [
         note: `with ${facts.swimedge.components} components`,
       },
       {
-        value: 'Bilingual RTL',
+        value: '3 languages',
         label: 'i18n infrastructure',
-        note: 'native Hebrew/English support',
+        note: 'Hebrew · English · Russian, RTL-ready',
       },
       {
         value: `${facts.swimedge.frontendTests} tests`,
@@ -216,13 +210,12 @@ export const lenses: Lens[] = [
   },
   {
     id: 'swe-intern',
-    label: 'SWE Intern',
-    blurb: 'For software engineering internships on AI and platform teams.',
+    label: 'SWE',
+    blurb: 'For software engineering roles across product, platform, and applied AI teams.',
     headline:
-      'Software Engineering Intern · M.Sc. Computer Science · AI Systems & Production Engineering',
+      'Software Engineer · M.Sc. Computer Science · Full-Stack Systems & Computer Vision',
     bio: [
-      'I build production software and I measure what it actually does. My M.Sc. research at Ben-Gurion University turns noisy 3-D underwater pose data into physics-valid joint kinematics — work where the real discipline is not the model but the error budget: separating what my code got wrong from what the data can never tell me.',
-      'I apply the same standard to shipping systems. I designed and built SwimEdge alone, from schema to UI — a multi-tenant platform with server-enforced role boundaries, append-forward migrations, and comprehensive automated test suites. I like ambiguous, zero-to-one problems, and I work across faculties, with external stakeholders, and as a teaching assistant.',
+      'I build reliable software from backend services and data models to user-facing applications. I am the sole engineer behind SwimEdge, a multi-role swimming platform, and an M.Sc. researcher developing tested Python pipelines for underwater motion analysis. Both projects reflect how I work: learn the domain, collaborate with the people around it, and verify the result.',
     ],
     stats: [
       {
@@ -237,12 +230,12 @@ export const lenses: Lens[] = [
       },
       {
         value: '0 → 1',
-        label: 'sole architect, SwimEdge',
-        note: 'concept to production',
+        label: 'SwimEdge',
+        note: 'designed and built end to end',
       },
     ],
     projectVisibility: ['swimedge', 'research'],
-    resume: { label: 'CV', file: 'Asaf-Belilus-Software-Engineering-Intern.pdf' },
+    resume: { label: 'CV', file: 'Asaf-Belilus-Software-Engineer.pdf' },
   },
 ]
 

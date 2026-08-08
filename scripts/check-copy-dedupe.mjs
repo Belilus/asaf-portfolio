@@ -11,7 +11,7 @@
 import { spawn } from 'node:child_process'
 import { chromium } from 'playwright'
 
-const LENSES = ['research', 'fullstack', 'pm', 'data', 'backend', 'frontend']
+const LENSES = ['research', 'fullstack', 'pm', 'data', 'backend', 'frontend', 'swe-intern']
 const WINDOW = 8
 const PORT = 5199
 

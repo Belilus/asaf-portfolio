@@ -16,7 +16,7 @@ const contactLeads: Record<Lens['id'], string> = {
   frontend:
     'I’m looking for frontend engineering roles where I can own complex UI architecture and design systems. Email is fastest.',
   'swe-intern':
-    'I’m looking for a software engineering internship where I can build real systems and measure what they do. Email is fastest — I reply to everything.',
+    'I’m looking for software engineering roles where I can contribute across the stack and keep learning. Email is fastest.',
 }
 
 export function Contact({ lens, layout }: { lens: Lens; layout: LensLayout['contact'] }) {
@@ -25,9 +25,11 @@ export function Contact({ lens, layout }: { lens: Lens; layout: LensLayout['cont
       <div className="section-shell">
         <SectionHeading eyebrow="Contact" title="Let’s talk" lead={contactLeads[lens.id]} />
 
-        <div className="mb-10">
-          <ShareCard lensId={lens.id} />
-        </div>
+        {layout.showShare !== false && (
+          <div className="mb-10">
+            <ShareCard lensId={lens.id} />
+          </div>
+        )}
 
         <div className={`grid gap-10 ${layout.showAlso ? 'lg:grid-cols-[1.1fr_1fr]' : ''}`}>
           <div>
