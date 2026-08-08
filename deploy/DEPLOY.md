@@ -1,4 +1,4 @@
-# Six separate portfolio sites
+# Seven separate portfolio sites
 
 Each profile is a **standalone Vercel project** from this repo. The build env var
 `VITE_PORTFOLIO_LENS` locks the deploy to one lens: no tab switcher, no path to other
@@ -14,11 +14,12 @@ profiles, root URL only.
 | Data | `npm run build:data` | `asaf-portfolio-data` |
 | Backend | `npm run build:backend` | `asaf-portfolio-backend` |
 | Frontend | `npm run build:frontend` | `asaf-portfolio-frontend` |
+| SWE Intern | `npm run build:swe-intern` | `asaf-portfolio-swe-intern` |
 
 Each site also needs this **environment variable** (Production + Preview):
 
 ```
-VITE_PORTFOLIO_LENS=research   # or fullstack | pm | data | backend | frontend
+VITE_PORTFOLIO_LENS=research   # or fullstack | pm | data | backend | frontend | swe-intern
 ```
 
 The build scripts set it automatically; the Vercel env var is a belt-and-suspenders
@@ -34,6 +35,7 @@ backup if you ever change the build command to plain `npm run build`.
 | Data | https://asaf-portfolio-data.vercel.app |
 | Backend | https://asaf-portfolio-backend.vercel.app |
 | Frontend | https://asaf-portfolio-frontend.vercel.app |
+| SWE Intern | https://asaf-portfolio-swe-intern.vercel.app |
 
 Re-run provisioning after cloning:
 
@@ -41,17 +43,17 @@ Re-run provisioning after cloning:
 bash scripts/vercel-setup-six-sites.sh
 ```
 
-Or deploy all six from your machine (CLI must be logged in):
+Or deploy all seven from your machine (CLI must be logged in):
 
 ```bash
-for p in asaf-portfolio-research asaf-portfolio-fullstack asaf-portfolio-pm asaf-portfolio-data asaf-portfolio-backend asaf-portfolio-frontend; do
+for p in asaf-portfolio-research asaf-portfolio-fullstack asaf-portfolio-pm asaf-portfolio-data asaf-portfolio-backend asaf-portfolio-frontend asaf-portfolio-swe-intern; do
   npx vercel deploy --prod --project "$p" --yes
 done
 ```
 
 ## One-time Vercel setup (dashboard)
 
-For **each** of the six projects:
+For **each** of the seven projects:
 
 1. [vercel.com/new](https://vercel.com/new) → Import `Belilus/asaf-portfolio`
 2. **Project name** — use the name from the table above
@@ -63,7 +65,7 @@ For **each** of the six projects:
 ## Local dev
 
 ```bash
-npm run dev              # all six lenses + switcher (hub mode)
+npm run dev              # all seven lenses + switcher (hub mode)
 npm run dev:backend      # backend-only site preview
 npm run dev:frontend     # frontend-only site preview
 npm run dev:pm           # PM-only site preview
@@ -78,7 +80,7 @@ npm run build:backend
 npx vercel --prod --project asaf-portfolio-backend --yes --build-env VITE_PORTFOLIO_LENS=backend
 ```
 
-Use a separate `.vercel` link (or `--cwd` + project) for each of the six Vercel projects.
+Use a separate `.vercel` link (or `--cwd` + project) for each of the seven Vercel projects.
 
 ## Resume PDFs
 

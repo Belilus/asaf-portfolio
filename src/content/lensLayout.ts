@@ -123,6 +123,31 @@ export const lensLayouts: Record<LensId, LensLayout> = {
       lead: 'A secure, service-oriented Spring Boot backend handling complex multi-tenant hierarchies and data integrity.',
     },
   },
+  'swe-intern': {
+    sections: [
+      'hero',
+      'featured',
+      'project-swimedge',
+      'project-research',
+      'how-i-work',
+      'skills',
+      'contact',
+    ],
+    skillGroups: [
+      'Programming Languages',
+      'AI / ML & Computer Vision',
+      'Web & System Development',
+      'Databases & Storage',
+      'Tools, Testing & Infrastructure',
+    ],
+    contact: { showAlso: true, showEducation: true, resumeAsTextLink: true },
+    hero: { showEducation: true },
+    featured: {
+      eyebrow: 'Featured work',
+      title: 'Shipped systems, measured honestly',
+      lead: 'A production platform built end to end by one engineer, and research whose headline number cannot outrun its own error budget.',
+    },
+  },
   frontend: {
     sections: ['hero', 'featured', 'project-swimedge', 'how-i-work', 'skills', 'contact'],
     skillGroups: [

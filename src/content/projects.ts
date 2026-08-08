@@ -101,6 +101,8 @@ export const projects: Project[] = [
         'A headless, I/O-isolated numerical Python core built with backend rigor. Emphasizes automated QA reporting and golden-file byte-diff testing that blocks regression.',
       frontend:
         'Data visualization and diagnostic tooling: transforming complex 3D arrays into clear, interpretable visual models using Matplotlib.',
+      'swe-intern':
+        'Where I learned to test what I cannot see directly: a numerical Python pipeline with strict I/O isolation, golden-file byte-diff gates, and an error budget that separates my own code defects from the limits of the data itself.',
     },
     emphasis: {
       research: 'full',
@@ -109,6 +111,7 @@ export const projects: Project[] = [
       data: 'brief',
       backend: 'brief',
       frontend: 'hidden',
+      'swe-intern': 'compact',
     },
     compactHighlights: [
       `Reconstructed ${facts.research.frames} underwater frames into simulator-ready joint angles with a staged error budget — best full-body fit ${facts.research.bestFrameMm} mm, honest cross-check ${facts.research.honestFrame60Mm} mm.`,
@@ -290,6 +293,8 @@ export const projects: Project[] = [
         'A production backend built with Spring Boot 3, Java 21, and PostgreSQL. Features 31 JWT-secured REST controllers, 40 domain services, and strict multi-tenant data governance.',
       frontend:
         'A massive React 18 / TypeScript single-page application. Features a robust Tailwind design system, seamless RTL support, and API types synced via OpenAPI generation.',
+      'swe-intern':
+        'A zero-to-one platform taken from empty repo to production by one engineer: Spring Boot 3 and React 18, 23 append-forward migrations, server-enforced role boundaries, and comprehensive automated test suites.',
     },
     emphasis: {
       research: 'compact',
@@ -298,6 +303,7 @@ export const projects: Project[] = [
       data: 'full',
       backend: 'full',
       frontend: 'full',
+      'swe-intern': 'full',
     },
     compactHighlights: [
       'A production platform for a national sport federation — registration, seeding, live results, identity, and career analytics — built and operated solo.',

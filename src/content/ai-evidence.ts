@@ -144,6 +144,13 @@ const content: Record<LensId, HowIWorkContent> = {
     cards: [councilFullstack, verificationFullstack],
     showRoster: false,
   },
+  'swe-intern': {
+    eyebrow: 'How I work',
+    title: 'Fast with AI, gated by proof',
+    lead: 'I use AI agents as heavy tooling to move quickly, inside gates I wrote before the work started. The tests, the sign-offs, and the claims stay mine — nothing merges because it looked right.',
+    cards: [verificationFullstack, byteDiffGate, humanSignoffResearch],
+    showRoster: true,
+  },
 }
 
 export function howIWorkForLens(lens: LensId): HowIWorkContent {

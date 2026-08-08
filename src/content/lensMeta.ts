@@ -7,6 +7,7 @@ export const lensShareUrls: Record<LensId, string> = {
   data: 'https://asaf-portfolio-data.vercel.app',
   backend: 'https://asaf-portfolio-backend.vercel.app',
   frontend: 'https://asaf-portfolio-frontend.vercel.app',
+  'swe-intern': 'https://asaf-portfolio-swe-intern.vercel.app',
 }
 
 export const lensPageMeta: Record<
@@ -48,6 +49,12 @@ export const lensPageMeta: Record<
     description:
       'Frontend engineer specializing in React, TypeScript, and complex RTL interfaces. Builder of the SwimEdge platform.',
     ogTitle: 'Asaf Belilus — Frontend Portfolio',
+  },
+  'swe-intern': {
+    title: 'Asaf Belilus — Software Engineering Intern',
+    description:
+      'M.Sc. Computer Science student building production systems and computer-vision research pipelines — Spring Boot, PostgreSQL, React, and evaluation harnesses that separate code error from data limits.',
+    ogTitle: 'Asaf Belilus — Software Engineering',
   },
 }
 

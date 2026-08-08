@@ -19,7 +19,14 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/asaf-belilus',
 } as const
 
-export type LensId = 'research' | 'fullstack' | 'pm' | 'data' | 'backend' | 'frontend'
+export type LensId =
+  | 'research'
+  | 'fullstack'
+  | 'pm'
+  | 'data'
+  | 'backend'
+  | 'frontend'
+  | 'swe-intern'
 
 export interface Lens {
   id: LensId
@@ -206,6 +213,36 @@ export const lenses: Lens[] = [
     ],
     projectVisibility: ['swimedge'],
     resume: { label: 'Frontend CV', file: 'Asaf-Belilus-Frontend.pdf' },
+  },
+  {
+    id: 'swe-intern',
+    label: 'SWE Intern',
+    blurb: 'For software engineering internships on AI and platform teams.',
+    headline:
+      'Software Engineering Intern · M.Sc. Computer Science · AI Systems & Production Engineering',
+    bio: [
+      'I build production software and I measure what it actually does. My M.Sc. research at Ben-Gurion University turns noisy 3-D underwater pose data into physics-valid joint kinematics — work where the real discipline is not the model but the error budget: separating what my code got wrong from what the data can never tell me.',
+      'I apply the same standard to shipping systems. I designed and built SwimEdge alone, from schema to UI — a multi-tenant platform with server-enforced role boundaries, append-forward migrations, and comprehensive automated test suites. I like ambiguous, zero-to-one problems, and I work across faculties, with external stakeholders, and as a teaching assistant.',
+    ],
+    stats: [
+      {
+        value: `${facts.swimedge.backendTests} + ${facts.swimedge.frontendTests}`,
+        label: 'automated tests',
+        note: 'JUnit, Testcontainers, Vitest',
+      },
+      {
+        value: String(totalResearchTests),
+        label: 'research regression tests',
+        note: 'golden-file byte-diff gated',
+      },
+      {
+        value: '0 → 1',
+        label: 'sole architect, SwimEdge',
+        note: 'concept to production',
+      },
+    ],
+    projectVisibility: ['swimedge', 'research'],
+    resume: { label: 'CV', file: 'Asaf-Belilus-Software-Engineering-Intern.pdf' },
   },
 ]
 

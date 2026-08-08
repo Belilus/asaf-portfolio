@@ -73,9 +73,7 @@ export function Hero({
             </div>
             <p className="mt-3 text-sm text-muted-foreground">{lens.blurb}</p>
           </div>
-        ) : (
-          <p className="portal-eyebrow mb-10 animate-fade-in-up">{lens.label} portfolio</p>
-        )}
+        ) : null}
 
         {/* ---- identity ---- */}
         <div key={lens.id} className="animate-fade-in-up">
